@@ -26,7 +26,7 @@ const Faq2 = () => {
                     data-bs-target="#faq-item-2-1"
                     aria-expanded="false"
                   >
-                    How to buy a product?
+                    What is Himalayan Salt?
                   </h6>
                   <div
                     id="faq-item-2-1"
@@ -35,12 +35,10 @@ const Faq2 = () => {
                   >
                     <div className="card-body">
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Scelerisque eleifend donec pretium
-                        vulputate sapien nec sagittis. Proin libero nunc
-                        consequat interdum. Condimentum lacinia quis vel eros
-                        donec ac.
+                        Himalayan Salt is a natural rock salt mined from the
+                        foothills of the Himalayas in Pakistan. It is rich in
+                        minerals and trace elements that give it a unique
+                        pinkish color and health benefits.
                       </p>
                     </div>
                   </div>
@@ -53,7 +51,7 @@ const Faq2 = () => {
                     data-bs-target="#faq-item-2-2"
                     aria-expanded="true"
                   >
-                    How can i make refund from your website?
+                    How can I use Himalayan Salt in daily life?
                   </h6>
                   <div
                     id="faq-item-2-2"
@@ -61,26 +59,10 @@ const Faq2 = () => {
                     data-bs-parent="#accordion_2"
                   >
                     <div className="card-body">
-                      <div className="ltn__video-img alignleft">
-                        <Image
-                          style={{ height: "auto" }}
-                          src="/img/bg/17.jpg"
-                          alt="video popup bg image"
-                          width={220}
-                          height={140}
-                        />
-                        <Link
-                          className="ltn__video-icon-2 ltn__video-icon-2-small ltn__video-icon-2-border----"
-                          href="https://www.youtube.com/embed/LjCzPp-MK48?autoplay=1&showinfo=0"
-                          data-rel="lightcase:myCollection"
-                        >
-                          <i className="fa fa-play"></i>
-                        </Link>
-                      </div>
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Scelerisque{" "}
+                        You can use Himalayan Salt for cooking, seasoning food,
+                        detox baths, salt lamps for air purification, and even
+                        in skincare products for exfoliation.
                       </p>
                     </div>
                   </div>
@@ -93,7 +75,7 @@ const Faq2 = () => {
                     data-bs-target="#faq-item-2-3"
                     aria-expanded="false"
                   >
-                    I am a new user. How should I start?
+                    What are the health benefits of Himalayan Salt?
                   </h6>
                   <div
                     id="faq-item-2-3"
@@ -102,12 +84,10 @@ const Faq2 = () => {
                   >
                     <div className="card-body">
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Scelerisque eleifend donec pretium
-                        vulputate sapien nec sagittis. Proin libero nunc
-                        consequat interdum. Condimentum lacinia quis vel eros
-                        donec ac.
+                        Himalayan Salt contains over 80 trace minerals that may
+                        help improve hydration, balance electrolytes, support
+                        respiratory health, and promote better sleep when used
+                        properly.
                       </p>
                     </div>
                   </div>
@@ -120,7 +100,7 @@ const Faq2 = () => {
                     data-bs-target="#faq-item-2-4"
                     aria-expanded="false"
                   >
-                    Returns and refunds
+                    Is Himalayan Salt better than regular table salt?
                   </h6>
                   <div
                     id="faq-item-2-4"
@@ -129,12 +109,10 @@ const Faq2 = () => {
                   >
                     <div className="card-body">
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Scelerisque eleifend donec pretium
-                        vulputate sapien nec sagittis. Proin libero nunc
-                        consequat interdum. Condimentum lacinia quis vel eros
-                        donec ac.
+                        Unlike refined table salt, Himalayan Salt is unprocessed
+                        and naturally rich in minerals. It has a more balanced
+                        taste and can be a healthier alternative when consumed
+                        in moderation.
                       </p>
                     </div>
                   </div>
@@ -147,7 +125,7 @@ const Faq2 = () => {
                     data-bs-target="#faq-item-2-5"
                     aria-expanded="false"
                   >
-                    Are my details secured?
+                    Where does authentic Himalayan Salt come from?
                   </h6>
                   <div
                     id="faq-item-2-5"
@@ -156,16 +134,10 @@ const Faq2 = () => {
                   >
                     <div className="card-body">
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Scelerisque eleifend donec pretium
-                        vulputate sapien nec sagittis. Proin libero nunc
-                        consequat interdum. Condimentum lacinia quis vel eros
-                        donec ac. Mauris sit amet massa vitae tortor. Quisque id
-                        diam vel quam elementum pulvinar. Gravida in fermentum
-                        et sollicitudin ac orci phasellus. Facilisis gravida
-                        neque convallis a cras semper. Non arcu risus quis
-                        varius quam quisque id.
+                        Authentic Himalayan Salt is mined exclusively from the
+                        Khewra Salt Mine in Punjab, Pakistan, which is the
+                        second-largest salt mine in the world and the only
+                        source of genuine pink salt.
                       </p>
                     </div>
                   </div>

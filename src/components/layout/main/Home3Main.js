@@ -23,7 +23,7 @@ const Home3Main = () => {
       <Testimonials3 pt="pt-115" />
       <Faq2 />
       <ContactPrimary />
-      <Map2 />
+      {/* <Map2 /> */}
       {/* <Categories3 type={2} /> */}
     </main>
   );
