@@ -14,13 +14,16 @@ const FooterAbout2 = () => {
           <div className="site-logo">
             <Image
               src={footerBg === "dark" ? logoImage2 : logoImage}
-              alt="Logo" width={154} height={42}
+              alt="Logo"
+              width={154}
+              height={42}
             />
           </div>
         </div>
         <p>
-          Lorem Ipsum is simply dummy text of the and typesetting industry.
-          Lorem Ipsum is dummy text of the printing.
+          We specialize in providing premium quality Himalayan salt, sourced
+          directly from the purest reserves. Our products reflect natural
+          wellness and authenticity.
         </p>
         <div className="footer-address">
           <ul>
@@ -29,10 +32,10 @@ const FooterAbout2 = () => {
                 <i className="icon-placeholder"></i>
               </div>
               <div className="footer-address-info">
-                <p>Brooklyn, New York, United States</p>
+                <p>Peterborough, United Kingdom</p>
               </div>
             </li>
-            <li>
+            {/* <li>
               <div className="footer-address-icon">
                 <i className="icon-call"></i>
               </div>
@@ -41,15 +44,15 @@ const FooterAbout2 = () => {
                   <Link href="tel:+0123-456789">+0123-456789</Link>
                 </p>
               </div>
-            </li>
+            </li> */}
             <li>
               <div className="footer-address-icon">
                 <i className="icon-mail"></i>
               </div>
               <div className="footer-address-info">
                 <p>
-                  <Link href="mailto:example@example.com">
-                    example@example.com
+                  <Link href="mailto:himalayanessenceltd@outlook.com">
+                    himalayanessenceltd@outlook.com
                   </Link>
                 </p>
               </div>

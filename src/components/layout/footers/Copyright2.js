@@ -24,13 +24,13 @@ const Copyright2 = () => {
             <div className="ltn__copyright-menu text-end">
               <ul>
                 <li>
-                  <Link href="#">Terms & Conditions</Link>
+                  <Link href="/term">Terms & Conditions</Link>
                 </li>{" "}
                 <li>
                   <Link href="#">Claim</Link>
                 </li>{" "}
                 <li>
-                  <Link href="#">Privacy & Policy</Link>
+                  <Link href="/privacy">Privacy & Policy</Link>
                 </li>
               </ul>
             </div>

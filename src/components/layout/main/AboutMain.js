@@ -1,3 +1,4 @@
+import Team from "@/app/team/page";
 import About5 from "@/components/sections/about/About5";
 import Blogs2 from "@/components/sections/blogs/Blogs2";
 import CallToAction1 from "@/components/sections/call-to-action/CallToAction1";
@@ -16,8 +17,10 @@ const AboutMain = () => {
       <HeroPrimary title="About Us" text="About Us" />
       <About5 pt={"pt-0"} />
       <Services3 />
+      <Team />
       <Testimonials3 pt="pt-115" />
       <Faq2 />
+
       <Blogs2 type={2} pb={"pb-70"} />
     </main>
   );

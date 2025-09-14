@@ -44,7 +44,7 @@ const About5 = ({ pt }) => {
               </p>
               <div className="about-author-info d-flex">
                 <div className="author-name-designation align-self-center mr-30">
-                  <h4 className="mb-0">Amir Sattar</h4>
+                  <h4 className="mb-0">Amir Sattar & Q H Dang</h4>
                   <small>/ Founder & Director</small>
                 </div>
                 <div className="author-sign align-self-center">

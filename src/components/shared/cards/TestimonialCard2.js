@@ -11,7 +11,7 @@ const TestimonialCard2 = ({ testimonial }) => {
       <div className="ltn__testimoni-info">
         <p>{desc} </p>
         <h4>{name}</h4>
-        <h6>{desig}</h6>
+        {/* <h6>{desig}</h6> */}
       </div>
       <div className="ltn__testimoni-bg-icon">
         <i className="far fa-comments"></i>

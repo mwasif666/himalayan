@@ -1,0 +1,34 @@
+.termsWrapper {
+  padding: 30px;
+  line-height: 1.7;
+  color: #333;
+}
+
+.mainHeading {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #592d48;
+}
+
+/* h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+p {
+  margin-bottom: 15px;
+}
+
+ul {
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+li {
+  margin-bottom: 8px;
+} */

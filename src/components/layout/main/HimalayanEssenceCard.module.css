@@ -1,0 +1,100 @@
+:root {
+  --card-bg: #ffffff;
+  --accent: #0d6efd; /* bootstrap primary */
+  --muted: #6c757d;
+}
+
+.cardWrap {
+  max-width: 900px;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), var(--card-bg));
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.08);
+  padding: 18px;
+  border: 1px solid rgba(13, 110, 253, 0.06);
+}
+
+.imageContainer {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(13, 110, 253, 0.08);
+  border: 4px solid rgba(13, 110, 253, 0.06);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.content {
+  padding-left: 12px;
+}
+
+.companyName {
+  font-size: 1.6rem;
+  margin: 0 0 8px 0;
+  color: #0b3b66;
+  font-weight: 700;
+}
+
+.message {
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.partnersBlock {
+  margin-top: 8px;
+}
+
+.partnersTitle {
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+.partnerList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.partnerItem {
+  background: rgba(13, 110, 253, 0.06);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #05263a;
+}
+
+.ctaRow {
+  margin-top: 14px;
+}
+
+.cta {
+  padding: 8px 14px;
+  border-radius: 8px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 767.98px) {
+  .imageContainer {
+    width: 140px;
+    height: 140px;
+  }
+
+  .companyName {
+    font-size: 1.3rem;
+  }
+}

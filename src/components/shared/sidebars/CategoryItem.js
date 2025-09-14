@@ -5,7 +5,15 @@ import React from "react";
 import * as FaIcons from "react-icons/fa";
 import * as GiIcons from "react-icons/gi";
 import * as TbIcons from "react-icons/tb";
-import { FaChevronRight } from "react-icons/fa";
+import * as FaBoxOpen from "react-icons/fa";
+import * as GiSaltShaker from "react-icons/gi";
+import * as TbSalt from "react-icons/tb";
+import * as GiStoneSphere from "react-icons/gi";
+import * as GiCandleHolder from "react-icons/gi";
+import * as GiBrickWall from "react-icons/gi";
+import * as MdOutlineSpa from "react-icons/md";
+import * as GiStoneStack from "react-icons/gi";
+import * as FaChevronRight from "react-icons/fa";
 
 const CategoryItem = ({ item, isMore }) => {
   const { name, path, dropdown, icon } = item;
