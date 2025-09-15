@@ -17,7 +17,6 @@ const AboutMain = () => {
       <HeroPrimary title="About Us" text="About Us" />
       <About5 pt={"pt-0"} />
       <Services3 />
-      <Team />
       <Testimonials3 pt="pt-115" />
       <Faq2 />
 
