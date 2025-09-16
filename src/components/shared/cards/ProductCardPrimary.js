@@ -9,7 +9,7 @@ import Link from "next/link";
 import React from "react";
 
 const ProductCardPrimary = ({ product, isShowDisc }) => {
-  const { title, price, disc, image, id, status, color } = product
+  const { title,name, price, disc, image, id, status, color } = product
     ? product
     : {};
   const { setCurrentProduct } = useProductContext();

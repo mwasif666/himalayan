@@ -1,5 +1,6 @@
 const modifyAmount = (amount) => {
-  const amountString = amount.toString();
+  if(!amount) return 0; 
+  const amountString = amount?.toString();
   const amountArray = amountString?.split(".");
   const modifiableAmount = amountArray[0];
   const amountAfterPoint = amountArray[1];
