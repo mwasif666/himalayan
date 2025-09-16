@@ -1,52 +1,35 @@
 "use client";
+import { request } from "@/api/axiosInstance";
 import ProductCardPrimary from "@/components/shared/cards/ProductCardPrimary";
-import getAllProducts from "@/libs/getAllProducts";
-import makePath from "@/libs/makePath";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { FaSpinner } from "react-icons/fa";
 
-const Products3 = ({
-  title,
-  desc,
-  isSmallTitle,
-  subtitle,
-  pt,
-  type,
-  isDouble,
-}) => {
-  const allProducts = getAllProducts();
+const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
+  const tabs = [{label:'Spices', id:1}, {label:'Kitchenware', id:2}, {label:'Salt Lamps', id:3}, {label:'Homeware', id:4}];
+  const [product, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [categoryId, setCategoryId] = useState(1);
+  console.log(type, isSmallTitle);
+  const getProduct = async () => {
+    try {
+      setLoading(true);
+      const response = await request({
+        url: `GetAllProducts/${categoryId}`,
+        method: "GET",
+      });
 
-  // Filter products by collection
-  const spicesProducts = allProducts?.filter(
-    ({ collection }) =>
-      collection && makePath(collection) === makePath("Spices")
-  );
+      setProducts(response.data);
+    } catch (error) {
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const spicesProducts1 = spicesProducts?.slice(0, 6);
-  const spicesProducts2 = spicesProducts?.slice(6, 12);
-
-  const kitchenwareProducts = allProducts?.filter(
-    ({ collection }) =>
-      collection && makePath(collection) === makePath("Kitchenware")
-  );
-
-  const kitchenwareProducts1 = kitchenwareProducts?.slice(0, 6);
-  const kitchenwareProducts2 = kitchenwareProducts?.slice(6, 12);
-
-  const saltLampsProducts = allProducts?.filter(
-    ({ collection }) =>
-      collection && makePath(collection) === makePath("Salt Lamps")
-  );
-
-  const saltLampsProducts1 = saltLampsProducts?.slice(0, 6);
-  const saltLampsProducts2 = saltLampsProducts?.slice(6, 12);
-
-  const homewareProducts = allProducts?.filter(
-    ({ collection }) =>
-      collection && makePath(collection) === makePath("Homeware")
-  );
-
-  const homewareProducts1 = homewareProducts?.slice(0, 6);
-  const homewareProducts2 = homewareProducts?.slice(6, 12);
+  useEffect(() => {
+    getProduct();
+  }, [categoryId]);
 
   return (
     <section>
@@ -77,107 +60,48 @@ const Products3 = ({
                   </p>
                 )}
               </div>
-              <div
-                className={`ltn__tab-menu ltn__tab-menu-2 ${
-                  type === 2 ? "ltn__tab-menu-top-right" : ""
-                } text-uppercase text-center`}
-              >
-                <div className="nav">
-                  <Link
-                    className="active show"
-                    data-bs-toggle="tab"
-                    href="#liton_tab_3_1"
-                  >
-                    Spices
-                  </Link>
-                  <Link data-bs-toggle="tab" href="#liton_tab_3_2">
-                    Kitchenware
-                  </Link>
-                  <Link data-bs-toggle="tab" href="#liton_tab_3_3">
-                    Salt Lamps
-                  </Link>
-                  {type !== 2 && (
-                    <Link data-bs-toggle="tab" href="#liton_tab_3_4">
-                      Homeware
-                    </Link>
-                  )}
-                </div>
+              <div>
+                {tabs.map((item, idx)=>(
+                  <div key={idx}>
+                     <h3 onClick={()=>setCategoryId(item.id)}>{item.label}</h3>
+                  </div>
+                ))}
               </div>
-              <div className="tab-content">
-                {/* Spices Tab */}
-                <div className="tab-pane fade active show" id="liton_tab_3_1">
-                  <div className="ltn__product-tab-content-inner">
-                    <div className="row ltn__tab-product-slider-one-active slick-arrow-1">
-                      {spicesProducts1?.map((product, idx) => (
-                        <div className="col-lg-12" key={product.id}>
-                          <ProductCardPrimary product={product} />
-                          {isDouble && spicesProducts2[idx] && (
-                            <ProductCardPrimary
-                              product={spicesProducts2[idx]}
-                            />
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
 
-                {/* Kitchenware Tab */}
-                <div className="tab-pane fade" id="liton_tab_3_2">
-                  <div className="ltn__product-tab-content-inner">
-                    <div className="row ltn__tab-product-slider-one-active slick-arrow-1">
-                      {kitchenwareProducts1?.map((product, idx) => (
-                        <div className="col-lg-12" key={product.id}>
-                          <ProductCardPrimary product={product} />
-                          {isDouble && kitchenwareProducts2[idx] && (
-                            <ProductCardPrimary
-                              product={kitchenwareProducts2[idx]}
-                            />
-                          )}
+               <div className="tab-content">
+                <div>
+                  <div>
+                    <div>
+                      {loading ? (
+                        <div
+                          style={{
+                            height: "30vh",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <FaSpinner
+                            className="spin"
+                            size={40}
+                            color="#5D394D"
+                          />
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Salt Lamps Tab */}
-                <div className="tab-pane fade" id="liton_tab_3_3">
-                  <div className="ltn__product-tab-content-inner">
-                    <div className="row ltn__tab-product-slider-one-active slick-arrow-1">
-                      {saltLampsProducts1?.map((product, idx) => (
-                        <div className="col-lg-12" key={product.id}>
-                          <ProductCardPrimary product={product} />
-                          {isDouble && saltLampsProducts2[idx] && (
-                            <ProductCardPrimary
-                              product={saltLampsProducts2[idx]}
-                            />
-                          )}
+                      ) : product.length === 0 ? (
+                        <div className="col-lg-12 text-center">
+                          <p>No products found in this category.</p>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Homeware Tab (only shown when type is not 2) */}
-                {type !== 2 && (
-                  <div className="tab-pane fade" id="liton_tab_3_4">
-                    <div className="ltn__product-tab-content-inner">
-                      <div className="row ltn__tab-product-slider-one-active slick-arrow-1">
-                        {homewareProducts1?.map((product, idx) => (
+                      ) : (
+                        product?.map((product, idx) => (
                           <div className="col-lg-12" key={product.id}>
-                            <ProductCardPrimary product={product} />
-                            {isDouble && homewareProducts2[idx] && (
-                              <ProductCardPrimary
-                                product={homewareProducts2[idx]}
-                              />
-                            )}
+                            <ProductCardPrimary product={product} url={product?.documents[0]?.encoded_name}/>
                           </div>
-                        ))}
-                      </div>
+                        ))
+                      )}
                     </div>
                   </div>
-                )}
-              </div>
+                </div>
+                </div>
             </div>
           </div>
         </div>
