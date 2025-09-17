@@ -1,6 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "himaliyansalt.innovationpixel.com",
+        port: "",
+        pathname: "/public/storage/product/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
