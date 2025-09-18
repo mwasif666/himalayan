@@ -11,12 +11,9 @@ import { useCommonContext } from "@/providers/CommonContext";
 import moment from "moment";
 import countCommentLength from "@/libs/countCommentLength";
 import modifyNumber from "@/libs/modifyNumber";
-const ProductDetailsRight = ({ product }) => {
-  // destructure current product
-  const { id, name, price, reviews, discount, size, color } = product;
-  // current Date
+const ProductDetailsRight = ({ product }) => {  
+  const { name, title, price, reviews, discount, disc, size, color } = product;
 
-  // hooks
   const value = useCommonContext();
   const { addProductToCart } = useCartContext();
   const { addProductToWishlist } = useWishlistContext();
@@ -29,7 +26,7 @@ const ProductDetailsRight = ({ product }) => {
   const [purchaseDate, setPurchaseDate] = useState(null);
   // varriables
   const { type } = value ? value : {};
-  const { netPrice } = countDiscount(price, discount);
+  const { netPrice } = countDiscount(price, discount || disc);
   const netPriceModified = modifyAmount(netPrice);
   const priceModified = modifyAmount(price);
   const reviewsLength = countCommentLength(reviews);
@@ -96,7 +93,7 @@ const ProductDetailsRight = ({ product }) => {
         </ul>
       </div>
       {/* title */}
-      <h3>{name}</h3>
+      <h3>{name || title}</h3>
       {/* price */}
       <div className="product-price text-nowrap">
         <span>${netPriceModified}</span> <del>${priceModified}</del>
@@ -104,7 +101,7 @@ const ProductDetailsRight = ({ product }) => {
       {/* description */}
 
       {/* category, availability */}
-      <div className={`modal-product-meta ltn__product-details-menu-1  `}>
+      {/* <div className={`modal-product-meta ltn__product-details-menu-1  `}>
         <ul>
           <li
             onClick={() => {
@@ -120,7 +117,7 @@ const ProductDetailsRight = ({ product }) => {
             </span>
           </li>
         </ul>
-      </div>
+      </div> */}
       {/* countdown */}
 
       {/* add to cart */}
