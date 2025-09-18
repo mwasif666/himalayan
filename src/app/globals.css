@@ -15844,6 +15844,13 @@ input.cart-plus-minus-box {
 .swal2-container {
   z-index: 99999999;
 }
+
+.row{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
 /* ----------------------------------------------------
     END
 ---------------------------------------------------- */

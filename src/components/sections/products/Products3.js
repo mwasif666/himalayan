@@ -6,17 +6,25 @@ import { useEffect, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 
 const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
-  const tabs = [{label:'Spices', id:1}, {label:'Kitchenware', id:2}, {label:'Salt Lamps', id:3}, {label:'Homeware', id:4}];
+  const tabs = [
+    { label: "Spices", id: 1 },
+    { label: "Kitchenware", id: 2 },
+    { label: "Salt Lamps", id: 3 },
+    { label: "Homeware", id: 4 },
+  ];
   const [product, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [categoryId, setCategoryId] = useState(1);
-  console.log(type, isSmallTitle);
+
   const getProduct = async () => {
     try {
       setLoading(true);
       const response = await request({
-        url: `GetAllProducts/${categoryId}`,
+        url: `GetAllProducts`,
         method: "GET",
+        params: {
+          category_id: categoryId,
+        },
       });
 
       setProducts(response.data);
@@ -61,14 +69,14 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                 )}
               </div>
               <div>
-                {tabs.map((item, idx)=>(
+                {tabs.map((item, idx) => (
                   <div key={idx}>
-                     <h3 onClick={()=>setCategoryId(item.id)}>{item.label}</h3>
+                    <h3 onClick={() => setCategoryId(item.id)}>{item.label}</h3>
                   </div>
                 ))}
               </div>
 
-               <div className="tab-content">
+              <div className="tab-content">
                 <div>
                   <div>
                     <div>
@@ -92,16 +100,24 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                           <p>No products found in this category.</p>
                         </div>
                       ) : (
-                        product?.map((product, idx) => (
-                          <div className="col-lg-12" key={product.id}>
-                            <ProductCardPrimary product={product} url={product?.documents[0]?.encoded_name}/>
-                          </div>
-                        ))
+                        <div className="row">
+                          {product?.map((product, idx) => (
+                            <div
+                              className="col-lg-4 col-md-6 col-sm-12"
+                              key={product.id}
+                            >
+                              <ProductCardPrimary
+                                product={product}
+                                url={product?.documents[0]?.encoded_name}
+                              />
+                            </div>
+                          ))}
+                        </div>
                       )}
                     </div>
                   </div>
                 </div>
-                </div>
+              </div>
             </div>
           </div>
         </div>

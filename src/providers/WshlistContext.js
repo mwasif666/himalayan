@@ -4,6 +4,7 @@ import addItemsToLocalstorage from "@/libs/addItemsToLocalstorage";
 import getItemsFromLocalstorage from "@/libs/getItemsFromLocalstorage";
 import { createContext, useContext, useEffect, useState } from "react";
 import getAllProducts from "@/libs/getAllProducts";
+import { request } from "@/api/axiosInstance";
 
 const wishlistContext = createContext(null);
 const WishlistContextProvider = ({ children }) => {
@@ -55,6 +56,65 @@ const WishlistContextProvider = ({ children }) => {
     creteAlert("success", "Success! deleted from wishlist.");
     setWishlistStatus("deleted");
   };
+
+  const [loading, setLoading] = useState(false);
+  const userId = 1;
+
+  const addToWhishlist = async (prod) => {
+    const formData = new FormData();
+    formData.append('product_id', prod.id);
+    formData.append('user_id',userId);
+    try {
+      setLoading(true);
+      const response = await request({
+        url: `AddProductToWishlist`,
+        method: "POST",
+        data: formData
+      });
+      if(response.message === 'Product already in wishlist.'){
+        setWishlistStatus('exist');
+
+      }else{
+        setWishlistStatus('added');
+      }
+    } catch (error) {
+      setWishlistStatus('failed')
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteWhislist = async (prod)=>{
+    try {
+      setLoading(true);
+      await request({
+        url: `RemoveProductToWishlist/${prod.id}`,
+        method: "DELETE",
+      });
+      setWishlistStatus('deleted')
+    }       
+    catch (error) {
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const getAllWhislist = async()=>{
+     try {
+      setLoading(true);
+      const response = await request({
+        url: `GetUserAllWishlists`,
+        method: "GET",
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <wishlistContext.Provider
       value={{
@@ -62,7 +122,11 @@ const WishlistContextProvider = ({ children }) => {
         setWishlistProducts,
         addProductToWishlist,
         deleteProductFromWishlist,
+        // actuall work above work will remove when feel complete
         wishlistStatus,
+        deleteWhislist,
+        getAllWhislist,
+        addToWhishlist
       }}
     >
       {children}

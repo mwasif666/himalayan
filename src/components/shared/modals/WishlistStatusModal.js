@@ -27,51 +27,61 @@ const WishlistStatusModal = ({ product }) => {
               <div className="ltn__quick-view-modal-inner">
                 <div className="modal-product-item">
                   <div className="row">
-                    <div className="col-12">
-                      <div className="modal-product-img">
-                        <Image src={image} alt="#" width={1000} height={1000} />
+                    {wishlistStatus === "failed" ? (
+                      <div className="col-12">
+                        <h5>Failed to add item in whislist</h5>
                       </div>
-                      <div className="modal-product-info">
-                        <h5>
-                          <Link
-                            onClick={() => controlModal()}
-                            href={`/products/${id}`}
-                          >
-                            {title}
-                          </Link>
-                        </h5>
-                        <p className="added-cart">
-                          <i
-                            className={`${
-                              wishlistStatus === "exist"
-                                ? "icon-cancel"
-                                : "fa fa-check-circle"
-                            }`}
-                          ></i>{" "}
-                          {wishlistStatus === "exist"
-                            ? `Already exist`
-                            : `Successfully ${
-                                wishlistStatus ? wishlistStatus : "added"
-                              }`}{" "}
-                          {wishlistStatus === "exist"
-                            ? "in"
-                            : wishlistStatus === "deleted"
-                            ? "from"
-                            : "to"}{" "}
-                          your Wishlist
-                        </p>
-                        <div className="btn-wrapper">
-                          <Link
-                            onClick={() => controlModal()}
-                            href="/wishlist"
-                            className="theme-btn-1 btn btn-effect-1"
-                          >
-                            View Wishlist
-                          </Link>
+                    ) : (
+                      <div className="col-12">
+                        <div className="modal-product-img">
+                          <Image
+                            src={image}
+                            alt="#"
+                            width={1000}
+                            height={1000}
+                          />
+                        </div>
+                        <div className="modal-product-info">
+                          <h5>
+                            <Link
+                              onClick={() => controlModal()}
+                              href={`/products/${id}`}
+                            >
+                              {title}
+                            </Link>
+                          </h5>
+                          <p className="added-cart">
+                            <i
+                              className={`${
+                                wishlistStatus === "exist"
+                                  ? "icon-cancel"
+                                  : "fa fa-check-circle"
+                              }`}
+                            ></i>{" "}
+                            {wishlistStatus === "exist"
+                              ? `Already exist`
+                              : `Successfully ${
+                                  wishlistStatus ? wishlistStatus : "added"
+                                }`}{" "}
+                            {wishlistStatus === "exist"
+                              ? "in"
+                              : wishlistStatus === "deleted"
+                              ? "from"
+                              : "to"}{" "}
+                            your Wishlist
+                          </p>
+                          <div className="btn-wrapper">
+                            <Link
+                              onClick={() => controlModal()}
+                              href="/wishlist"
+                              className="theme-btn-1 btn btn-effect-1"
+                            >
+                              View Wishlist
+                            </Link>
+                          </div>
                         </div>
                       </div>
-                      {/* <!-- additional-info --> */}
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>

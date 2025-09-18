@@ -13,7 +13,7 @@ import countCommentLength from "@/libs/countCommentLength";
 import modifyNumber from "@/libs/modifyNumber";
 const ProductDetailsRight = ({ product }) => {
   // destructure current product
-  const { id, title, price, reviews, disc, size, color } = product;
+  const { id, name, price, reviews, discount, size, color } = product;
   // current Date
 
   // hooks
@@ -29,7 +29,7 @@ const ProductDetailsRight = ({ product }) => {
   const [purchaseDate, setPurchaseDate] = useState(null);
   // varriables
   const { type } = value ? value : {};
-  const { netPrice } = countDiscount(price, disc);
+  const { netPrice } = countDiscount(price, discount);
   const netPriceModified = modifyAmount(netPrice);
   const priceModified = modifyAmount(price);
   const reviewsLength = countCommentLength(reviews);
@@ -96,7 +96,7 @@ const ProductDetailsRight = ({ product }) => {
         </ul>
       </div>
       {/* title */}
-      <h3>{title}</h3>
+      <h3>{name}</h3>
       {/* price */}
       <div className="product-price text-nowrap">
         <span>${netPriceModified}</span> <del>${priceModified}</del>
@@ -176,7 +176,7 @@ const ProductDetailsRight = ({ product }) => {
               <i className="far fa-heart"></i> <span>Add to Wishlist</span>
             </Link>
           </li>{" "}
-          <li>
+          {/* <li>
             <Link
               href="#"
               className=""
@@ -186,7 +186,7 @@ const ProductDetailsRight = ({ product }) => {
             >
               <i className="fas fa-exchange-alt"></i> <span>Compare</span>
             </Link>
-          </li>
+          </li> */}
         </ul>
       </div>
       <hr />
