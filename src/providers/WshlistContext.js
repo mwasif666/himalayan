@@ -67,10 +67,9 @@ const WishlistContextProvider = ({ children }) => {
     formData.append('user_id',userId);
     try {
       setLoading(true);
-      const response = await axios.post("https://himaliyansalt.innovationpixel.com/public/AddProductToWishlist", formData)
-      if(response.message === 'Product already in wishlist.'){
+      const response = await axios.post("https://himaliyansalt.innovationpixel.com/public/AddProductToWishlist", formData);
+      if(response.data.message === 'Product already in wishlist.'){
         setWishlistStatus('exist');
-
       }else{
         setWishlistStatus('added');
       }

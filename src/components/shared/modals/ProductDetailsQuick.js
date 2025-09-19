@@ -41,7 +41,7 @@ const ProductDetailsQuick = ({ product }) => {
   const currentProduct = id ? productDetail : product;
   const firstDoc = currentProduct?.documents?.[0]?.encoded_name;
   const imageSrc = firstDoc
-    ? `https://himaliyansalt.innovationpixel.com/public/storage/product/${firstDoc}`
+    ? `https://himaliyansalt.innovationpixel.com/storage/app/public/products/${firstDoc}`
     : "/placeholder.png";
 
   return (

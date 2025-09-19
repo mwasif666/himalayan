@@ -6,7 +6,7 @@ const nextConfig = {
         protocol: "https",
         hostname: "himaliyansalt.innovationpixel.com",
         port: "",
-        pathname: "/public/storage/product/**",
+        pathname: "/storage/app/public/products/**",
       },
     ],
   },

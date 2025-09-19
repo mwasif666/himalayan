@@ -29,8 +29,7 @@ const ProductCardPrimary = ({ product, isShowDisc=true, url }) => {
       <div className="product-img">
         <Link href={`/products/${id}`}>
           <Image
-            // src={`https://himaliyansalt.innovationpixel.com/public/storage/product/${url}`}
-            src="/img/banner/banner.png"
+            src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${url}` ?? `/img/banner/banner.png`}
             alt="#"
             width={1000}
             height={1000}

@@ -34,8 +34,8 @@ const WishlistStatusModal = ({ product }) => {
                       <div className="col-12">
                         <div className="modal-product-img">
                           <Image
-                            src={product?.image}
-                            alt="#"
+                            src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${product?.documents?.[0].encoded_name}`}
+                            alt={product?.title}
                             width={1000}
                             height={1000}
                           />

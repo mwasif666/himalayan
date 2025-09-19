@@ -77,7 +77,7 @@ const ProductDetailsPrimary = () => {
                         <div key={idx} className="single-large-img">
                           <Link href={image} data-rel="lightcase:myCollection">
                             <Image
-                              src={`https://himaliyansalt.innovationpixel.com/public/storage/product/${image.encoded_name}`}
+                              src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${image.encoded_name}`}
                               alt="Image"
                               width={1000}
                               height={1000}
@@ -90,7 +90,7 @@ const ProductDetailsPrimary = () => {
                       {productDetail?.documents?.map(( image , idx) => (
                         <div key={idx} className="single-small-img">
                           <Image
-                             src={`https://himaliyansalt.innovationpixel.com/public/storage/product/${image.encoded_name}`}
+                             src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${image.encoded_name}`}
                             alt="Image"
                             width={1000}
                             height={1000}
