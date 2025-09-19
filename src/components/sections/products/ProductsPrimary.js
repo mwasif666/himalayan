@@ -1,4 +1,5 @@
 "use client";
+import { request } from "@/api/axiosInstance";
 import ProductCardPrimary from "@/components/shared/cards/ProductCardPrimary";
 import ProductCardPrimary2 from "@/components/shared/cards/ProductCardPrimary2";
 import Nodata from "@/components/shared/no-data/Nodata";
@@ -11,6 +12,7 @@ import filterItems from "@/libs/filterItems";
 import { useCommonContext } from "@/providers/CommonContext";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { FaSpinner } from "react-icons/fa";
 
 const ProductsPrimary = ({ isSidebar, currentTapId }) => {
   const [arrangeInput, setArrangeInput] = useState("default");
@@ -51,6 +53,29 @@ const ProductsPrimary = ({ isSidebar, currentTapId }) => {
     setCurrentpage(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTab]);
+
+  const [product, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getProduct = async () => {
+    try {
+      setLoading(true);
+      const response = await request({
+        url: `GetAllProducts`,
+        method: "GET",
+      });
+
+      setProducts(response.data);
+    } catch (error) {
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, []);
 
   return (
     <div className="ltn__product-area ltn__product-gutter mb-120">
@@ -120,16 +145,35 @@ const ProductsPrimary = ({ isSidebar, currentTapId }) => {
                 <div className="ltn__product-tab-content-inner ltn__product-grid-view">
                   <div className="row">
                     {/* <!-- ltn__product-item --> */}
-                    {currentItems?.map((product, idx) => (
+                    {loading ? (
                       <div
-                        className={`${
-                          isSidebar === false ? "col-xl-3 col-lg-4" : "col-xl-4"
-                        }  col-sm-6 col-6`}
-                        key={idx}
+                        style={{
+                          height: "30vh",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
                       >
-                        <ProductCardPrimary product={product} />
+                        <FaSpinner className="spin" size={40} color="#5D394D" />
                       </div>
-                    ))}
+                    ) : product.length === 0 ? (
+                      <div className="col-lg-12 text-center">
+                        <p>No products found in this category.</p>
+                      </div>
+                    ) : (
+                      product?.map((product, idx) => (
+                        <div
+                          className={`${
+                            isSidebar === false
+                              ? "col-xl-3 col-lg-4"
+                              : "col-xl-4"
+                          }  col-sm-6 col-6`}
+                          key={idx}
+                        >
+                          <ProductCardPrimary product={product} />
+                        </div>
+                      ))
+                    )}
 
                     {/* <!--  --> */}
                   </div>

@@ -24,10 +24,10 @@ const ProductSidebar = () => {
       <SidebarSearch />
 
       {/* <!-- Tagcloud Widget --> */}
-      <ProductTags />
+      {/* <ProductTags /> */}
 
       {/* <!-- Size Widget --> */}
-      <ProductSizes />
+      {/* <ProductSizes /> */}
     </aside>
   );
 };

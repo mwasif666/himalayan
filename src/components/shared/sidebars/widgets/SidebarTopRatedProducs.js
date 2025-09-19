@@ -5,6 +5,7 @@ const SidebarTopRatedProducs = () => {
   const products = getAllProducts()
     ?.filter(({ topRated }) => topRated)
     ?.slice(0, 3);
+      
   return (
     <div className="widget ltn__top-rated-product-widget">
       <h4 className="ltn__widget-title ltn__widget-title-border">
