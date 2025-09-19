@@ -1,7 +1,46 @@
+"use client";
+import { request } from "@/api/axiosInstance";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 const LoginPrimary = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage("");
+    setLoading(true);
+
+    try {
+      const data = new FormData();
+      data.append("email", formData.email);
+      data.append("password", formData.password);
+
+      const response = await request({
+        url: "LoginUser",
+        method: "POST",
+        data,
+      });
+
+      setMessage("✅ Logged in successfully!");
+    } catch (error) {
+      setMessage(
+        error.response?.data?.message || "❌ Invalid credentials, try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="ltn__login-area pb-65">
       <div className="container">
@@ -13,8 +52,8 @@ const LoginPrimary = () => {
                 To Your Account
               </h1>
               <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. <br />
-                Sit aliquid, Non distinctio vel iste.
+                Login to manage your orders, access wishlist, and enjoy exclusive
+                member deals.
               </p>
             </div>
           </div>
@@ -22,22 +61,37 @@ const LoginPrimary = () => {
         <div className="row">
           <div className="col-lg-6">
             <div className="account-login-inner">
-              <form action="#" className="ltn__form-box contact-form-box">
-                <input type="text" name="email" placeholder="Email*" />
+              <form
+                onSubmit={handleSubmit}
+                className="ltn__form-box contact-form-box"
+              >
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="Email*"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
                 <input
                   type="password"
                   name="password"
                   placeholder="Password*"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
                 />
                 <div className="btn-wrapper mt-0">
                   <button
                     className="theme-btn-1 btn btn-block w-100"
                     type="submit"
+                    disabled={loading}
                   >
-                    SIGN IN
+                    {loading ? "Signing in..." : "SIGN IN"}
                   </button>
                 </div>
-                <div className="go-to-btn mt-20">
+                {message && <p className="text-center mt-3">{message}</p>}
+                {/* <div className="go-to-btn mt-20">
                   <Link
                     href="#"
                     title="Wishlist"
@@ -46,7 +100,7 @@ const LoginPrimary = () => {
                   >
                     <small>FORGOTTEN YOUR PASSWORD?</small>
                   </Link>
-                </div>
+                </div> */}
               </form>
             </div>
           </div>
@@ -54,9 +108,9 @@ const LoginPrimary = () => {
             <div className="account-create text-center pt-50">
               <h4>{"DON'T"} HAVE AN ACCOUNT?</h4>
               <p>
-                Add items to your wishlistget personalised recommendations{" "}
+                Add items to your wishlist, get personalised recommendations,
                 <br />
-                check out more quickly track your orders register
+                check out more quickly, track your orders and register today.
               </p>
               <div className="btn-wrapper">
                 <Link href="/register" className="theme-btn-1 btn black-btn">

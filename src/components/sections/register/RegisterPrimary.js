@@ -194,7 +194,7 @@ const RegisterPrimary = () => {
                 </div>
               </form>
 
-              {message && <p className="text-center mt-3">{message}</p>}
+              {/* {message && <p className="text-center mt-3">{message}</p>} */}
 
               <div className="by-agree text-center">
                 <p>By creating an account, you agree to our:</p>
