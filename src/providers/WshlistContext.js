@@ -5,6 +5,7 @@ import getItemsFromLocalstorage from "@/libs/getItemsFromLocalstorage";
 import { createContext, useContext, useEffect, useState } from "react";
 import getAllProducts from "@/libs/getAllProducts";
 import { request } from "@/api/axiosInstance";
+import axios from "axios";
 
 const wishlistContext = createContext(null);
 const WishlistContextProvider = ({ children }) => {
@@ -66,11 +67,7 @@ const WishlistContextProvider = ({ children }) => {
     formData.append('user_id',userId);
     try {
       setLoading(true);
-      const response = await request({
-        url: `AddProductToWishlist`,
-        method: "POST",
-        data: formData
-      });
+      const response = await axios.post("https://himaliyansalt.innovationpixel.com/public/AddProductToWishlist", formData)
       if(response.message === 'Product already in wishlist.'){
         setWishlistStatus('exist');
 

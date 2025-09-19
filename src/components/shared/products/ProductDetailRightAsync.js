@@ -11,7 +11,9 @@ import { useCommonContext } from "@/providers/CommonContext";
 import moment from "moment";
 import countCommentLength from "@/libs/countCommentLength";
 import modifyNumber from "@/libs/modifyNumber";
-const ProductDetailsRight = ({ product }) => {  
+const ProductDetailsRightAsync = ({ product }) => {  
+  console.log(product);
+  
   const { name, title, price, reviews, discount, disc, size, color } = product;
 
   const value = useCommonContext();
@@ -57,6 +59,7 @@ const ProductDetailsRight = ({ product }) => {
       });
     }, 500);
   }, []);
+
   return (
     <div className="modal-product-info shop-details-info pl-0" id="details">
       {/* ratings */}
@@ -172,18 +175,7 @@ const ProductDetailsRight = ({ product }) => {
             >
               <i className="far fa-heart"></i> <span>Add to Wishlist</span>
             </Link>
-          </li>{" "}
-          {/* <li>
-            <Link
-              href="#"
-              className=""
-              title="Compare"
-              data-bs-toggle="modal"
-              data-bs-target="#quick_view_modal"
-            >
-              <i className="fas fa-exchange-alt"></i> <span>Compare</span>
-            </Link>
-          </li> */}
+          </li>
         </ul>
       </div>
       <hr />
@@ -234,4 +226,4 @@ const ProductDetailsRight = ({ product }) => {
   );
 };
 
-export default ProductDetailsRight;
+export default ProductDetailsRightAsync;

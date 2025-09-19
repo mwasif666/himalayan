@@ -6,36 +6,60 @@ import { useParams } from "next/navigation";
 import SidebarTopRatedProducs from "@/components/shared/sidebars/widgets/SidebarTopRatedProducs";
 import SidebarBanner from "@/components/shared/sidebars/widgets/SidebarBanner";
 import { useProductContext } from "@/providers/ProductContext";
-import ProductDetailsRight from "@/components/shared/products/ProductDetailsRight";
 import { useCommonContext } from "@/providers/CommonContext";
 import ProductDetailsTab from "@/components/shared/products/ProductDetailsTab";
-import ProductDetailsTab2 from "@/components/shared/products/ProductDetailsTab2";
+import ProductDetailsRightAsync from "@/components/shared/products/ProductDetailRightAsync";
+import { useEffect, useState } from "react";
 const ProductDetailsPrimary = () => {
   // hooks
   const { isNotSidebar, type } = useCommonContext();
   const { setCurrentProduct } = useProductContext();
   // products and filter current product
-  const { id: currentId } = useParams();
-  const products = getAllProducts();
-  const product = products?.find(
-    ({ id }) => id === (!currentId ? 1 : parseInt(currentId))
-  );
-  // current product
+  const { id } = useParams();
+  const [productDetail, setProductDetail] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const { type: currentType } = product;
-  // other slider images
-  const ohterImages = products?.filter(
-    ({ id, type }) =>
-      id !== parseInt(currentId) && (!currentId ? id !== 1 : true)
-  );
-  const allImages = [product, ...ohterImages?.slice(0, 6)];
+  const getProductById = async () => {
+    try {
+      setLoading(true);
+      const response = await request({
+        url: `GetAllProducts/${currentId}`,
+        method: "GET",
+      });
+
+      const detail = Array.isArray(response.data)
+        ? response.data[0]
+        : response.data;
+
+      setProductDetail(detail);
+    } catch (error) {
+      console.error("Error fetching product:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (id) getProductById();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "200px" }}
+      >
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div
       className={`ltn__shop-details-area  ${
         type === 1 || type === 2 ? "pb-85" : "pb-120"
       }`}
-      onMouseEnter={() => setCurrentProduct(product)}
+      onMouseEnter={() => setCurrentProduct(productDetail)}
     >
       <div className="container">
         <div className="row">
@@ -49,11 +73,11 @@ const ProductDetailsPrimary = () => {
                 <div className={isNotSidebar ? "col-lg-6" : "col-md-6"}>
                   <div className="ltn__shop-details-img-gallery">
                     <div className="ltn__shop-details-large-img">
-                      {allImages?.map(({ image }, idx) => (
+                      {productDetail?.documents?.map((image, idx) => (
                         <div key={idx} className="single-large-img">
                           <Link href={image} data-rel="lightcase:myCollection">
                             <Image
-                              src={image}
+                              src={`https://himaliyansalt.innovationpixel.com/public/storage/product/${image.encoded_name}`}
                               alt="Image"
                               width={1000}
                               height={1000}
@@ -63,10 +87,10 @@ const ProductDetailsPrimary = () => {
                       ))}
                     </div>
                     <div className="ltn__shop-details-small-img slick-arrow-2">
-                      {allImages?.map(({ image }, idx) => (
+                      {productDetail?.documents?.map(( image , idx) => (
                         <div key={idx} className="single-small-img">
                           <Image
-                            src={image}
+                             src={`https://himaliyansalt.innovationpixel.com/public/storage/product/${image.encoded_name}`}
                             alt="Image"
                             width={1000}
                             height={1000}
@@ -74,17 +98,17 @@ const ProductDetailsPrimary = () => {
                         </div>
                       ))}
                     </div>
-                  </div>
+                  </div> 
                 </div>
                 <div className={isNotSidebar ? "col-lg-6" : "col-md-6"}>
                   {/*  */}
-                  <ProductDetailsRight product={product} />
+                  <ProductDetailsRightAsync product={productDetail || {}} />
                 </div>
               </div>
             </div>
             {/* <!-- Shop Tab Start --> */}
             {type === 1 || type === 2 ? (
-              <ProductDetailsTab product={product} />
+              <ProductDetailsTab product={productDetail || {}} />
             ) : (
               ""
             )}
