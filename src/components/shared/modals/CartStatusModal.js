@@ -27,7 +27,7 @@ const CartStatusModal = ({ product }) => {
                   <div className="row">
                     <div className="col-12">
                       <div className="modal-product-img">
-                        <Image src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${product?.image}`} alt={product?.title} width={1000} height={1000} />
+                        <Image src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${product?.documents?.[0]?.encoded_name}`} alt={product?.title} width={1000} height={1000} />
                       </div>
                       <div className="modal-product-info">
                         <h5 onClick={() => controlModal()}>

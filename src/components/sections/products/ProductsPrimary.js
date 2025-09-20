@@ -57,11 +57,28 @@ const ProductsPrimary = ({ isSidebar, currentTapId }) => {
   const [product, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const setSortingFilter = ()=>{
+    switch (arrangeInput) {
+      case 'default':
+        return 'GetAllProducts';
+      case 'new':
+        return 'GetAllProducts/new_arrivals'
+      case 'popularity':
+        return 'GetAllProducts/popularity'
+      case 'price ascending':
+        return 'GetAllProducts/high_to_low'
+      case 'price descending':
+        return 'GetAllProducts/low_to_high'
+      default:
+        return 'GetAllProducts';
+    }
+  }
+
   const getProduct = async () => {
     try {
       setLoading(true);
       const response = await request({
-        url: `GetAllProducts`,
+        url: setSortingFilter(),
         method: "GET",
       });
 
@@ -75,7 +92,7 @@ const ProductsPrimary = ({ isSidebar, currentTapId }) => {
 
   useEffect(() => {
     getProduct();
-  }, []);
+  }, [arrangeInput]);
 
   return (
     <div className="ltn__product-area ltn__product-gutter mb-120">
@@ -109,7 +126,7 @@ const ProductsPrimary = ({ isSidebar, currentTapId }) => {
                     </div>
                   </div>
                 </li>
-                <li>
+                {/* <li>
                   {isSidebar === "left" || isSidebar === false ? (
                     <ShopShortSelect setArrangeInput={setArrangeInput} />
                   ) : (
@@ -120,7 +137,7 @@ const ProductsPrimary = ({ isSidebar, currentTapId }) => {
                       lastItem={lastItem}
                     />
                   )}
-                </li>
+                </li> */}
                 <li>
                   {isSidebar === "left" || isSidebar === false ? (
                     <ShopDataShowing

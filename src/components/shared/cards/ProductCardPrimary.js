@@ -9,7 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 
-const ProductCardPrimary = ({ product, isShowDisc=true, url }) => {
+const ProductCardPrimary = ({ product, isShowDisc=true}) => {
   const { name, price, discount, id, status, color } = product
     ? product
     : {};
@@ -29,7 +29,7 @@ const ProductCardPrimary = ({ product, isShowDisc=true, url }) => {
       <div className="product-img">
         <Link href={`/products/${id}`}>
           <Image
-            src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${url}` ?? `/img/banner/banner.png`}
+            src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${product?.documents?.[0]?.encoded_name}` ?? `/img/banner/banner.png`}
             alt={name}
             width={1000}
             height={1000}

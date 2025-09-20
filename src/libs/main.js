@@ -1229,11 +1229,17 @@ const main = () => {
       /* --------------------------------------------------------
               33. Quantity plus minus
           -------------------------------------------------------- */
-      $(".cart-plus-minus").prepend('<div class="dec qtybutton">-</div>');
-      $(".cart-plus-minus").append('<div class="inc qtybutton">+</div>');
+      $(".cart-plus-minus").each(function() {
+        // Only add buttons if they don't already exist
+        if ($(this).find('.qtybutton').length === 0) {
+          $(this).prepend('<div class="dec qtybutton">-</div>');
+          $(this).append('<div class="inc qtybutton">+</div>');
+        }
+      });
       $(".qtybutton").on("click", function () {
         var $button = $(this);
-        var oldValue = $button.parent().find("input").val();
+        var $input = $button.parent().find("input");
+        var oldValue = $input.val();
         if ($button.text() == "+") {
           var newVal = parseFloat(oldValue) + 1;
         } else {
@@ -1243,7 +1249,9 @@ const main = () => {
             newVal = 0;
           }
         }
-        $button.parent().find("input").val(newVal);
+        $input.val(newVal);
+        // Trigger React's onChange event to update state
+        $input.trigger('change');
       });
 
       /* --------------------------------------------------------

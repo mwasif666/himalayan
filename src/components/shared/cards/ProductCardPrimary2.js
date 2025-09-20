@@ -14,17 +14,11 @@ const ProductCardPrimary2 = ({ product, isShowDisc }) => {
     name,
     discount,
     price,
-    image,
     id,
     status,
     color,
-    run,
-    model,
-    type,
-    documents
   } = product;
-  console.log(product);
-  
+
   const { setCurrentProduct } = useProductContext();
   const { netPrice } = countDiscount(price, discount);
   const netPriceModified = modifyAmount(netPrice);
@@ -38,7 +32,7 @@ const ProductCardPrimary2 = ({ product, isShowDisc }) => {
     >
       <div className="product-img">
         <Link href={`/products/${id}`}>
-          <Image src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${document?.[0]?.encoded_name}`} alt={name} width={1000} height={1000} />
+          <Image src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${product?.documents?.[0]?.encoded_name}`} alt={name} width={1000} height={1000} />
         </Link>
         {status || isShowDisc ? (
           <div className="product-badge">
