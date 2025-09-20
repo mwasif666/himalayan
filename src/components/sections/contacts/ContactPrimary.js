@@ -1,5 +1,6 @@
 "use client";
 
+import { request } from "@/api/axiosInstance";
 import { useState } from "react";
 
 const ContactPrimary = () => {
@@ -42,28 +43,34 @@ const ContactPrimary = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => { 
     e.preventDefault();
     setStatus("Sending...");
 
-    // Use otherBundle if bundleSize is Other
-    const finalFormData = {
-      ...formData,
-      bundleSize:
-        formData.bundleSize === "Other"
-          ? formData.otherBundle
-          : formData.bundleSize,
-    };
+    if (!formData.bundleSize || 
+     (formData.bundleSize === "Other" && !formData.otherBundle)) {
+    setStatus("Please select a bundle size or enter a custom one.");
+    return;
+  }
+  
+    const bundleValue =
+      formData.bundleSize === "Other" ? formData.otherBundle : formData.bundleSize;
+
+    const data = new FormData();
+    data.append("type", 'Contact Form');
+    data.append("name", formData.name);
+    data.append("email", formData.email);
+    data.append("phone", formData.phone);
+    data.append("bundle_size", bundleValue);
+    data.append("message", formData.message);
+    data.append("save_info", 1);
 
     try {
-      const response = await fetch("/api/sendEmail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(finalFormData),
-      });
-
+      const response = await request({
+      url:"https://himaliyansalt.innovationpixel.com/public/api/SaveContactForm",
+      method:"POST",
+      data: data
+    });
       if (response.ok) {
         setStatus("Thanks! Your inquiry has been submitted.");
         setFormData({
@@ -77,12 +84,13 @@ const ContactPrimary = () => {
         });
         setShowOtherInput(false);
       } else {
-        setStatus("Failed to send inquiry.");
+        setStatus(result?.message || "Failed to send inquiry.");
       }
     } catch (error) {
       setStatus("Failed to send inquiry.");
     }
   };
+
 
   return (
     <div className="ltn__contact-message-area mb-120">
@@ -142,7 +150,6 @@ const ContactPrimary = () => {
                         value={formData.bundleSize}
                         onChange={handleChange}
                         className="nice-select"
-                        required
                       >
                         <option value="">Select Bundle Size</option>
                         <option value="200kg">200 KG</option>
