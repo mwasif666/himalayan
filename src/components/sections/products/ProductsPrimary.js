@@ -186,7 +186,7 @@ const ProductsPrimary = ({ isSidebar, currentTapId }) => {
                 <div className="ltn__product-tab-content-inner ltn__product-list-view">
                   <div className="row">
                     {/* <!-- ltn__product-item --> */}
-                    {currentItems?.map((product, idx) => (
+                    {product ?.map((product, idx) => (
                       <div className="col-lg-12" key={idx}>
                         <ProductCardPrimary2 product={product} />
                       </div>

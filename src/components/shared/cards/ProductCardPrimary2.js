@@ -11,10 +11,9 @@ import Link from "next/link";
 
 const ProductCardPrimary2 = ({ product, isShowDisc }) => {
   const {
-    title,
-    desc,
+    name,
+    discount,
     price,
-    disc,
     image,
     id,
     status,
@@ -22,9 +21,12 @@ const ProductCardPrimary2 = ({ product, isShowDisc }) => {
     run,
     model,
     type,
+    documents
   } = product;
+  console.log(product);
+  
   const { setCurrentProduct } = useProductContext();
-  const { netPrice } = countDiscount(price, disc);
+  const { netPrice } = countDiscount(price, discount);
   const netPriceModified = modifyAmount(netPrice);
   const priceModified = modifyAmount(price);
   const { addProductToCart } = useCartContext();
@@ -36,7 +38,7 @@ const ProductCardPrimary2 = ({ product, isShowDisc }) => {
     >
       <div className="product-img">
         <Link href={`/products/${id}`}>
-          <Image src={image} alt="#" width={1000} height={1000} />
+          <Image src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${document?.[0]?.encoded_name}`} alt={name} width={1000} height={1000} />
         </Link>
         {status || isShowDisc ? (
           <div className="product-badge">
@@ -56,7 +58,7 @@ const ProductCardPrimary2 = ({ product, isShowDisc }) => {
       </div>
       <div className="product-info">
         <h2 className="product-title">
-          <Link href={`/products/${id}`}>{title}</Link>
+          <Link href={`/products/${id}`}>{name}</Link>
         </h2>
         <div className="product-ratting">
           <ul>
@@ -93,7 +95,7 @@ const ProductCardPrimary2 = ({ product, isShowDisc }) => {
         </div>
 
         <div className="product-brief">
-          <p>{sliceText(desc, 140)}</p>
+          <p>{sliceText(discount, 140)}</p>
         </div>
         <div className="product-hover-action">
           <ul>

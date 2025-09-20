@@ -38,14 +38,6 @@ const ContactPrimary = () => {
     });
   };
 
-  const handleOtherClick = () => {
-    setShowOtherInput(true);
-    setFormData((prev) => ({
-      ...prev,
-      bundleSize: "Other",
-    }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
@@ -97,8 +89,6 @@ const ContactPrimary = () => {
       setStatus("Failed to send inquiry.");
     }
   };
-
-
 
   return (
     <div className="ltn__contact-message-area mb-120">
