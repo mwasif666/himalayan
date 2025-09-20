@@ -1,38 +1,41 @@
 "use client";
 
 import { request } from "@/api/axiosInstance";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ContactPrimary = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    bundleSize: "",
+    bundleSize: "Other",
     otherBundle: "",
     message: "",
     agree: false,
   });
 
-  const [showOtherInput, setShowOtherInput] = useState(false);
+  const [showOtherInput, setShowOtherInput] = useState(true);
   const [status, setStatus] = useState("");
 
   const handleChange = (e) => {
+
     const { name, value, checked } = e.target;
 
-    // Update form data
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === "agree" ? checked : value,
-    }));
+    setFormData((prev) => {
+      let updated = {
+        ...prev,
+        [name]: name === "agree" ? checked : value,
+      };
 
-    // Show/hide Other input based on bundleSize selection
-    if (name === "bundleSize") {
-      setShowOtherInput(value === "Other");
-      if (value !== "Other") {
-        setFormData((prev) => ({ ...prev, otherBundle: "" }));
+      if (name === "bundleSize") {
+        setShowOtherInput(value === "Other");
+        if (value !== "Other") {
+          updated.otherBundle = "";
+        }
       }
-    }
+
+      return updated;
+    });
   };
 
   const handleOtherClick = () => {
@@ -43,21 +46,25 @@ const ContactPrimary = () => {
     }));
   };
 
-  const handleSubmit = async (e) => { 
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
 
-    if (!formData.bundleSize || 
-     (formData.bundleSize === "Other" && !formData.otherBundle)) {
-    setStatus("Please select a bundle size or enter a custom one.");
-    return;
-  }
-  
+    if (
+      !formData.bundleSize ||
+      (formData.bundleSize === "Other" && !formData.otherBundle)
+    ) {
+      setStatus("Please select a bundle size or enter a custom one.");
+      return;
+    }
+
     const bundleValue =
-      formData.bundleSize === "Other" ? formData.otherBundle : formData.bundleSize;
+      formData.bundleSize === "Other"
+        ? formData.otherBundle
+        : formData.bundleSize;
 
     const data = new FormData();
-    data.append("type", 'Contact Form');
+    data.append("type", "Contact Form");
     data.append("name", formData.name);
     data.append("email", formData.email);
     data.append("phone", formData.phone);
@@ -67,10 +74,10 @@ const ContactPrimary = () => {
 
     try {
       const response = await request({
-      url:"https://himaliyansalt.innovationpixel.com/public/api/SaveContactForm",
-      method:"POST",
-      data: data
-    });
+        url: "https://himaliyansalt.innovationpixel.com/public/api/SaveContactForm",
+        method: "POST",
+        data: data,
+      });
       if (response.ok) {
         setStatus("Thanks! Your inquiry has been submitted.");
         setFormData({
@@ -90,6 +97,7 @@ const ContactPrimary = () => {
       setStatus("Failed to send inquiry.");
     }
   };
+
 
 
   return (
@@ -143,13 +151,13 @@ const ContactPrimary = () => {
                     </div>
                   </div>
 
-                  <div className="col-md-6 gap-2 d-flex justify-content-between">
+                  {/* <div className="col-md-6 gap-2 d-flex justify-content-between">
                     <div className="input-item w-100 input-item-select">
                       <select
                         name="bundleSize"
                         value={formData.bundleSize}
                         onChange={handleChange}
-                        className="nice-select"
+                        // className="nice-select"
                       >
                         <option value="">Select Bundle Size</option>
                         <option value="200kg">200 KG</option>
@@ -168,10 +176,10 @@ const ContactPrimary = () => {
                         Other
                       </button>
                     </div>
-                  </div>
+                  </div> */}
 
                   {showOtherInput && (
-                    <div className="col-md-12 mt-3">
+                    <div className="col-md-6">
                       <input
                         type="text"
                         name="otherBundle"
