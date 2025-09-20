@@ -1,5 +1,4 @@
 "use client";
-import getAllProducts from "@/libs/getAllProducts";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -10,6 +9,7 @@ import { useCommonContext } from "@/providers/CommonContext";
 import ProductDetailsTab from "@/components/shared/products/ProductDetailsTab";
 import ProductDetailsRightAsync from "@/components/shared/products/ProductDetailRightAsync";
 import { useEffect, useState } from "react";
+import { request } from "@/api/axiosInstance";
 const ProductDetailsPrimary = () => {
   // hooks
   const { isNotSidebar, type } = useCommonContext();
@@ -23,19 +23,20 @@ const ProductDetailsPrimary = () => {
     try {
       setLoading(true);
       const response = await request({
-        url: `GetAllProducts/${currentId}`,
+        url: `GetAllProducts/${id}`,
         method: "GET",
       });
 
       const detail = Array.isArray(response.data)
         ? response.data[0]
         : response.data;
-
+      console.log("detail",detail)
       setProductDetail(detail);
     } catch (error) {
       console.error("Error fetching product:", error);
     } finally {
       setLoading(false);
+      
     }
   };
 
@@ -73,20 +74,18 @@ const ProductDetailsPrimary = () => {
                 <div className={isNotSidebar ? "col-lg-6" : "col-md-6"}>
                   <div className="ltn__shop-details-img-gallery">
                     <div className="ltn__shop-details-large-img">
-                      {productDetail?.documents?.map((image, idx) => (
-                        <div key={idx} className="single-large-img">
-                          <Link href={image} data-rel="lightcase:myCollection">
+                        <div  className="single-large-img">
+                          <Link href='#' data-rel="lightcase:myCollection">
                             <Image
-                              src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${image.encoded_name}`}
-                              alt="Image"
+                              src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${productDetail?.documents?.[0].encoded_name}`}
+                              alt={"waleed"}
                               width={1000}
                               height={1000}
                             />
                           </Link>
                         </div>
-                      ))}
                     </div>
-                    <div className="ltn__shop-details-small-img slick-arrow-2">
+                    {/* <div className="ltn__shop-details-small-img slick-arrow-2">
                       {productDetail?.documents?.map(( image , idx) => (
                         <div key={idx} className="single-small-img">
                           <Image
@@ -97,7 +96,7 @@ const ProductDetailsPrimary = () => {
                           />
                         </div>
                       ))}
-                    </div>
+                    </div> */}
                   </div> 
                 </div>
                 <div className={isNotSidebar ? "col-lg-6" : "col-md-6"}>

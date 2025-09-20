@@ -1,0 +1,13 @@
+.success{
+    background-color: aquamarine;
+    color: green;
+        padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.failure{
+    background-color: #F7E5E5;
+    color: red;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}

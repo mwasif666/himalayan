@@ -2,7 +2,7 @@
 import { request } from "@/api/axiosInstance";
 import Link from "next/link";
 import React, { useState } from "react";
-
+import styles from '../../../style/Register.module.css'
 const RegisterPrimary = () => {
   const [formData, setFormData] = useState({
     firstname: "",
@@ -15,6 +15,7 @@ const RegisterPrimary = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false); 
 
   const validate = () => {
     let tempErrors = {};
@@ -59,19 +60,20 @@ const RegisterPrimary = () => {
 
     try {
       const data = new FormData();
-      data.append("firstname", formData.firstname);
-      data.append("lastname", formData.lastname);
+      data.append("first_name", formData.firstname);
+      data.append("last_name", formData.lastname);
       data.append("email", formData.email);
       data.append("password", formData.password);
-      data.append("confirmpassword", formData.confirmpassword);
+      data.append("password_confirmation", formData.confirmpassword);
 
-      const response = await request({
+      await request({
         url: "RegisterNewUser",
         method: "POST",
         data: data ,
       });
 
-      setMessage("✅ Account created successfully!");
+      setMessage("Account created successfully!");
+      setSuccess(true);
       setFormData({
         firstname: "",
         lastname: "",
@@ -80,8 +82,9 @@ const RegisterPrimary = () => {
         confirmpassword: "",
       });
     } catch (error) {
+      setSuccess(false);
       setMessage(
-        error.response?.data?.message || "❌ Something went wrong, try again."
+        error.response?.data?.errors.email || error.response?.data?.errors.password || error.response?.data?.errors.password_confirmation || error.response?.data?.message ||  "Something went wrong, try again."
       );
     } finally {
       setLoading(false);
@@ -192,9 +195,9 @@ const RegisterPrimary = () => {
                     {loading ? "Creating..." : "CREATE ACCOUNT"}
                   </button>
                 </div>
+              {message && <p className={`text-center mt-3 ${success ? styles.success : styles.failure}`}>{message}</p>}
               </form>
 
-              {/* {message && <p className="text-center mt-3">{message}</p>} */}
 
               <div className="by-agree text-center">
                 <p>By creating an account, you agree to our:</p>

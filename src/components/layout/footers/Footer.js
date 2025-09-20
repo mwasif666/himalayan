@@ -26,14 +26,11 @@ const Footer = () => {
         >
           <div className={ "container-fluid" }>
             <div className="row">
-         
                   <FooterAbout2 />
                   <FooterCompany />
                   <FooterServices2 />
                   <FooterCustomerCare />
                   <FooterNewsletter />
-              
-             
             </div>
           </div>
         </div>

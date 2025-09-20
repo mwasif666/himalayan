@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: 'https://himaliyansalt.innovationpixel.com/public/api',
+  baseURL: 'https://himaliyansalt.innovationpixel.com/public/',
   headers: {
     Accept: "application/json",
   },

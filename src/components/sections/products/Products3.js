@@ -1,9 +1,9 @@
 "use client";
 import { request } from "@/api/axiosInstance";
 import ProductCardPrimary from "@/components/shared/cards/ProductCardPrimary";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
+import styles from '../../../style/Product.module.css';
 
 const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
   const tabs = [
@@ -68,9 +68,9 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                   </p>
                 )}
               </div>
-              <div>
+              <div className={styles.tabContainer}>
                 {tabs.map((item, idx) => (
-                  <div key={idx}>
+                  <div key={idx} className={styles.tabInnerContainer}>
                     <h3 onClick={() => setCategoryId(item.id)}>{item.label}</h3>
                   </div>
                 ))}

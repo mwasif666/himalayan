@@ -65,12 +65,11 @@ const ContactPrimary = () => {
     data.append("save_info", 1);
 
     try {
-      const response = await request({
-        url: "https://himaliyansalt.innovationpixel.com/public/api/SaveContactForm",
+      await request({
+        url: "SaveContactForm",
         method: "POST",
         data: data,
       });
-      if (response.ok) {
         setStatus("Thanks! Your inquiry has been submitted.");
         setFormData({
           name: "",
@@ -82,9 +81,6 @@ const ContactPrimary = () => {
           agree: false,
         });
         setShowOtherInput(false);
-      } else {
-        setStatus(result?.message || "Failed to send inquiry.");
-      }
     } catch (error) {
       setStatus("Failed to send inquiry.");
     }

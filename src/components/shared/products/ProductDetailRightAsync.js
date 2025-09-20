@@ -46,11 +46,11 @@ const ProductDetailsRightAsync = ({ product }) => {
     const calanderFormat = moment(currentDate).format("YYYY-MM-DD");
     setPurchaseDate(calanderFormat);
     const inputParent = inputRef.current;
-    const input = inputParent.querySelector("input");
+    const input = inputParent?.querySelector("input");
 
     setTimeout(() => {
-      const increament = inputParent.querySelector(".inc");
-      const decreament = inputParent.querySelector(".dec");
+      const increament = inputParent?.querySelector(".inc");
+      const decreament = inputParent?.querySelector(".dec");
       increament?.addEventListener("click", () => {
         setQuantity(parseInt(input.value));
       });
@@ -127,20 +127,15 @@ const ProductDetailsRightAsync = ({ product }) => {
       <div className="ltn__product-details-menu-2">
         <ul>
           <li>
-            <div className="cart-plus-minus" ref={inputRef}>
-              <input
-                onChange={(e) =>
-                  setQuantity(
-                    !parseInt(e.target.value) ? 1 : parseInt(e.target.value)
-                  )
-                }
-                type="text"
-                value={quantity}
-                name="qtybutton"
-                className="cart-plus-minus-box"
-              />
-            </div>
-          </li>{" "}
+           <div className="cart-plus-minus">
+            <input
+              type="text"
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value) || 1)}
+              className="cart-plus-minus-box"
+            />
+          </div>
+          </li>
           <li>
             <Link
               onClick={(e) => {
