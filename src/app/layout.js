@@ -5,6 +5,8 @@ import "./globals.css";
 import "@/assets/css/responsive.css";
 import Script from "next/script";
 import { Suspense } from "react";
+import ReduxProvider from "@/store/ReduxProvider";
+
 const open_sans = Open_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -32,15 +34,17 @@ export default function RootLayout({ children }) {
       className={`${rajdhani.variable} ${open_sans.variable}`}
     >
       <body className={open_sans.className}>
-        <Suspense fallback={<div></div>}>
-          {children}
+        <ReduxProvider>
+          <Suspense fallback={<div></div>}>
+            {children}
 
-          <Script src="/plugins.js" />
-          <Script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeeHDCOXmUMja1CFg96RbtyKgx381yoBU"
-            async
-          />
-        </Suspense>
+            <Script src="/plugins.js" />
+            <Script
+              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeeHDCOXmUMja1CFg96RbtyKgx381yoBU"
+              async
+            />
+          </Suspense>
+        </ReduxProvider>
       </body>
     </html>
   );

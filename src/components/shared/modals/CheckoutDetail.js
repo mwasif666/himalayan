@@ -7,6 +7,10 @@ import styles from "../../../style/CheckoutDetail.module.css";
 import { useWishlistContext } from "@/providers/WshlistContext";
 import countDiscount from "@/libs/countDiscount";
 import modifyAmount from "@/libs/modifyAmount";
+import { useDispatch } from "react-redux";
+import { addItemsToLocalStorage } from "@/app/redux/features/AddtoCart/AddtoCartSlice";
+import Swal from "sweetalert2";
+
 const CheckoutDetail = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const { addProductToWishlist } = useWishlistContext();
@@ -14,9 +18,23 @@ const CheckoutDetail = ({ product }) => {
   const netPriceModified = modifyAmount(netPrice);
   const priceModified = modifyAmount(product?.price);
 
+  const dispatch = useDispatch();
+
   const increaseQuantity = () => setQuantity((prev) => prev + 1);
   const decreaseQuantity = () =>
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  const addToCart = (product) => {
+    dispatch(addItemsToLocalStorage({ product, quantity }));
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon: "success",
+      title: `${product?.name} added to cart!`,
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
+  };
 
   return (
     <div className="flex flex-col md:flex-row w-full">
@@ -83,7 +101,14 @@ const CheckoutDetail = ({ product }) => {
             >
               -
             </button>
-            <span className="px-3 py-1 border-x">{quantity}</span>
+            <input
+              type="number"
+              value={quantity}
+              onChange={(e) => {
+                setQuantity(e.target.value);
+              }}
+              className="w-16 text-center border-x outline-none"
+            />
             <button
               onClick={increaseQuantity}
               className="px-3 py-1 text-lg font-bold"
@@ -93,7 +118,10 @@ const CheckoutDetail = ({ product }) => {
           </div>
         </div>
 
-        <button className="w-full bg-[#592D48] text-white py-3 rounded-md mb-3 hover:bg-[#592D48] transition-colors">
+        <button
+          onClick={() => addToCart(product)}
+          className="w-full bg-[#592D48] text-white py-3 rounded-md mb-3 hover:bg-[#592D48] transition-colors"
+        >
           ADD TO CART
         </button>
 
