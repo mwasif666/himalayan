@@ -8,11 +8,13 @@ import { useWishlistContext } from "@/providers/WshlistContext";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import CheckoutDetailModal from "@/components/shared/modals/CheckoutDetailModal";
+
 
 const ProductCardPrimary = ({ product, isShowDisc=true}) => {
   const { name, price, discount, id, status, color } = product
-    ? product
-    : {};
+  ? product
+  : {};
   // const {userId} = useAuth();
   const { setCurrentProduct } = useProductContext();
   const { netPrice } = countDiscount(price, discount);
@@ -20,6 +22,8 @@ const ProductCardPrimary = ({ product, isShowDisc=true}) => {
   const priceModified = modifyAmount(price);
   const { addProductToCart } = useCartContext();
   const { addToWhishlist } = useWishlistContext();
+  
+  const [open, setOpen] = useState(false);
 
   return (
     <div
@@ -57,8 +61,10 @@ const ProductCardPrimary = ({ product, isShowDisc=true}) => {
               <Link
                 href="#"
                 title="Quick View"
-                data-bs-toggle="modal"
-                data-bs-target="#quick_view_modal"
+                onClick={(e) => {
+                    e.preventDefault();
+                    setOpen(true);
+                  }}
               >
                 <i className="far fa-eye"></i>
               </Link>
@@ -135,6 +141,8 @@ const ProductCardPrimary = ({ product, isShowDisc=true}) => {
           <span>${netPriceModified}</span> <del>${priceModified}</del>
         </div>
       </div>
+
+      <CheckoutDetailModal open={open} setOpen={setOpen} product={product} />
     </div>
   );
 };
