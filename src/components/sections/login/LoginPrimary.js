@@ -1,9 +1,10 @@
 "use client";
-import { request } from "@/api/axiosInstance";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
-import React, { useState } from "react";
+import AuthContextProvider from "@/providers/AuthContext";
 
 const LoginPrimary = () => {
+  const { login } = AuthContextProvider(useContext);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -25,12 +26,7 @@ const LoginPrimary = () => {
       data.append("email", formData.email);
       data.append("password", formData.password);
 
-      const response = await request({
-        url: "LoginUser",
-        method: "POST",
-        data,
-      });
-
+      login(data);
       setMessage("✅ Logged in successfully!");
     } catch (error) {
       setMessage(
@@ -52,8 +48,8 @@ const LoginPrimary = () => {
                 To Your Account
               </h1>
               <p>
-                Login to manage your orders, access wishlist, and enjoy exclusive
-                member deals.
+                Login to manage your orders, access wishlist, and enjoy
+                exclusive member deals.
               </p>
             </div>
           </div>

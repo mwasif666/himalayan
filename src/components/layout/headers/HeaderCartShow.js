@@ -1,15 +1,25 @@
+import React, { useEffect, useState } from "react";
+import { useHeaderContex } from "@/providers/HeaderContex";
+import { useSelector } from "react-redux";
 import countTotalPrice from "@/libs/countTotalPrice";
 import modifyAmount from "@/libs/modifyAmount";
-import { useCartContext } from "@/providers/CartContext";
-import { useHeaderContex } from "@/providers/HeaderContex";
 import Link from "next/link";
-import React from "react";
 
 const HeaderCartShow = () => {
   const { headerStyle } = useHeaderContex();
-  const { cartProducts } = useCartContext();
+  const cartProducts = useSelector((state) => state.AddtoCart?.cartItems);
   const totalProduct = cartProducts?.length;
   const totalPrice = countTotalPrice(cartProducts);
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <>
       {totalProduct || totalProduct === 0 ? (
@@ -27,7 +37,7 @@ const HeaderCartShow = () => {
                 <span>Your Cart</span>{" "}
                 <span className="ltn__secondary-color">
                   ${modifyAmount(totalPrice)}
-                </span>
+                </span> 
               </h6>
             ) : (
               ""

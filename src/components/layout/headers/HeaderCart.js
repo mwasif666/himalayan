@@ -1,6 +1,7 @@
 "use client";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { deleteItemFromLocalStorage } from "@/app/redux/features/AddtoCart/AddtoCartSlice";
 import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
 import ButtonSecondary from "@/components/shared/buttons/ButtonSecondary";
 import Nodata from "@/components/shared/no-data/Nodata";
@@ -9,7 +10,6 @@ import countTotalPrice from "@/libs/countTotalPrice";
 import modifyAmount from "@/libs/modifyAmount";
 import Image from "next/image";
 import Link from "next/link";
-import { deleteItemFromLocalStorage } from "@/app/redux/features/AddtoCart/AddtoCartSlice";
 
 const HeaderCart = () => {
   const dispatch = useDispatch();
@@ -17,6 +17,10 @@ const HeaderCart = () => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  if (!mounted) {
+    return null;
+  }
+  
   const totalProduct = mounted ? cartProducts?.length : 0;
   const totalPrice = mounted ? countTotalPrice(cartProducts) : 0;
 
@@ -59,7 +63,9 @@ const HeaderCart = () => {
                       />
                     </Link>
                     <span
-                      onClick={() =>dispatch(deleteItemFromLocalStorage(product))}
+                      onClick={() =>
+                        dispatch(deleteItemFromLocalStorage({ product }))
+                      }
                       className="mini-cart-item-delete"
                     >
                       <i className="icon-cancel"></i>
@@ -82,18 +88,22 @@ const HeaderCart = () => {
             })
           )}
         </div>
+          {cartProducts.length > 0 && (
         <div className="mini-cart-footer">
-          <div className="mini-cart-sub-total">
-            <h5>
-              Subtotal: <span>${totalPrice.toFixed(2)}</span>
-            </h5>
-          </div>
-          <div className="btn-wrapper">
-            <ButtonPrimary text={"View Cart"} path={"/cart"} />
-            <ButtonSecondary text={"Checkout"} path={"/checkout"} />
-          </div>
+            
+              <div className="mini-cart-sub-total">
+                <h5>
+                  Subtotal: <span>${totalPrice.toFixed(2)}</span>
+                </h5>
+              </div>
+              <div className="btn-wrapper">
+                <ButtonPrimary text={"View Cart"} path={"/cart"} />
+                <ButtonSecondary text={"Checkout"} path={"/checkout"} />
+              </div>
+            
           <p>Free Shipping on All Orders Over $100!</p>
         </div>
+          )}
       </div>
     </div>
   );

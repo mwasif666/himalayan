@@ -31,7 +31,7 @@ const CartProduct = ({
     color,
   } = product;
   const dispatch = useDispatch();
-  
+
   // dom referance
   const inputRef = useRef(null);
   // hooks
@@ -46,27 +46,6 @@ const CartProduct = ({
   const totalPiceModified = modifyAmount(totalPrice);
   const isQuantiy = quantity > 1;
 
-  //   get quantity
-  useEffect(() => {
-    if (!isWishlist) {
-      const inputParent = inputRef.current;
-      const input = inputParent.querySelector("input");
-      setTimeout(() => {
-        const increament = inputParent.querySelector(".inc");
-        const decreament = inputParent.querySelector(".dec");
-
-        increament.addEventListener("click", () => {
-          setQuantity(parseInt(input.value));
-          setIsUpdate(true);
-        });
-        decreament.addEventListener("click", () => {
-          setQuantity(parseInt(input.value));
-          setIsUpdate(true);
-        });
-      }, 500);
-    }
-  }, [isWishlist]);
-  // handle updated products
   useEffect(() => {
     if (!isWishlist) {
       const newUptedProducts = [...updateProducts]?.map((product) =>
@@ -74,15 +53,23 @@ const CartProduct = ({
       );
       setUpdateProducts(newUptedProducts);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isWishlist, quantity]);
+
+  const increaseQuantity = () => {
+    setQuantity((prev) => prev + 1);
+    setIsUpdate(true);
+  };
+  const decreaseQuantity = () => {
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+    setIsUpdate(true);
+  };
 
   return (
     <tr onMouseEnter={() => setCurrentProduct(product)}>
       <td
         className="cart-product-remove"
-        onClick={() =>dispatch(deleteItemFromLocalStorage({product}))}
+        onClick={() => dispatch(deleteItemFromLocalStorage({ product }))}
       >
         x
       </td>
@@ -110,19 +97,27 @@ const CartProduct = ({
         <td className="cart-product-stock">In Stock</td>
       ) : (
         <td className="cart-product-quantity">
-          <div className="cart-plus-minus" ref={inputRef}>
+          <div className="flex items-center w-fit border-1 border-black">
+            <button
+              onClick={decreaseQuantity}
+              className="px-3 py-2 text-lg font-bold text-gray-800 transition"
+            >
+              −
+            </button>
+
             <input
+              type="number"
               value={quantity}
-              type="text"
-              name="qtybutton"
-              className="cart-plus-minus-box"
-              onChange={(e) => {
-                setQuantity(
-                  !parseInt(e.target.value) ? 1 : parseInt(e.target.value)
-                );
-                setIsUpdate(true);
-              }}
+              onChange={(e) => setQuantity(e.target.value)}
+              className="w-16 text-center border-x border-black outline-none focus:ring-1 focus:ring-black"
             />
+
+            <button
+              onClick={increaseQuantity}
+              className="px-3 py-2 text-lg font-bold text-gray-800 transition"
+            >
+              +
+            </button>
           </div>
         </td>
       )}

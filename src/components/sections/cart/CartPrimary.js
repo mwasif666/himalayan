@@ -12,7 +12,7 @@ import modifyAmount from "@/libs/modifyAmount";
 import Link from "next/link";
 
 const CartPrimary = () => {
-  const dispatch  = useDispatch();
+  const dispatch = useDispatch();
   const creteAlert = useSweetAlert();
   const cartProducts = useSelector((state) => state.AddtoCart?.cartItems);
   // stats
@@ -35,6 +35,10 @@ const CartPrimary = () => {
     setUpdateProducts([...cartProducts]);
     setIsisClient(true);
   }, [cartProducts]);
+
+  if(isClient === false){
+    return null; 
+  }
 
   return (
     <div className="liton__shoping-cart-area mb-120">
@@ -64,81 +68,91 @@ const CartPrimary = () => {
                         ))
                       )}
 
-                      <tr className="cart-coupon-row">
-                        <td colSpan="6">
-                          <div className="cart-coupon">
-                            <input
-                              type="text"
-                              name="cart-coupon"
-                              placeholder="Coupon code"
-                            />{" "}
+                      {cartProducts?.length > 0 && (
+                        <tr className="cart-coupon-row">
+                          <td colSpan="6">
+                            <div className="cart-coupon">
+                              <input
+                                type="text"
+                                name="cart-coupon"
+                                placeholder="Coupon code"
+                              />{" "}
+                              <button
+                                type="submit"
+                                className="btn theme-btn-2 btn-effect-2"
+                              >
+                                Apply Coupon
+                              </button>
+                            </div>
+                          </td>
+                          <td>
                             <button
+                              onClick={handleUpdateCart}
                               type="submit"
-                              className="btn theme-btn-2 btn-effect-2"
+                              className={`btn theme-btn-2 btn-effect-2  ${
+                                isUpdate ? "" : "disabled"
+                              }`}
+                              disabled={isUpdate ? false : true}
                             >
-                              Apply Coupon
+                              Update Cart
                             </button>
-                          </div>
-                        </td>
-                        <td>
-                          <button
-                            onClick={handleUpdateCart}
-                            type="submit"
-                            className={`btn theme-btn-2  ${
-                              isUpdate ? "" : "disabled"
-                            }`}
-                            disabled={isUpdate ? false : true}
-                          >
-                            Update Cart
-                          </button>
-                        </td>
-                      </tr>
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 ) : (
                   ""
                 )}
               </div>
-              <div className="shoping-cart-total mt-50">
-                <h4>Cart Totals</h4>
-                {isClient ? (
-                  <table className="table">
-                    <tbody>
-                      <tr>
-                        <td>Cart Subtotal</td>
-                        <td>${modifyAmount(subTotalPrice)}</td>
-                      </tr>
-                      <tr>
-                        <td>Shipping and Handing</td>
-                        <td>${modifyAmount(vat)}</td>
-                      </tr>
-                      <tr>
-                        <td>Vat</td>
-                        <td>$00.00</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <strong>Order Total</strong>
-                        </td>
-                        <td>
-                          <strong>${totalPrice}</strong>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                ) : (
-                  ""
-                )}
+              {cartProducts?.length > 0 ? (
+                <div className="shoping-cart-total mt-50">
+                  <h4>Cart Totals</h4>
+                  {isClient ? (
+                    <table className="table">
+                      <tbody>
+                        <tr>
+                          <td>Cart Subtotal</td>
+                          <td>${modifyAmount(subTotalPrice)}</td>
+                        </tr>
+                        <tr>
+                          <td>Shipping and Handing</td>
+                          <td>${modifyAmount(vat)}</td>
+                        </tr>
+                        <tr>
+                          <td>Vat</td>
+                          <td>$00.00</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <strong>Order Total</strong>
+                          </td>
+                          <td>
+                            <strong>${totalPrice}</strong>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  ) : (
+                    ""
+                  )}
+                  <div className="btn-wrapper text-right">
+                    <Link
+                      href="/checkout"
+                      className="theme-btn-1 btn btn-effect-1"
+                      disabled={isUpdate ? false : true}
+                    >
+                      Proceed to checkout
+                    </Link>
+                  </div>
+                </div>
+              ) : (
                 <div className="btn-wrapper text-right">
-                  <Link
-                    href="/checkout"
-                    className="theme-btn-1 btn btn-effect-1"
-                    disabled={isUpdate ? false : true}
-                  >
-                    Proceed to checkout
+                  <Link href="/shop" className="theme-btn-1 btn btn-effect-1">
+                    Go on Shop
                   </Link>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

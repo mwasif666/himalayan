@@ -10,6 +10,7 @@ import Preloader from "../others/Preloader";
 import main from "@/libs/main";
 import WishlistContextProvider from "@/providers/WshlistContext";
 import ProductContext from "@/providers/ProductContext";
+import { AuthProvider } from "@/providers/AuthContext";
 
 const PageWrapper = ({
   children,
@@ -37,6 +38,7 @@ const PageWrapper = ({
       {isCommingSoon ? (
         children
       ) : (
+        <AuthProvider>
         <CartContextProvider>
           <WishlistContextProvider>
             <HeaderContex
@@ -66,6 +68,7 @@ const PageWrapper = ({
             <Footer />
           </FooterContexProvider>
         </CartContextProvider>
+        </AuthProvider>
       )}
 
       <Preloader />

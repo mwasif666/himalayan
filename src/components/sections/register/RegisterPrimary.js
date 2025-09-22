@@ -1,9 +1,11 @@
 "use client";
-import { request } from "@/api/axiosInstance";
 import Link from "next/link";
 import React, { useState } from "react";
 import styles from '../../../style/Register.module.css'
+import { useAuth } from "@/providers/AuthContext";
+
 const RegisterPrimary = () => {
+  const { registerUser  } = useAuth();
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -57,7 +59,7 @@ const RegisterPrimary = () => {
     if (!validate()) return;
 
     setLoading(true);
-
+    
     try {
       const data = new FormData();
       data.append("first_name", formData.firstname);
@@ -65,13 +67,8 @@ const RegisterPrimary = () => {
       data.append("email", formData.email);
       data.append("password", formData.password);
       data.append("password_confirmation", formData.confirmpassword);
-
-      await request({
-        url: "RegisterNewUser",
-        method: "POST",
-        data: data ,
-      });
-
+      
+      await registerUser(data);
       setMessage("Account created successfully!");
       setSuccess(true);
       setFormData({
