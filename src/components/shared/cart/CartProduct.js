@@ -77,11 +77,12 @@ const CartProduct = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isWishlist, quantity]);
+
   return (
     <tr onMouseEnter={() => setCurrentProduct(product)}>
       <td
         className="cart-product-remove"
-        onClick={() =>dispatch(deleteItemFromLocalStorage(product))}
+        onClick={() =>dispatch(deleteItemFromLocalStorage({product}))}
       >
         x
       </td>
