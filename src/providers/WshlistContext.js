@@ -63,44 +63,46 @@ const WishlistContextProvider = ({ children }) => {
 
   const addToWhishlist = async (prod) => {
     const formData = new FormData();
-    formData.append('product_id', prod.id);
-    formData.append('user_id',userId);
+    formData.append("product_id", prod.id);
+    formData.append("user_id", userId);
     try {
       setLoading(true);
-      const response = await axios.post("https://himaliyansalt.innovationpixel.com/public/AddProductToWishlist", formData);
-      if(response.data.message === 'Product already in wishlist.'){
-        setWishlistStatus('exist');
-      }else{
-        setWishlistStatus('added');
+      const response = await axios.post(
+        "https://himaliyansalt.innovationpixel.com/public/AddProductToWishlist",
+        formData
+      );
+      if (response.data.message === "Product already in wishlist.") {
+        setWishlistStatus("exist");
+      } else {
+        setWishlistStatus("added");
       }
     } catch (error) {
-      setWishlistStatus('failed')
+      setWishlistStatus("failed");
     } finally {
       setLoading(false);
     }
   };
 
-  const deleteWhislist = async (prod)=>{
+  const deleteWhislist = async (prod) => {
     try {
       setLoading(true);
       await request({
         url: `RemoveProductToWishlist/${prod.id}`,
         method: "DELETE",
       });
-      setWishlistStatus('deleted')
-    }       
-    catch (error) {
+      setWishlistStatus("deleted");
+    } catch (error) {
       throw error;
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  const getAllWhislist = async()=>{
-     try {
+  const getAllWhislist = async () => {
+    try {
       setLoading(true);
       const response = await request({
-        url: `GetUserAllWishlists`,
+        url: `GetUserAllWishlists/1`,
         method: "GET",
       });
       return response;
@@ -109,7 +111,25 @@ const WishlistContextProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }
+  };
+
+  const fetchWishlist = async () => {
+    try {
+      const response = await getAllWhislist();
+      const serverWishlist = response?.data || [];
+
+      setWishlistProducts(serverWishlist);
+      addItemsToLocalstorage("wishlist", serverWishlist);
+    } catch (error) {
+      const wishlistProductFromLocalStorage =
+        getItemsFromLocalstorage("wishlist") || [];
+      setWishlistProducts(wishlistProductFromLocalStorage);
+    }
+  };
+
+  useEffect(() => {
+    fetchWishlist();
+  }, []);
 
   return (
     <wishlistContext.Provider
@@ -122,7 +142,7 @@ const WishlistContextProvider = ({ children }) => {
         wishlistStatus,
         deleteWhislist,
         getAllWhislist,
-        addToWhishlist
+        addToWhishlist,
       }}
     >
       {children}

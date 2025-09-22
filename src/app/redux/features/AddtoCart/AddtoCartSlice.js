@@ -25,9 +25,9 @@ export const AddtoCartSlice = createSlice({
       let findProduct = state.cartItems.find((item) => item.id === product.id);
 
       if (findProduct) {
-        findProduct.quanity += quantity;
+        findProduct.quantity += quantity;
       } else {
-        state.cartItems.push({ ...product, quanity: quantity });
+        state.cartItems.push({ ...product, quantity: quantity });
       }
 
       if (typeof window !== "undefined") {
@@ -41,8 +41,8 @@ export const AddtoCartSlice = createSlice({
       let findProduct = state.cartItems.find((item) => item.id === product.id);
 
       if (findProduct && findProduct.quanity > 1) {
-        findProduct.quanity -= quantity;
-      } else if (findProduct && findProduct.quanity === 1) {
+        findProduct.quantity -= quantity;
+      } else if (findProduct && findProduct.quantity === 1) {
         state.cartItems = state.cartItems.filter(
           (item) => item.id !== product.id
         );
@@ -70,6 +70,12 @@ export const AddtoCartSlice = createSlice({
         localStorage.removeItem("cartItems");
       }
     },
+    addItemsToLocalStorageInBulk(state, action){
+      state.cartItems = action.payload;
+      if (typeof window !== "undefined") {
+        localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      }
+    }
   },
 });
 
@@ -78,6 +84,7 @@ export const {
   removeItemsFromLocalStorage,
   deleteItemFromLocalStorage,
   clearCartItemsFromLocalStorage,
+  addItemsToLocalStorageInBulk
 } = AddtoCartSlice.actions;
 
 export default AddtoCartSlice.reducer;

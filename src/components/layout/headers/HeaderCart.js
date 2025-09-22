@@ -1,19 +1,24 @@
 "use client";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
 import ButtonSecondary from "@/components/shared/buttons/ButtonSecondary";
 import Nodata from "@/components/shared/no-data/Nodata";
 import countDiscount from "@/libs/countDiscount";
 import countTotalPrice from "@/libs/countTotalPrice";
 import modifyAmount from "@/libs/modifyAmount";
-
-import { useCartContext } from "@/providers/CartContext";
 import Image from "next/image";
 import Link from "next/link";
+import { deleteItemFromLocalStorage } from "@/app/redux/features/AddtoCart/AddtoCartSlice";
 
 const HeaderCart = () => {
-  const { cartProducts, deleteProductFromCart } = useCartContext();
-  const totalProduct = cartProducts?.length;
-  const totalPrice = countTotalPrice(cartProducts);
+  const dispatch = useDispatch();
+  const cartProducts = useSelector((state) => state.AddtoCart?.cartItems);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const totalProduct = mounted ? cartProducts?.length : 0;
+  const totalPrice = mounted ? countTotalPrice(cartProducts) : 0;
 
   return (
     <div
@@ -29,44 +34,52 @@ const HeaderCart = () => {
           {!totalProduct ? (
             <Nodata text={"Empty Cart!"} />
           ) : (
-            cartProducts?.map(
-              ({ id, title, image, price, quantity, disc }, idx) => {
-                const { netPrice } = countDiscount(price, disc);
-                return (
-                  <div key={id || idx} className="mini-cart-item clearfix">
-                    <div className="mini-cart-img">
-                      <Link href={`/products/${id}`}>
-                        <Image
-                          src={image || "/img/placeholder-product.jpg"}
-                          alt={title || "Product"}
-                          width={100}
-                          height={100}
-                          style={{ width: "100%", height: "auto" }}
-                        />
-                      </Link>
-                      <span
-                        onClick={() => deleteProductFromCart(id, title)}
-                        className="mini-cart-item-delete"
-                      >
-                        <i className="icon-cancel"></i>
-                      </span>
-                    </div>
-                    <div className="mini-cart-info">
-                      <h6>
-                        <Link href={`/products/${id}`}>
-                          {title?.length > 22
-                            ? `${title?.slice(0, 22)}...`
-                            : title}
-                        </Link>
-                      </h6>
-                      <span className="mini-cart-quantity">
-                        {quantity} x ${modifyAmount(netPrice)}
-                      </span>
-                    </div>
+            cartProducts?.map((product, idx) => {
+              const { netPrice } = countDiscount(
+                product.price,
+                product.discount
+              );
+              return (
+                <div
+                  key={product.id || idx}
+                  className="mini-cart-item clearfix"
+                >
+                  <div className="mini-cart-img">
+                    <Link href={`/products/${product.id}`}>
+                      <Image
+                        src={
+                          product?.documents?.[0]?.encoded_name
+                            ? `https://himaliyansalt.innovationpixel.com/storage/app/public/products/${product.documents[0].encoded_name}`
+                            : "/img/placeholder-product.jpg"
+                        }
+                        alt={product.name || "Product"}
+                        width={100}
+                        height={100}
+                        style={{ width: "100%", height: "auto" }}
+                      />
+                    </Link>
+                    <span
+                      onClick={() =>dispatch(deleteItemFromLocalStorage(product))}
+                      className="mini-cart-item-delete"
+                    >
+                      <i className="icon-cancel"></i>
+                    </span>
                   </div>
-                );
-              }
-            )
+                  <div className="mini-cart-info">
+                    <h6>
+                      <Link href={`/products/${product.id}`}>
+                        {product.name?.length > 22
+                          ? `${product.name?.slice(0, 22)}...`
+                          : product.name}
+                      </Link>
+                    </h6>
+                    <span className="mini-cart-quantity">
+                      {product.quantity} x ${modifyAmount(netPrice)}
+                    </span>
+                  </div>
+                </div>
+              );
+            })
           )}
         </div>
         <div className="mini-cart-footer">

@@ -1,20 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addItemsToLocalStorageInBulk } from "@/app/redux/features/AddtoCart/AddtoCartSlice";
 import CartProduct from "@/components/shared/cart/CartProduct";
 import Nodata from "@/components/shared/no-data/Nodata";
 import useSweetAlert from "@/hooks/useSweetAlert";
-import addItemsToLocalstorage from "@/libs/addItemsToLocalstorage";
 import countTotalPrice from "@/libs/countTotalPrice";
 import modifyAmount from "@/libs/modifyAmount";
-import { useCartContext } from "@/providers/CartContext";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 const CartPrimary = () => {
-  const { cartProducts: currentProducts, setCartProducts } = useCartContext();
+  const dispatch  = useDispatch();
   const creteAlert = useSweetAlert();
-  const cartProducts = currentProducts;
+  const cartProducts = useSelector((state) => state.AddtoCart?.cartItems);
   // stats
   const [updateProducts, setUpdateProducts] = useState(cartProducts);
 
@@ -27,8 +27,7 @@ const CartPrimary = () => {
 
   // update cart
   const handleUpdateCart = () => {
-    addItemsToLocalstorage("cart", [...updateProducts]);
-    setCartProducts([...updateProducts]);
+    dispatch(addItemsToLocalStorageInBulk(updateProducts));
     creteAlert("success", "Success! Cart updated.");
     setIsUpdate(false);
   };
@@ -36,6 +35,7 @@ const CartPrimary = () => {
     setUpdateProducts([...cartProducts]);
     setIsisClient(true);
   }, [cartProducts]);
+
   return (
     <div className="liton__shoping-cart-area mb-120">
       <div className="container">

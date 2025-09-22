@@ -57,22 +57,22 @@ const ProductsPrimary = ({ isSidebar, currentTapId }) => {
   const [product, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const setSortingFilter = ()=>{
+  const setSortingFilter = () => {
     switch (arrangeInput) {
-      case 'default':
-        return 'GetAllProducts';
-      case 'new':
-        return 'GetAllProducts/new_arrivals'
-      case 'popularity':
-        return 'GetAllProducts/popularity'
-      case 'price ascending':
-        return 'GetAllProducts/high_to_low'
-      case 'price descending':
-        return 'GetAllProducts/low_to_high'
+      case "default":
+        return "GetAllProducts";
+      case "new":
+        return "GetAllProducts/new_arrivals";
+      case "popularity":
+        return "GetAllProducts/popularity";
+      case "price ascending":
+        return "GetAllProducts/high_to_low";
+      case "price descending":
+        return "GetAllProducts/low_to_high";
       default:
-        return 'GetAllProducts';
+        return "GetAllProducts";
     }
-  }
+  };
 
   const getProduct = async () => {
     try {
@@ -191,8 +191,6 @@ const ProductsPrimary = ({ isSidebar, currentTapId }) => {
                         </div>
                       ))
                     )}
-
-                    {/* <!--  --> */}
                   </div>
                 </div>
               </div>
@@ -202,12 +200,28 @@ const ProductsPrimary = ({ isSidebar, currentTapId }) => {
               >
                 <div className="ltn__product-tab-content-inner ltn__product-list-view">
                   <div className="row">
-                    {/* <!-- ltn__product-item --> */}
-                    {product ?.map((product, idx) => (
-                      <div className="col-lg-12" key={idx}>
-                        <ProductCardPrimary2 product={product} />
+                    {loading ? (
+                      <div
+                        style={{
+                          height: "30vh",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <FaSpinner className="spin" size={40} color="#5D394D" />
                       </div>
-                    ))}
+                    ) : product.length === 0 ? (
+                      <div className="col-lg-12 text-center">
+                        <p>No products found in this category.</p>
+                      </div>
+                    ) : (
+                      product?.map((product, idx) => (
+                        <div className="col-lg-12" key={idx}>
+                          <ProductCardPrimary2 product={product} />
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
               </div>

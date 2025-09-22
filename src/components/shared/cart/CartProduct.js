@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
+import { deleteItemFromLocalStorage } from "@/app/redux/features/AddtoCart/AddtoCartSlice";
 import countDiscount from "@/libs/countDiscount";
 import countTotalPrice from "@/libs/countTotalPrice";
 import modifyAmount from "@/libs/modifyAmount";
@@ -11,6 +12,7 @@ import { useWishlistContext } from "@/providers/WshlistContext";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 
 const CartProduct = ({
   product,
@@ -19,16 +21,26 @@ const CartProduct = ({
   setIsUpdate,
   isWishlist,
 }) => {
-  const { id, title, price, quantity: quantity1, image, disc, color } = product;
+  const {
+    id,
+    name,
+    price,
+    quantity: quantity1,
+    discount,
+    documents,
+    color,
+  } = product;
+  const dispatch = useDispatch();
+  
   // dom referance
   const inputRef = useRef(null);
   // hooks
-  const { deleteProductFromCart, addProductToCart } = useCartContext();
+  const { addProductToCart } = useCartContext();
   const { deleteProductFromWishlist } = useWishlistContext();
   const [quantity, setQuantity] = useState(quantity1);
   const { setCurrentProduct } = useProductContext();
   // variables
-  const { netPrice } = countDiscount(price, disc);
+  const { netPrice } = countDiscount(price, discount);
   const totalPrice = countTotalPrice([{ ...product, quantity }]);
   const netPriceModified = modifyAmount(netPrice);
   const totalPiceModified = modifyAmount(totalPrice);
@@ -69,22 +81,27 @@ const CartProduct = ({
     <tr onMouseEnter={() => setCurrentProduct(product)}>
       <td
         className="cart-product-remove"
-        onClick={() =>
-          isWishlist
-            ? deleteProductFromWishlist(id, title)
-            : deleteProductFromCart(id, title)
-        }
+        onClick={() =>dispatch(deleteItemFromLocalStorage(product))}
       >
         x
       </td>
       <td className="cart-product-image">
         <Link href={`/products/${id}`}>
-          <Image src={image} alt="#" height={1000} width={1000} />
+          <Image
+            src={
+              documents?.[0]?.encoded_name
+                ? `https://himaliyansalt.innovationpixel.com/storage/app/public/products/${documents[0].encoded_name}`
+                : "/img/placeholder-product.jpg"
+            }
+            alt={name || "Product"}
+            height={1000}
+            width={1000}
+          />
         </Link>
       </td>
       <td className="cart-product-info">
         <h4>
-          <Link href={`/products/${id}`}>{sliceText(title, 30)}</Link>
+          <Link href={`/products/${id}`}>{sliceText(name, 30)}</Link>
         </h4>
       </td>
       <td className="cart-product-price">${netPriceModified}</td>
