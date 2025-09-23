@@ -1,8 +1,11 @@
 import React from "react";
 import HeaderCartShow from "./HeaderCartShow";
 import Link from "next/link";
+import { useAuth } from "@/providers/AuthContext";
 
 const HeaderRight2 = () => {
+  const { isAuthenticated } = useAuth();
+
   return (
     <div className="col">
       {/* <!-- header-options --> */}
@@ -80,18 +83,22 @@ const HeaderRight2 = () => {
                     <i className="icon-user"></i>
                   </Link>
                   <ul>
-                    <li>
-                      <Link href="/login">Sign in</Link>
-                    </li>
-                    <li>
-                      <Link href="/register">Register</Link>
-                    </li>
-                    <li>
-                      <Link href="/account">My Account</Link>
-                    </li>
-                    <li>
-                      <Link href="/wishlist">Wishlist</Link>
-                    </li>
+                    {!isAuthenticated && <>
+                      <li>
+                        <Link href="/login">Sign in</Link>
+                      </li>
+                      <li>
+                        <Link href="/register">Register</Link>
+                      </li>
+                    </>}
+                    {isAuthenticated && <>
+                      <li>
+                        <Link href="/account">My Account</Link>
+                      </li>
+                      <li>
+                        <Link href="/wishlist">Wishlist</Link>
+                      </li>
+                    </>}
                   </ul>
                 </li>
               </ul>

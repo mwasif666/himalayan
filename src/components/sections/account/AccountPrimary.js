@@ -1,7 +1,38 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import { request } from "@/api/axiosInstance";
+import { useAuth } from "@/providers/AuthContext";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import React from "react";
 
 const AccountPrimary = () => {
+  const router = useRouter();
+  const { userId } = useAuth();
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [userDetail, setUserDetail] = useState(null);
+
+  const getUserDetail = async () => {
+    try {
+      setDetailLoading(true);
+      const response = await request({
+        url: `GetLoggedInUserDetail`,
+        method: "GET",
+      });
+      setUserDetail(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setDetailLoading(false);
+    }
+  };
+
+  useEffect(() => {
+  
+    if(userId)  getUserDetail();
+
+  }, [userId]);
+ 
+
   return (
     <div className="liton__wishlist-area pb-70">
       <div className="container">

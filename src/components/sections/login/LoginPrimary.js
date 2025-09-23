@@ -1,10 +1,10 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, {  useState } from "react";
 import Link from "next/link";
-import AuthContextProvider from "@/providers/AuthContext";
+import { useAuth } from "@/providers/AuthContext";
 
 const LoginPrimary = () => {
-  const { login } = AuthContextProvider(useContext);
+  const { loginUser  } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -26,7 +26,8 @@ const LoginPrimary = () => {
       data.append("email", formData.email);
       data.append("password", formData.password);
 
-      login(data);
+      await loginUser(data);
+      setFormData({ email: "", password: "" });
       setMessage("✅ Logged in successfully!");
     } catch (error) {
       setMessage(

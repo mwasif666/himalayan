@@ -13,7 +13,7 @@ const WishlistPrimary = () => {
     setIsClient(true);
   }, []);
 
-  if (!isClient) return null; // ✅ SSR hydration issue fix
+  if (!isClient) return null;
 
   return (
     <div className="liton__wishlist-area mb-105">

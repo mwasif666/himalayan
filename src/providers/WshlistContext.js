@@ -6,6 +6,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import getAllProducts from "@/libs/getAllProducts";
 import { request } from "@/api/axiosInstance";
 import axios from "axios";
+import { useAuth } from "./AuthContext";
 
 const wishlistContext = createContext(null);
 const WishlistContextProvider = ({ children }) => {
@@ -59,7 +60,7 @@ const WishlistContextProvider = ({ children }) => {
   };
 
   const [loading, setLoading] = useState(false);
-  const userId = 1;
+  const {userId} = useAuth(); 
 
   const addToWhishlist = async (prod) => {
     const formData = new FormData();
@@ -102,7 +103,7 @@ const WishlistContextProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await request({
-        url: `GetUserAllWishlists/1`,
+        url: `GetUserAllWishlists/${userId}`,
         method: "GET",
       });
       return response;

@@ -7,17 +7,19 @@ import React from "react";
 import HeaderCurrency from "./HeaderCurrency";
 import countTotalPrice from "@/libs/countTotalPrice";
 import HeaderCartShow from "./HeaderCartShow";
+import { useAuth } from "@/providers/AuthContext";
 
 const HeaderRight = () => {
   const { headerStyle } = useHeaderContex();
   const { cartProducts } = useCartContext();
   const totalProduct = cartProducts?.length;
   const totalPrice = countTotalPrice(cartProducts);
+  const { isAuthenticated } = useAuth();
+
   return (
     <div
-      className={`ltn__header-options  ${
-        headerStyle === 3 ? "col" : "ltn__header-options-2"
-      }`}
+      className={`ltn__header-options  ${headerStyle === 3 ? "col" : "ltn__header-options-2"
+        }`}
     >
       {headerStyle === 3 ? <HeaderCurrency /> : ""}
       {/* <!-- header-search-1 --> */}{" "}
@@ -47,18 +49,24 @@ const HeaderRight = () => {
               <i className="icon-user"></i>
             </Link>
             <ul>
-              <li>
-                <Link href="/login">Sign in</Link>
-              </li>
-              <li>
-                <Link href="/register">Register</Link>
-              </li>
-              <li>
-                <Link href="/account">My Account</Link>
-              </li>
-              <li>
-                <Link href="/wishlist">Wishlist</Link>
-              </li>
+              {!isAuthenticated &&
+                <>
+                  <li>
+                    <Link href="/login">Sign in</Link>
+                  </li>
+                  <li>
+                    <Link href="/register">Register</Link>
+                  </li>
+                </>}
+              {isAuthenticated && <>
+                <li>
+                  <Link href="/account">My Account</Link>
+                </li>
+                <li>
+                  <Link href="/wishlist">Wishlist</Link>
+                </li>
+              </>}
+
             </ul>
           </li>
         </ul>
