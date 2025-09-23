@@ -15,7 +15,7 @@ const AccountPrimary = () => {
     try {
       setDetailLoading(true);
       const response = await request({
-        url: `GetLoggedInUserDetail`,
+        url: `GetLoggedInUserDetail?id=${19}`,
         method: "GET",
       });
       setUserDetail(response.data);
@@ -27,11 +27,15 @@ const AccountPrimary = () => {
   };
 
   useEffect(() => {
-  
-    if(userId)  getUserDetail();
-
+    if (userId) getUserDetail();
   }, [userId]);
- 
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (!token) {
+  //     router.push("/login");
+  //   }
+  // }, [router]);
 
   return (
     <div className="liton__wishlist-area pb-70">
@@ -55,9 +59,9 @@ const AccountPrimary = () => {
                         <Link data-bs-toggle="tab" href="#liton_tab_1_2">
                           Orders <i className="fas fa-file-alt"></i>
                         </Link>
-                        <Link data-bs-toggle="tab" href="#liton_tab_1_3">
+                        {/* <Link data-bs-toggle="tab" href="#liton_tab_1_3">
                           Downloads <i className="fas fa-arrow-down"></i>
-                        </Link>
+                        </Link> */}
                         <Link data-bs-toggle="tab" href="#liton_tab_1_4">
                           address <i className="fas fa-map-marker-alt"></i>
                         </Link>
@@ -78,8 +82,8 @@ const AccountPrimary = () => {
                       >
                         <div className="ltn__myaccount-tab-content-inner">
                           <p>
-                            Hello <strong>UserName</strong> (not{" "}
-                            <strong>UserName</strong>?{" "}
+                            Hello <strong>{userDetail?.user?.name}</strong> (not{" "}
+                            <strong>{userDetail?.user?.name}</strong>?{" "}
                             <small>
                               <Link href="/login">Log out</Link>
                             </small>{" "}
@@ -107,33 +111,16 @@ const AccountPrimary = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr>
-                                  <td>1</td>
-                                  <td>Jun 22, 2019</td>
-                                  <td>Pending</td>
-                                  <td>$3000</td>
-                                  <td>
-                                    <Link href="/cart">View</Link>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>2</td>
-                                  <td>Nov 22, 2019</td>
-                                  <td>Approved</td>
-                                  <td>$200</td>
-                                  <td>
-                                    <Link href="/cart">View</Link>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>3</td>
-                                  <td>Jan 12, 2020</td>
-                                  <td>On Hold</td>
-                                  <td>$990</td>
-                                  <td>
-                                    <Link href="/cart">View</Link>
-                                  </td>
-                                </tr>
+                                {userDetail?.orders?.map((item) => (
+                                  <tr key={item?.id}>
+                                    <td>{item?.order_no || '#'}</td>
+                                    <td>{item?.ordered_on}</td>
+                                    <td>{item?.status}</td>
+                                    <td>${item?.sub_total}</td>
+                                    <td>
+                                      <Link href="/cart">View</Link>
+                                    </td>
+                                  </tr>))}
                               </tbody>
                             </table>
                           </div>
@@ -206,13 +193,13 @@ const AccountPrimary = () => {
                               </h4>
                               <address>
                                 <p>
-                                  <strong>Alex Tuntuni</strong>
+                                  <strong>{userDetail?.billing_details?.first_name} {userDetail?.billing_details?.last_name}</strong>
                                 </p>
                                 <p>
                                   1355 Market St, Suite 900 <br />
                                   San Francisco, CA 94103
                                 </p>
-                                <p>Mobile: (123) 456-7890</p>
+                                <p>Mobile: {userDetail?.billing_details?.phone}</p>
                               </address>
                             </div>
                             <div className="col-md-6 col-12 learts-mb-30">
@@ -224,13 +211,13 @@ const AccountPrimary = () => {
                               </h4>
                               <adress>
                                 <p>
-                                  <strong>Alex Tuntuni</strong>
+                                  <strong>{userDetail?.billing_details?.first_name} {userDetail?.billing_details?.last_name}</strong>
                                 </p>
                                 <p>
                                   1355 Market St, Suite 900 <br />
                                   San Francisco, CA 94103
                                 </p>
-                                <p>Mobile: (123) 456-7890</p>
+                                <p>Mobile: {userDetail?.billing_details?.phone}</p>
                               </adress>
                             </div>
                           </div>

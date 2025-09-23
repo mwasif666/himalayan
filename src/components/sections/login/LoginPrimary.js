@@ -1,10 +1,12 @@
 "use client";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/providers/AuthContext";
+import { useRouter } from "next/navigation";
 
 const LoginPrimary = () => {
-  const { loginUser  } = useAuth();
+  const { loginUser } = useAuth();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -27,11 +29,13 @@ const LoginPrimary = () => {
       data.append("password", formData.password);
 
       await loginUser(data);
+
       setFormData({ email: "", password: "" });
-      setMessage("✅ Logged in successfully!");
+      setMessage("Logged in successfully!");
+      router.push("/shop");
     } catch (error) {
       setMessage(
-        error.response?.data?.message || "❌ Invalid credentials, try again."
+        error.response?.data?.message || "Invalid credentials, try again."
       );
     } finally {
       setLoading(false);

@@ -1,11 +1,13 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
-import styles from '../../../style/Register.module.css'
+import styles from "../../../style/Register.module.css";
 import { useAuth } from "@/providers/AuthContext";
+import { useRouter } from "next/navigation";
 
 const RegisterPrimary = () => {
-  const { registerUser  } = useAuth();
+  const { registerUser } = useAuth();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -17,7 +19,7 @@ const RegisterPrimary = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [success, setSuccess] = useState(false); 
+  const [success, setSuccess] = useState(false);
 
   const validate = () => {
     let tempErrors = {};
@@ -59,7 +61,7 @@ const RegisterPrimary = () => {
     if (!validate()) return;
 
     setLoading(true);
-    
+
     try {
       const data = new FormData();
       data.append("first_name", formData.firstname);
@@ -67,8 +69,9 @@ const RegisterPrimary = () => {
       data.append("email", formData.email);
       data.append("password", formData.password);
       data.append("password_confirmation", formData.confirmpassword);
-      
+
       await registerUser(data);
+
       setMessage("Account created successfully!");
       setSuccess(true);
       setFormData({
@@ -78,10 +81,15 @@ const RegisterPrimary = () => {
         password: "",
         confirmpassword: "",
       });
+      router.push("/shop");
     } catch (error) {
       setSuccess(false);
       setMessage(
-        error.response?.data?.errors.email || error.response?.data?.errors.password || error.response?.data?.errors.password_confirmation || error.response?.data?.message ||  "Something went wrong, try again."
+        error.response?.data?.errors.email ||
+          error.response?.data?.errors.password ||
+          error.response?.data?.errors.password_confirmation ||
+          error.response?.data?.message ||
+          "Something went wrong, try again."
       );
     } finally {
       setLoading(false);
@@ -99,7 +107,8 @@ const RegisterPrimary = () => {
                 Your Account
               </h1>
               <p>
-                Register an account to manage your orders, save favorites, <br />
+                Register an account to manage your orders, save favorites,{" "}
+                <br />
                 and enjoy exclusive deals designed just for you.
               </p>
             </div>
@@ -167,20 +176,24 @@ const RegisterPrimary = () => {
                   placeholder="Confirm Password*"
                   value={formData.confirmpassword}
                   onChange={handleChange}
-                  className={errors.confirmpassword ? "border border-danger" : ""}
+                  className={
+                    errors.confirmpassword ? "border border-danger" : ""
+                  }
                 />
                 {errors.confirmpassword && (
-                  <small className="text-danger">{errors.confirmpassword}</small>
+                  <small className="text-danger">
+                    {errors.confirmpassword}
+                  </small>
                 )}
 
                 <label className="checkbox-inline">
                   <input type="checkbox" required /> I consent to Herboil
-                  processing my personal data in accordance with the consent form
-                  and the privacy policy.
+                  processing my personal data in accordance with the consent
+                  form and the privacy policy.
                 </label>
                 <label className="checkbox-inline">
-                  <input type="checkbox" required /> By clicking {`"create account"`},
-                  I consent to the privacy policy.
+                  <input type="checkbox" required /> By clicking{" "}
+                  {`"create account"`}, I consent to the privacy policy.
                 </label>
 
                 <div className="btn-wrapper text-center">
@@ -192,9 +205,16 @@ const RegisterPrimary = () => {
                     {loading ? "Creating..." : "CREATE ACCOUNT"}
                   </button>
                 </div>
-              {message && <p className={`text-center mt-3 ${success ? styles.success : styles.failure}`}>{message}</p>}
+                {message && (
+                  <p
+                    className={`text-center mt-3 ${
+                      success ? styles.success : styles.failure
+                    }`}
+                  >
+                    {message}
+                  </p>
+                )}
               </form>
-
 
               <div className="by-agree text-center">
                 <p>By creating an account, you agree to our:</p>
