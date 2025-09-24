@@ -15,7 +15,7 @@ const AccountPrimary = () => {
     try {
       setDetailLoading(true);
       const response = await request({
-        url: `GetLoggedInUserDetail?id=${19}`,
+        url: `GetLoggedInUserDetail?id=${userId}`,
         method: "GET",
       });
       setUserDetail(response.data);
@@ -30,12 +30,12 @@ const AccountPrimary = () => {
     if (userId) getUserDetail();
   }, [userId]);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (!token) {
-  //     router.push("/login");
-  //   }
-  // }, [router]);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/login");
+    }
+  }, [router]);
 
   return (
     <div className="liton__wishlist-area pb-70">

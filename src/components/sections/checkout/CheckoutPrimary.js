@@ -1,20 +1,27 @@
 /* eslint-disable jsx-a11y/role-supports-aria-props */
 "use client";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/providers/AuthContext";
+import { useCartContext } from "@/providers/CartContext";
+import { useSearchParams } from "next/navigation";
 import CheckoutProduct from "@/components/shared/checkout/CheckoutProduct";
 import Nodata from "@/components/shared/no-data/Nodata";
 import countTotalPrice from "@/libs/countTotalPrice";
 import getAllProducts from "@/libs/getAllProducts";
 import modifyAmount from "@/libs/modifyAmount";
-import { useCartContext } from "@/providers/CartContext";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
-const paymnetImage3 = "/img/icons/payment-3.png";
 import useSweetAlert from "@/hooks/useSweetAlert";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { request } from "@/api/axiosInstance";
+const paymnetImage3 = "/img/icons/payment-3.png";
 
 const CheckoutPrimary = () => {
   const [isPlaceOrder, setIsPlaceOrder] = useState(false);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [userDetail, setUserDetail] = useState(null);
+
+  const { userId, isAuthenticated } = useAuth();
+
   const creteAlert = useSweetAlert();
   const allProducts = getAllProducts();
   const searchParams = useSearchParams();
@@ -46,6 +53,26 @@ const CheckoutPrimary = () => {
       setIsPlaceOrder(true);
     }
   }, [isProducts]);
+
+  const getUserDetail = async () => {
+    try {
+      setDetailLoading(true);
+      const response = await request({
+        url: `GetLoggedInUserDetail?id=${userId}`,
+        method: "GET",
+      });
+      setUserDetail(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setDetailLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (userId) getUserDetail();
+  }, [userId]);
+
   return (
     <div className="ltn__checkout-area mb-105">
       <div className="container">
@@ -54,16 +81,18 @@ const CheckoutPrimary = () => {
             <div className="ltn__checkout-inner">
               {/* login */}
               <div className="ltn__checkout-single-content ltn__returning-customer-wrap">
-                <h5>
-                  Returning customer?{" "}
-                  <Link
-                    className="ltn__secondary-color"
-                    href="#ltn__returning-customer-login"
-                    data-bs-toggle="collapse"
-                  >
-                    Click here to login
-                  </Link>
-                </h5>
+                {!isAuthenticated && (
+                  <h5>
+                    Returning customer?{" "}
+                    <Link
+                      className="ltn__secondary-color"
+                      href="#ltn__returning-customer-login"
+                      data-bs-toggle="collapse"
+                    >
+                      Click here to login
+                    </Link>
+                  </h5>
+                )}
                 <div
                   id="ltn__returning-customer-login"
                   className="collapse ltn__checkout-single-content-info"
@@ -139,15 +168,18 @@ const CheckoutPrimary = () => {
               <div className="ltn__checkout-single-content mt-50">
                 <h4 className="title-2">Billing Details</h4>
                 <div className="ltn__checkout-single-content-info">
-                  <form action="#">
+                  <form>
                     <h6>Personal Information</h6>
                     <div className="row">
                       <div className="col-md-6">
                         <div className="input-item input-item-name ltn__custom-icon">
                           <input
                             type="text"
-                            name="ltn__name"
+                            name="first_name"
                             placeholder="First name"
+                            defaultValue={
+                              userDetail?.billing_details?.first_name || ""
+                            }
                           />
                         </div>
                       </div>
@@ -155,8 +187,11 @@ const CheckoutPrimary = () => {
                         <div className="input-item input-item-name ltn__custom-icon">
                           <input
                             type="text"
-                            name="ltn__lastname"
+                            name="last_name"
                             placeholder="Last name"
+                            defaultValue={
+                              userDetail?.billing_details?.last_name || ""
+                            }
                           />
                         </div>
                       </div>
@@ -164,8 +199,11 @@ const CheckoutPrimary = () => {
                         <div className="input-item input-item-email ltn__custom-icon">
                           <input
                             type="email"
-                            name="ltn__email"
-                            placeholder="email address"
+                            name="email"
+                            placeholder="Email address"
+                            defaultValue={
+                              userDetail?.billing_details?.email || ""
+                            }
                           />
                         </div>
                       </div>
@@ -173,8 +211,11 @@ const CheckoutPrimary = () => {
                         <div className="input-item input-item-phone ltn__custom-icon">
                           <input
                             type="text"
-                            name="ltn__phone"
-                            placeholder="phone number"
+                            name="phone"
+                            placeholder="Phone number"
+                            defaultValue={
+                              userDetail?.billing_details?.phone || ""
+                            }
                           />
                         </div>
                       </div>
@@ -182,8 +223,11 @@ const CheckoutPrimary = () => {
                         <div className="input-item input-item-website ltn__custom-icon">
                           <input
                             type="text"
-                            name="ltn__company"
+                            name="company_name"
                             placeholder="Company name (optional)"
+                            defaultValue={
+                              userDetail?.billing_details?.company_name || ""
+                            }
                           />
                         </div>
                       </div>
@@ -191,28 +235,42 @@ const CheckoutPrimary = () => {
                         <div className="input-item input-item-website ltn__custom-icon">
                           <input
                             type="text"
-                            name="ltn__phone"
+                            name="company_address"
                             placeholder="Company address (optional)"
+                            defaultValue={
+                              userDetail?.billing_details?.company_address || ""
+                            }
                           />
                         </div>
                       </div>
                     </div>
+
                     <div className="row">
                       <div className="col-lg-4 col-md-6">
                         <h6>Country</h6>
                         <div className="input-item">
-                          <select className="nice-select">
-                            <option>Select Country</option>
-                            <option>Australia</option>
-                            <option>Canada</option>
-                            <option>China</option>
-                            <option>Morocco</option>
-                            <option>Saudi Arabia</option>
-                            <option>United Kingdom (UK)</option>
-                            <option>United States (US)</option>
+                          <select
+                            className="nice-select"
+                            defaultValue={
+                              userDetail?.billing_details?.country || ""
+                            }
+                          >
+                            <option value="">Select Country</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Canada">Canada</option>
+                            <option value="China">China</option>
+                            <option value="Morocco">Morocco</option>
+                            <option value="Saudi Arabia">Saudi Arabia</option>
+                            <option value="United Kingdom (UK)">
+                              United Kingdom (UK)
+                            </option>
+                            <option value="United States (US)">
+                              United States (US)
+                            </option>
                           </select>
                         </div>
                       </div>
+
                       <div className="col-lg-12 col-md-12">
                         <h6>Address</h6>
                         <div className="row">
@@ -220,7 +278,11 @@ const CheckoutPrimary = () => {
                             <div className="input-item">
                               <input
                                 type="text"
+                                name="address"
                                 placeholder="House number and street name"
+                                defaultValue={
+                                  userDetail?.billing_details?.address || ""
+                                }
                               />
                             </div>
                           </div>
@@ -228,37 +290,71 @@ const CheckoutPrimary = () => {
                             <div className="input-item">
                               <input
                                 type="text"
+                                name="apartment"
                                 placeholder="Apartment, suite, unit etc. (optional)"
+                                defaultValue={
+                                  userDetail?.billing_details?.apartment || ""
+                                }
                               />
                             </div>
                           </div>
                         </div>
                       </div>
+
                       <div className="col-lg-4 col-md-6">
                         <h6>Town / City</h6>
                         <div className="input-item">
-                          <input type="text" placeholder="City" />
+                          <input
+                            type="text"
+                            name="town"
+                            placeholder="Town / City"
+                            defaultValue={
+                              userDetail?.billing_details?.town || ""
+                            }
+                          />
                         </div>
                       </div>
                       <div className="col-lg-4 col-md-6">
-                        <h6>State </h6>
+                        <h6>State</h6>
                         <div className="input-item">
-                          <input type="text" placeholder="State" />
+                          <input
+                            type="text"
+                            name="city"
+                            placeholder="State"
+                            defaultValue={
+                              userDetail?.billing_details?.city || ""
+                            }
+                          />
                         </div>
                       </div>
                       <div className="col-lg-4 col-md-6">
                         <h6>Zip</h6>
                         <div className="input-item">
-                          <input type="text" placeholder="Zip" />
+                          <input
+                            type="text"
+                            name="zip_code"
+                            placeholder="Zip"
+                            defaultValue={
+                              userDetail?.billing_details?.zip_code || ""
+                            }
+                          />
                         </div>
                       </div>
                     </div>
-                    <p>
+
+                    {!isAuthenticated  && <p>
                       <label className="input-info-save mb-0">
-                        <input type="checkbox" name="agree" /> Create an
-                        account?
+                        <input
+                          type="checkbox"
+                          name="create_account"
+                          defaultChecked={
+                            userDetail?.billing_details?.create_account === 1
+                          }
+                        />{" "}
+                        Create an account?
                       </label>
-                    </p>
+                    </p>}
+
                     <h6>Order Notes (optional)</h6>
                     <div className="input-item input-item-textarea ltn__custom-icon">
                       <textarea

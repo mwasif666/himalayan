@@ -6,27 +6,28 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
      if (typeof window !== "undefined") {
        const savedUser = localStorage.getItem("user");
-      //  const savedToken = localStorage.getItem("token");
+       const savedToken = localStorage.getItem("token");
        
        if (savedUser) setUser(JSON.parse(savedUser));
-      //  if (savedToken) setToken(savedToken);
+       if (savedToken) setToken(savedToken);
+       if (savedUser && savedToken) setIsAuthenticated(true);
     }
   }, []);
 
   const storeDataInLS = (res) => {
      if (typeof window !== "undefined") {
-       localStorage.setItem("user", JSON.stringify(res.data));
-      //  localStorage.setItem("token", res.token);
+       localStorage.setItem("user", JSON.stringify(res.data || res.user));
+       localStorage.setItem("token", res?.token || null);
      }
 
-    setUser(res.user);
-    // setToken(res.token);
-     
-    console.log("Saved in LS:", res);
+    setUser(res.user || res.data);
+    setToken(res.token);
+    setIsAuthenticated(true);
   };
 
   const loginUser = async (loginData) => {
@@ -50,7 +51,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const userId = user ? user.id : null;
-  const isAuthenticated = !!token;
 
   return (
     <AuthContext.Provider
