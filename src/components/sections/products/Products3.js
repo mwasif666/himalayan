@@ -3,7 +3,7 @@ import { request } from "@/api/axiosInstance";
 import ProductCardPrimary from "@/components/shared/cards/ProductCardPrimary";
 import { useEffect, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
-import styles from '../../../style/Product.module.css';
+import styles from "../../../style/Product.module.css";
 
 const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
   const tabs = [
@@ -15,6 +15,8 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
   const [product, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [categoryId, setCategoryId] = useState(1);
+  const [categories, setCategories] = useState([]);
+  const [tabLoading, setTabLoading] = useState(false);
 
   const getProduct = async () => {
     try {
@@ -38,6 +40,25 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
   useEffect(() => {
     getProduct();
   }, [categoryId]);
+
+  const getCategories = async () => {
+    try {
+      setTabLoading(true);
+      const response = await request({
+        url: `GetAllCategories`,
+        method: "GET",
+      });
+      setCategories(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setTabLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   return (
     <section>
@@ -69,9 +90,9 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                 )}
               </div>
               <div className={styles.tabContainer}>
-                {tabs.map((item, idx) => (
+                {categories.map((item, idx) => (
                   <div key={idx} className={styles.tabInnerContainer}>
-                    <h3 onClick={() => setCategoryId(item.id)}>{item.label}</h3>
+                    <h3 onClick={() => setCategoryId(item.id)}>{item.name}</h3>
                   </div>
                 ))}
               </div>

@@ -1,12 +1,35 @@
-import Link from "next/link";
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import CategoryItem from "./CategoryItem";
 import getCategoryItems from "@/libs/getCategoryItems";
+import { request } from "@/api/axiosInstance";
 
 const HeroSidebar = ({ type }) => {
   const allItems = getCategoryItems();
   const items = allItems?.filter(({ id }) => id < 9);
   const moreItems = allItems?.filter(({ id }) => id > 8);
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
+
+  const getCategories = async () => {
+    try {
+      setLoading(true);
+      const response = await request({
+        url: `GetAllCategories`,
+        method: "GET",
+      });
+      setCategories(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
   return (
     <div className="ltn__category-menu-wrap">
       <div className="ltn__category-menu-title">
@@ -24,9 +47,13 @@ const HeroSidebar = ({ type }) => {
         <ul>
           {/* <!-- Submenu Column - unlimited --> */}
 
-          {items?.map((item, idx) => (
-            <CategoryItem key={idx} item={item} />
-          ))}
+          {loading ? (
+            <div>loading...</div>
+          ) : (
+            categories?.map((item, idx) => (
+              <CategoryItem key={idx} item={item} />
+            ))
+          )}
 
           {/* <!-- Show more menu --> */}
           {moreItems?.map((item, idx) => (

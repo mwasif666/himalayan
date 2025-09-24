@@ -16,7 +16,7 @@ import * as GiStoneStack from "react-icons/gi";
 import * as FaChevronRight from "react-icons/fa";
 
 const CategoryItem = ({ item, isMore }) => {
-  const { name, path, dropdown, icon } = item;
+  const { name, path='/shop', dropdown, icon="FaBoxOpen" } = item;
   const totalSections = dropdown?.length;
   const allIcons = {
     ...FaIcons,

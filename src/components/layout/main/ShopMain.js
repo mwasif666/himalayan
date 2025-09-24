@@ -11,7 +11,7 @@ import CommonContext from "@/providers/CommonContext";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const ShopMain = ({ title, isSidebar, text, currentTapId }) => {
+const ShopMain = ({id, title, isSidebar, text, currentTapId }) => {
   const allProducts = getAllProducts();
   const category = useSearchParams()?.get("category");
   const brand = useSearchParams()?.get("brand");
@@ -136,7 +136,7 @@ const ShopMain = ({ title, isSidebar, text, currentTapId }) => {
           size,
         }}
       >
-        <ProductsPrimary isSidebar={isSidebar} currentTapId={currentTapId} />
+        <ProductsPrimary isSidebar={isSidebar} currentTapId={currentTapId} id={id}/>
       </CommonContext>
       {/* */}
     </main>

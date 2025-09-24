@@ -14,7 +14,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 
-const ProductsPrimary = ({ isSidebar, currentTapId }) => {
+const ProductsPrimary = ({id, isSidebar, currentTapId }) => {
   const [arrangeInput, setArrangeInput] = useState("default");
   const [currentTab, setCurrentTab] = useState(currentTapId ? currentTapId : 0);
 
