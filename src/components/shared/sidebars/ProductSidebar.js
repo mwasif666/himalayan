@@ -8,11 +8,11 @@ import SidebarTopRatedProducs from "./widgets/SidebarTopRatedProducs";
 import ProductSizes from "./widgets/ProductSizes";
 import ProductColors from "./widgets/ProductColors";
 
-const ProductSidebar = () => {
+const ProductSidebar = ({id}) => {
   return (
     <aside className="sidebar ltn__shop-sidebar ltn__right-sidebar">
       {/* <!-- Category or Brands Widget --> */}
-      {<ProductCategories />}
+      {<ProductCategories id={id}/>}
 
       {/* <!-- Price Filter Widget --> */}
       <PriceRange />
