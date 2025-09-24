@@ -14,7 +14,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 
-const ProductsPrimary = ({id, isSidebar, currentTapId }) => {
+const ProductsPrimary = ({ id, isSidebar, currentTapId }) => {
   const [arrangeInput, setArrangeInput] = useState("default");
   const [currentTab, setCurrentTab] = useState(currentTapId ? currentTapId : 0);
 
@@ -58,20 +58,32 @@ const ProductsPrimary = ({id, isSidebar, currentTapId }) => {
   const [loading, setLoading] = useState(false);
 
   const setSortingFilter = () => {
+    let url = "";
+
     switch (arrangeInput) {
       case "default":
-        return "GetAllProducts";
+        url = "GetAllProducts";
+        break;
       case "new":
-        return "GetAllProducts/new_arrivals";
+        url = "GetAllProducts/new_arrivals";
+        break;
       case "popularity":
-        return "GetAllProducts/popularity";
+        url = "GetAllProducts/popularity";
+        break;
       case "price ascending":
-        return "GetAllProducts/high_to_low";
+        url = "GetAllProducts/low_to_high";
+        break;
       case "price descending":
-        return "GetAllProducts/low_to_high";
+        url = "GetAllProducts/high_to_low";
+        break;
       default:
-        return "GetAllProducts";
+        url = "GetAllProducts";
     }
+
+    if (id) {
+      return `${url}/${id}`;
+    }
+    return url;
   };
 
   const getProduct = async () => {
@@ -92,7 +104,7 @@ const ProductsPrimary = ({id, isSidebar, currentTapId }) => {
 
   useEffect(() => {
     getProduct();
-  }, [arrangeInput]);
+  }, id ? [arrangeInput, id] : [arrangeInput]);
 
   return (
     <div className="ltn__product-area ltn__product-gutter mb-120">
@@ -243,7 +255,7 @@ const ProductsPrimary = ({id, isSidebar, currentTapId }) => {
             ""
           ) : (
             <div className="col-lg-4">
-              <ProductSidebar />
+              <ProductSidebar id={id}/>
             </div>
           )}
         </div>

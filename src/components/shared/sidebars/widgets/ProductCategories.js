@@ -1,16 +1,31 @@
 "use client";
-import makePath from "@/libs/makePath";
-import { useCommonContext } from "@/providers/CommonContext";
 import Link from "next/link";
-import React from "react";
-// products.json import
-import products from "@/../public/fakedata/products.json";
+import React, { useEffect, useState } from "react";
+import { FaSpinner } from "react-icons/fa";
+import { request } from "@/api/axiosInstance";
 
-const ProductCategories = () => {
-  const { currentPath, category: currentCategory } = useCommonContext();
+const ProductCategories = ({ id }) => {
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
 
-  // unique categories extract krna
-  const categories = [...new Set(products.map((item) => item.collection))];
+  const getCategories = async () => {
+    try {
+      setLoading(true);
+      const response = await request({
+        url: `GetAllCategories`,
+        method: "GET",
+      });
+      setCategories(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, [id]);
 
   return (
     <div className="widget ltn__menu-widget">
@@ -18,21 +33,32 @@ const ProductCategories = () => {
         Product categories
       </h4>
       <ul>
-        {categories?.map((category, idx) => (
-          <li key={idx}>
-            <Link
-              href={`${currentPath ? currentPath : "/shop"}?category=${makePath(
-                category
-              )}`}
-              className={currentCategory === makePath(category) ? "active" : ""}
-            >
-              {category}{" "}
-              <span>
-                <i className="fas fa-long-arrow-alt-right"></i>
-              </span>
-            </Link>
-          </li>
-        ))}
+        {loading ? (
+          <div
+            style={{
+              height: "30vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <FaSpinner className="spin" size={40} color="#5D394D" />
+          </div>
+        ) : (
+          categories?.map((category) => (
+            <li key={category?.id}>
+              <Link
+                href={`/shop/${category?.id}`}
+                className={id == category?.id ? "active" : ""}
+              >
+                {category.name}{" "}
+                <span>
+                  <i className="fas fa-long-arrow-alt-right"></i>
+                </span>
+              </Link>
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );

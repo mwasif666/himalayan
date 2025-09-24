@@ -16,7 +16,7 @@ import * as GiStoneStack from "react-icons/gi";
 import * as FaChevronRight from "react-icons/fa";
 
 const CategoryItem = ({ item, isMore }) => {
-  const { name, path='/shop', dropdown, icon="FaBoxOpen" } = item;
+  const {id, name, path='/shop', dropdown, icon="FaBoxOpen" } = item;
   const totalSections = dropdown?.length;
   const allIcons = {
     ...FaIcons,
@@ -33,7 +33,7 @@ const CategoryItem = ({ item, isMore }) => {
           : "ltn__category-menu-item ltn__category-menu-drop"
       }`}
     >
-      <Link href={path} className="flex items-center justify-between">
+      <Link href={path+'/'+id} className="flex items-center justify-between">
         <span className="d-flex justify-content-between gap-4">
           <div className="d-flex align-items-center gap-4">
             <span className="">{Icon && <Icon className="text-lg" />}</span>

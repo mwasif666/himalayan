@@ -22,7 +22,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
     try {
       setLoading(true);
       const response = await request({
-        url: `GetAllProducts`,
+        url: `GetAllProducts/${categoryId}`,
         method: "GET",
         params: {
           category_id: categoryId,
