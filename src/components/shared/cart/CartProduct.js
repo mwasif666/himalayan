@@ -36,7 +36,7 @@ const CartProduct = ({
   const inputRef = useRef(null);
   // hooks
   const { addProductToCart } = useCartContext();
-  const { deleteProductFromWishlist } = useWishlistContext();
+  const { deleteWhislist, getAllWhislist } = useWishlistContext();
   const [quantity, setQuantity] = useState(quantity1);
   const { setCurrentProduct } = useProductContext();
   // variables
@@ -60,16 +60,26 @@ const CartProduct = ({
     setQuantity((prev) => prev + 1);
     setIsUpdate(true);
   };
+
   const decreaseQuantity = () => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
     setIsUpdate(true);
+  };
+
+  const deleteProduct = (product) => {
+    if (isWishlist) {
+      deleteWhislist(product);
+      getAllWhislist()
+    } else {
+      dispatch(deleteItemFromLocalStorage({ product }));
+    }
   };
 
   return (
     <tr onMouseEnter={() => setCurrentProduct(product)}>
       <td
         className="cart-product-remove"
-        onClick={() => dispatch(deleteItemFromLocalStorage({ product }))}
+        onClick={() => deleteProduct(product)}
       >
         x
       </td>

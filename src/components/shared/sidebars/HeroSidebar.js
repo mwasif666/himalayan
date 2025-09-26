@@ -18,7 +18,7 @@ const HeroSidebar = ({ type }) => {
         url: `GetAllCategories`,
         method: "GET",
       });
-      setCategories(response.data);
+      setCategories([{ name: "All" }, ...response.data]);
     } catch (error) {
       console.error(error);
     } finally {

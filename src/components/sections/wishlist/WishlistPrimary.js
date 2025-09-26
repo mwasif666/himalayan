@@ -6,12 +6,13 @@ import { useWishlistContext } from "@/providers/WshlistContext";
 import { useEffect, useState } from "react";
 
 const WishlistPrimary = () => {
-  const { wishlistProducts } = useWishlistContext();
+  const {whishListData  } = useWishlistContext();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
 
   if (!isClient) return null;
 
@@ -24,8 +25,8 @@ const WishlistPrimary = () => {
               <div className="shoping-cart-table table-responsive">
                 <table className="table">
                   <tbody>
-                    {wishlistProducts?.length > 0 ? (
-                      wishlistProducts.map((product, idx) => (
+                    {whishListData?.length > 0 ? (
+                      whishListData.map((product, idx) => (
                         <CartProduct
                           key={product.id || idx}
                           product={product}

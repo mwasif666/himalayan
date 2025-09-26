@@ -1,12 +1,9 @@
 "use client";
-import SidebarBanner from "./widgets/SidebarBanner";
 import SidebarSearch from "./widgets/SidebarSearch";
-import ProductTags from "./widgets/ProductTags";
 import ProductCategories from "./widgets/ProductCategories";
 import PriceRange from "./widgets/PriceRange";
 import SidebarTopRatedProducs from "./widgets/SidebarTopRatedProducs";
-import ProductSizes from "./widgets/ProductSizes";
-import ProductColors from "./widgets/ProductColors";
+
 
 const ProductSidebar = ({id}) => {
   return (

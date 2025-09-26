@@ -10,137 +10,180 @@ import { useAuth } from "./AuthContext";
 
 const wishlistContext = createContext(null);
 const WishlistContextProvider = ({ children }) => {
+  // const [wishlistStatus, setWishlistStatus] = useState(null);
+  // const [wishlistProducts, setWishlistProducts] = useState([]);
+  // const creteAlert = useSweetAlert();
+  // useEffect(() => {
+  //   const demoProducts = getAllProducts()
+  //     ?.slice(0, 2)
+  //     ?.map((product, idx) => ({ ...product, quantity: 1 }));
+
+  //   const wishlistProductFromLocalStorage =
+  //     getItemsFromLocalstorage("wishlist");
+
+  //   if (!wishlistProductFromLocalStorage) {
+  //     setWishlistProducts(demoProducts);
+  //     addItemsToLocalstorage("wishlist", demoProducts);
+  //   } else [setWishlistProducts(wishlistProductFromLocalStorage)];
+  // }, []);
+  // // add  product from localstorage cart
+  // const addProductToWishlist = (currentProduct) => {
+  //   const { id: currentId, title: currentTitle } = currentProduct;
+
+  //   const modifyableProduct = wishlistProducts?.find(
+  //     ({ id, title }) => id === currentId && title === currentTitle
+  //   );
+
+  //   const isAlreadyExist = modifyableProduct ? true : false;
+
+  //   if (isAlreadyExist) {
+  //     // creteAlert("error", "Failed ! Already exist in wishlist.");
+  //     setWishlistStatus("exist");
+  //   } else {
+  //     let currentProducts = [...wishlistProducts, currentProduct];
+  //     setWishlistProducts(currentProducts);
+  //     addItemsToLocalstorage("wishlist", currentProducts);
+  //     // creteAlert("success", "Success! added to wishlist.");
+  //     setWishlistStatus("added");
+  //   }
+  // };
+
+  // // delete product from localstorage cart
+  // const deleteProductFromWishlist = (currentId, currentTitle) => {
+  //   const currentProducts = wishlistProducts?.filter(
+  //     ({ id, title }) => id !== currentId || title !== currentTitle
+  //   );
+  //   setWishlistProducts(currentProducts);
+  //   addItemsToLocalstorage("wishlist", currentProducts);
+  //   creteAlert("success", "Success! deleted from wishlist.");
+  //   setWishlistStatus("deleted");
+  // };
+
+  // const [loading, setLoading] = useState(false);
+  // const { userId } = useAuth();
+
+  // const addToWhishlist = async (prod) => {
+  //   const formData = new FormData();
+  //   formData.append("product_id", prod.id);
+  //   formData.append("user_id", userId);
+  //   try {
+  //     setLoading(true);
+  //     const response = await axios.post(
+  //       "https://himaliyansalt.innovationpixel.com/public/AddProductToWishlist",
+  //       formData
+  //     );
+  //     if (response.data.message === "Product already in wishlist.") {
+  //       setWishlistStatus("exist");
+  //     } else {
+  //       setWishlistStatus("added");
+  //     }
+  //   } catch (error) {
+  //     setWishlistStatus("failed");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // const deleteWhislist = async (prod) => {
+  //   try {
+  //     setLoading(true);
+  //     await request({
+  //       url: `RemoveProductToWishlist/${prod.id}`,
+  //       method: "DELETE",
+  //     });
+  //     setWishlistStatus("deleted");
+  //   } catch (error) {
+  //     throw error;
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // const getAllWhislist = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const response = await request({
+  //       url: `GetUserAllWishlists/${userId}`,
+  //       method: "GET",
+  //     });
+  //     return response;
+  //   } catch (error) {
+  //     throw error;
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // const fetchWishlist = async () => {
+  //   try {
+  //     const response = await getAllWhislist();
+  //     const serverWishlist = response?.data || [];
+
+  //     setWishlistProducts(serverWishlist);
+  //     addItemsToLocalstorage("wishlist", serverWishlist);
+  //   } catch (error) {
+  //     const wishlistProductFromLocalStorage =
+  //       getItemsFromLocalstorage("wishlist") || [];
+  //     setWishlistProducts(wishlistProductFromLocalStorage);
+  //   }
+  // };
+
+  // addToWhishlist
+  // useEffect(() => {
+  //   fetchWishlist();
+  // }, []);
+
+  const [whishListData, setWhishListData] = useState([]);
   const [wishlistStatus, setWishlistStatus] = useState(null);
-  const [wishlistProducts, setWishlistProducts] = useState([]);
-  const creteAlert = useSweetAlert();
+
+  const getAllWhislist = () => {
+    const data = localStorage.getItem("wishlist");
+    return data ? JSON.parse(data) : [];
+  };
+
   useEffect(() => {
-    const demoProducts = getAllProducts()
-      ?.slice(0, 2)
-      ?.map((product, idx) => ({ ...product, quantity: 1 }));
-
-    const wishlistProductFromLocalStorage =
-      getItemsFromLocalstorage("wishlist");
-
-    if (!wishlistProductFromLocalStorage) {
-      setWishlistProducts(demoProducts);
-      addItemsToLocalstorage("wishlist", demoProducts);
-    } else [setWishlistProducts(wishlistProductFromLocalStorage)];
+    setWhishListData(getAllWhislist());
   }, []);
-  // add  product from localstorage cart
-  const addProductToWishlist = (currentProduct) => {
-    const { id: currentId, title: currentTitle } = currentProduct;
 
-    const modifyableProduct = wishlistProducts?.find(
-      ({ id, title }) => id === currentId && title === currentTitle
-    );
+  const addToWhishlist = (prod) => {
+    let wishlist = getAllWhislist();
+    let exists = wishlist.some((item) => item.id === prod.id);
 
-    const isAlreadyExist = modifyableProduct ? true : false;
-
-    if (isAlreadyExist) {
-      // creteAlert("error", "Failed ! Already exist in wishlist.");
+    if (exists) {
       setWishlistStatus("exist");
-    } else {
-      let currentProducts = [...wishlistProducts, currentProduct];
-      setWishlistProducts(currentProducts);
-      addItemsToLocalstorage("wishlist", currentProducts);
-      // creteAlert("success", "Success! added to wishlist.");
-      setWishlistStatus("added");
+      return;
     }
+
+    const updated = [...wishlist, prod];
+    localStorage.setItem("wishlist", JSON.stringify(updated));
+
+    setWhishListData(updated);
+    setWishlistStatus("added");
   };
 
-  // delete product from localstorage cart
-  const deleteProductFromWishlist = (currentId, currentTitle) => {
-    const currentProducts = wishlistProducts?.filter(
-      ({ id, title }) => id !== currentId || title !== currentTitle
-    );
-    setWishlistProducts(currentProducts);
-    addItemsToLocalstorage("wishlist", currentProducts);
-    creteAlert("success", "Success! deleted from wishlist.");
-    setWishlistStatus("deleted");
-  };
-
-  const [loading, setLoading] = useState(false);
-  const {userId} = useAuth(); 
-
-  const addToWhishlist = async (prod) => {
-    const formData = new FormData();
-    formData.append("product_id", prod.id);
-    formData.append("user_id", userId);
+  const deleteWhislist = (prod) => {
     try {
-      setLoading(true);
-      const response = await axios.post(
-        "https://himaliyansalt.innovationpixel.com/public/AddProductToWishlist",
-        formData
-      );
-      if (response.data.message === "Product already in wishlist.") {
-        setWishlistStatus("exist");
-      } else {
-        setWishlistStatus("added");
-      }
-    } catch (error) {
-      setWishlistStatus("failed");
-    } finally {
-      setLoading(false);
-    }
-  };
+      let wishlist = getAllWhislist();
+      const updated = wishlist.filter((item) => item.id !== prod.id);
+      localStorage.setItem("wishlist", JSON.stringify(updated));
 
-  const deleteWhislist = async (prod) => {
-    try {
-      setLoading(true);
-      await request({
-        url: `RemoveProductToWishlist/${prod.id}`,
-        method: "DELETE",
-      });
+      setWhishListData(updated);
       setWishlistStatus("deleted");
-    } catch (error) {
-      throw error;
-    } finally {
-      setLoading(false);
+    } catch (e) {
+      setWishlistStatus("failed");
     }
   };
-
-  const getAllWhislist = async () => {
-    try {
-      setLoading(true);
-      const response = await request({
-        url: `GetUserAllWishlists/${userId}`,
-        method: "GET",
-      });
-      return response;
-    } catch (error) {
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchWishlist = async () => {
-    try {
-      const response = await getAllWhislist();
-      const serverWishlist = response?.data || [];
-
-      setWishlistProducts(serverWishlist);
-      addItemsToLocalstorage("wishlist", serverWishlist);
-    } catch (error) {
-      const wishlistProductFromLocalStorage =
-        getItemsFromLocalstorage("wishlist") || [];
-      setWishlistProducts(wishlistProductFromLocalStorage);
-    }
-  };
-
-  useEffect(() => {
-    fetchWishlist();
-  }, []);
 
   return (
     <wishlistContext.Provider
       value={{
-        wishlistProducts,
-        setWishlistProducts,
-        addProductToWishlist,
-        deleteProductFromWishlist,
+        // wishlistProducts,
+        // setWishlistProducts,
+        // addProductToWishlist,
+        // deleteProductFromWishlist,
         // actuall work above work will remove when feel complete
         wishlistStatus,
+        whishListData,
         deleteWhislist,
         getAllWhislist,
         addToWhishlist,

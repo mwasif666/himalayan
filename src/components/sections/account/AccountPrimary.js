@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const AccountPrimary = () => {
   const router = useRouter();
-  const { userId } = useAuth();
+  const { logout, userId } = useAuth();
   const [detailLoading, setDetailLoading] = useState(false);
   const [userDetail, setUserDetail] = useState(null);
 
@@ -36,6 +36,11 @@ const AccountPrimary = () => {
       router.push("/login");
     }
   }, [router]);
+
+  const handleLogout = () => {
+    logout();
+    router.push("/login");
+  };
 
   return (
     <div className="liton__wishlist-area pb-70">
@@ -68,7 +73,7 @@ const AccountPrimary = () => {
                         <Link data-bs-toggle="tab" href="#liton_tab_1_5">
                           Account Details <i className="fas fa-user"></i>
                         </Link>
-                        <Link href="/login">
+                        <Link href="#" onClick={handleLogout}>
                           Logout <i className="fas fa-sign-out-alt"></i>
                         </Link>
                       </div>
@@ -113,14 +118,15 @@ const AccountPrimary = () => {
                               <tbody>
                                 {userDetail?.orders?.map((item) => (
                                   <tr key={item?.id}>
-                                    <td>{item?.order_no || '#'}</td>
+                                    <td>{item?.order_no || "#"}</td>
                                     <td>{item?.ordered_on}</td>
                                     <td>{item?.status}</td>
                                     <td>${item?.sub_total}</td>
                                     <td>
                                       <Link href="/cart">View</Link>
                                     </td>
-                                  </tr>))}
+                                  </tr>
+                                ))}
                               </tbody>
                             </table>
                           </div>
@@ -193,13 +199,18 @@ const AccountPrimary = () => {
                               </h4>
                               <address>
                                 <p>
-                                  <strong>{userDetail?.billing_details?.first_name} {userDetail?.billing_details?.last_name}</strong>
+                                  <strong>
+                                    {userDetail?.billing_details?.first_name}{" "}
+                                    {userDetail?.billing_details?.last_name}
+                                  </strong>
                                 </p>
                                 <p>
                                   1355 Market St, Suite 900 <br />
                                   San Francisco, CA 94103
                                 </p>
-                                <p>Mobile: {userDetail?.billing_details?.phone}</p>
+                                <p>
+                                  Mobile: {userDetail?.billing_details?.phone}
+                                </p>
                               </address>
                             </div>
                             <div className="col-md-6 col-12 learts-mb-30">
@@ -211,13 +222,18 @@ const AccountPrimary = () => {
                               </h4>
                               <adress>
                                 <p>
-                                  <strong>{userDetail?.billing_details?.first_name} {userDetail?.billing_details?.last_name}</strong>
+                                  <strong>
+                                    {userDetail?.billing_details?.first_name}{" "}
+                                    {userDetail?.billing_details?.last_name}
+                                  </strong>
                                 </p>
                                 <p>
                                   1355 Market St, Suite 900 <br />
                                   San Francisco, CA 94103
                                 </p>
-                                <p>Mobile: {userDetail?.billing_details?.phone}</p>
+                                <p>
+                                  Mobile: {userDetail?.billing_details?.phone}
+                                </p>
                               </adress>
                             </div>
                           </div>

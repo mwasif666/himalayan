@@ -6,23 +6,19 @@ import { FaSpinner } from "react-icons/fa";
 import styles from "../../../style/Product.module.css";
 
 const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
-  const tabs = [
-    { label: "Spices", id: 1 },
-    { label: "Kitchenware", id: 2 },
-    { label: "Salt Lamps", id: 3 },
-    { label: "Homeware", id: 4 },
-  ];
   const [product, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [categoryId, setCategoryId] = useState(1);
   const [categories, setCategories] = useState([]);
   const [tabLoading, setTabLoading] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(1);
 
   const getProduct = async () => {
+    let url = categoryId ?  `GetAllProducts/${categoryId}` : `GetAllProducts`;
     try {
       setLoading(true);
       const response = await request({
-        url: `GetAllProducts/${categoryId}`,
+        url: url,
         method: "GET",
         params: {
           category_id: categoryId,
@@ -48,7 +44,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
         url: `GetAllCategories`,
         method: "GET",
       });
-      setCategories(response.data);
+      setCategories([{ name: "All" }, ...response.data]);
     } catch (error) {
       console.error(error);
     } finally {
@@ -59,6 +55,11 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
   useEffect(() => {
     getCategories();
   }, []);
+
+  const setIdAndIndex =(id, idx)=>{
+     setCategoryId(id);
+     setActiveIndex(idx);
+  } 
 
   return (
     <section>
@@ -90,9 +91,9 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                 )}
               </div>
               <div className={styles.tabContainer}>
-                {categories.map((item, idx) => (
+                {tabLoading ? <div>...</div> : categories.map((item, idx) => (
                   <div key={idx} className={styles.tabInnerContainer}>
-                    <h3 onClick={() => setCategoryId(item.id)}>{item.name}</h3>
+                    <h3 onClick={() => setIdAndIndex(item.id, idx)} style={{ color: activeIndex === idx ? "#592D48" : "inherit" }}>{item.name}</h3>
                   </div>
                 ))}
               </div>

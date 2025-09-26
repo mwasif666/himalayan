@@ -33,7 +33,7 @@ const CategoryItem = ({ item, isMore }) => {
           : "ltn__category-menu-item ltn__category-menu-drop"
       }`}
     >
-      <Link href={path+'/'+id} className="flex items-center justify-between">
+      <Link href={name === 'All' ? path : path+'/'+id} className="flex items-center justify-between">
         <span className="d-flex justify-content-between gap-4">
           <div className="d-flex align-items-center gap-4">
             <span className="">{Icon && <Icon className="text-lg" />}</span>

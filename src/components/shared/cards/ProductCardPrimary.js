@@ -91,7 +91,7 @@ const ProductCardPrimary = ({ product, isShowDisc=true}) => {
               <Link
                 onClick={(e) => {
                   e.preventDefault();
-                  addToWhishlist(product);
+                  addToWhishlist({ ...product, quantity: 1 });
                 }}
                 href="#"
                 title="Wishlist"

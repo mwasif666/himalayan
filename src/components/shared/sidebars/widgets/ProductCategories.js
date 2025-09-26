@@ -15,7 +15,7 @@ const ProductCategories = ({ id }) => {
         url: `GetAllCategories`,
         method: "GET",
       });
-      setCategories(response.data);
+      setCategories([{ name: "All" }, ...response.data]);
     } catch (error) {
       console.error(error);
     } finally {
@@ -48,7 +48,7 @@ const ProductCategories = ({ id }) => {
           categories?.map((category) => (
             <li key={category?.id}>
               <Link
-                href={`/shop/${category?.id}`}
+                href={category.name === 'All' ? `/shop` : `/shop/${category?.id}`}
                 className={id == category?.id ? "active" : ""}
               >
                 {category.name}{" "}

@@ -26,7 +26,7 @@ const ProductCardPrimary2 = ({ product, isShowDisc }) => {
   const netPriceModified = modifyAmount(netPrice);
   const priceModified = modifyAmount(price);
   const { addProductToCart } = useCartContext();
-  const { addProductToWishlist } = useWishlistContext();
+  const { addToWhishlist } = useWishlistContext();
 
   const [open, setOpen] = useState(false);
   
@@ -132,7 +132,7 @@ const ProductCardPrimary2 = ({ product, isShowDisc }) => {
               <Link
                 onClick={(e) => {
                   e.preventDefault();
-                  addProductToWishlist({ ...product, quantity: 1 });
+                  addToWhishlist({ ...product, quantity: 1 });
                 }}
                 href="#"
                 title="Wishlist"

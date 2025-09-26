@@ -52,9 +52,20 @@ export const AuthProvider = ({ children }) => {
 
   const userId = user ? user.id : null;
 
+  const logout = () => {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+  }
+  setUser(null);
+  setToken(null);
+  setIsAuthenticated(false);
+};
+
+
   return (
     <AuthContext.Provider
-      value={{ user, token, userId, isAuthenticated, loginUser, registerUser }}
+      value={{ user, token, userId, isAuthenticated, loginUser, registerUser, logout }}
     >
       {children}
     </AuthContext.Provider>
