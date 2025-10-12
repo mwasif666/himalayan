@@ -11,15 +11,40 @@ const getInitialCart = () => {
   return [];
 };
 
+const getInitialCheckoutCart = () => {
+  if (typeof window !== "undefined") {
+    try {
+      return JSON.parse(localStorage.getItem("checkoutCartItems")) || [];
+    } catch {
+      return [];
+    }
+  }
+  return [];
+};
+
+const clearCheckoutData = (state)=> {
+  console.log(state);
+  
+  state.checkoutCartItems = [];
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("checkoutCartItems");
+  }
+}
+
+
 export const AddtoCartSlice = createSlice({
   name: "AddtoCart",
   initialState: {
     cartItems: getInitialCart(),
     cartTotalQuantity: 0,
     cartTotalAmount: 0,
+    checkoutCartItems:getInitialCheckoutCart(),
+    checkoutCartTotalQuantity: 0,
+    checkoutCartTotalAmount: 0,
   },
   reducers: {
     addItemsToLocalStorage(state, action) {
+      clearCheckoutData(state);
       let product = action.payload.product;
       let quantity = action.payload.quantity;
       let findProduct = state.cartItems.find((item) => item.id === product.id);
@@ -70,11 +95,28 @@ export const AddtoCartSlice = createSlice({
         localStorage.removeItem("cartItems");
       }
     },
+
     addItemsToLocalStorageInBulk(state, action){
       state.cartItems = action.payload;
       if (typeof window !== "undefined") {
         localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
       }
+    },
+
+    addCheckoutItemsToLocalStorage(state, action){
+      state.cartItems = [];
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("cartItems");
+      }
+      clearCheckoutData(state);
+      state.checkoutCartItems = action.payload;
+      if (typeof window !== "undefined") {
+        localStorage.setItem("checkoutCartItems", JSON.stringify(state.checkoutCartItems));
+      }
+    },
+
+    removeCheckoutItemAfterPlaceOrder(state, _){
+      clearCheckoutData(state);
     }
   },
 });
@@ -84,7 +126,9 @@ export const {
   removeItemsFromLocalStorage,
   deleteItemFromLocalStorage,
   clearCartItemsFromLocalStorage,
-  addItemsToLocalStorageInBulk
+  addItemsToLocalStorageInBulk,
+  addCheckoutItemsToLocalStorage,
+  removeCheckoutItemAfterPlaceOrder
 } = AddtoCartSlice.actions;
 
 export default AddtoCartSlice.reducer;

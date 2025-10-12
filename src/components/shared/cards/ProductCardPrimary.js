@@ -20,7 +20,6 @@ const ProductCardPrimary = ({ product, isShowDisc=true}) => {
   const { netPrice } = countDiscount(price, discount);
   const netPriceModified = modifyAmount(netPrice);
   const priceModified = modifyAmount(price);
-  const { addProductToCart } = useCartContext();
   const { addToWhishlist } = useWishlistContext();
   
   const [open, setOpen] = useState(false);
@@ -71,14 +70,6 @@ const ProductCardPrimary = ({ product, isShowDisc=true}) => {
             </li>{" "}
             <li>
               <Link
-                onClick={(e) => {
-                  e.preventDefault();
-                  addProductToCart({
-                    ...product,
-                    quantity: 1,
-                    color: color,
-                  });
-                }}
                 href="#"
                 title="Add to Cart"
                 data-bs-toggle="modal"

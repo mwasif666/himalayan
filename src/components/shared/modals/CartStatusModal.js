@@ -3,9 +3,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCartContext } from "@/providers/CartContext";
 import controlModal from "@/libs/controlModal";
+import { useDispatch } from "react-redux";
+import { addCheckoutItemsToLocalStorage } from "@/app/redux/features/AddtoCart/AddtoCartSlice";
 
 const CartStatusModal = ({ product }) => {
+  const dispatch = useDispatch();
   const { cartStatus } = useCartContext();
+
+  const addToCart = (product) => {
+      dispatch(addCheckoutItemsToLocalStorage({ ...product, quantity:1 }));
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",  
+        title: `${product?.name} added to cart!`,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
+    };
+
   return (
     <div className="ltn__modal-area ltn__add-to-cart-modal-area">
       <div className="modal fade" id="add_to_cart_modal" tabIndex="-1">
@@ -55,10 +72,11 @@ const CartStatusModal = ({ product }) => {
                             View Cart
                           </Link>{" "}
                           <Link
+                            onClick={() => addToCart(product)}
                             href="/checkout"
                             className="theme-btn-2 btn btn-effect-2"
                           >
-                            Checkout
+                            Checkout                            
                           </Link>
                         </div>
                       </div>

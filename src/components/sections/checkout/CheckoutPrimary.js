@@ -13,46 +13,45 @@ import Image from "next/image";
 import useSweetAlert from "@/hooks/useSweetAlert";
 import Link from "next/link";
 import { request } from "@/api/axiosInstance";
+import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
 const paymnetImage3 = "/img/icons/payment-3.png";
 
 const CheckoutPrimary = () => {
+  const { userId, isAuthenticated } = useAuth();
+  const [mounted, setMounted] = useState(false);
   const [isPlaceOrder, setIsPlaceOrder] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
   const [userDetail, setUserDetail] = useState(null);
-
-  const { userId, isAuthenticated } = useAuth();
-
-  const creteAlert = useSweetAlert();
-  const allProducts = getAllProducts();
-  const searchParams = useSearchParams();
-  const currentId = parseInt(searchParams.get("id"));
-  const currentQuantity = parseInt(searchParams.get("quantity"));
-  const currentColor = searchParams.get("color");
-  const currentSize = searchParams.get("size");
-  const { cartProducts: products } = useCartContext();
-  const currentProduct = {
-    ...allProducts?.find(({ id }) => id === currentId),
-    quantity: currentQuantity,
-    color: currentColor,
-    size: currentSize,
-  };
-
-  const isProducts = currentProduct?.title || products?.length ? true : false;
-  const subtotal = countTotalPrice(
-    currentId ? [{ ...currentProduct, quantity: currentQuantity }] : products
+  const cartProducts = useSelector((state) => state.AddtoCart?.cartItems);
+  const checkOutCartProducts = useSelector(
+    (state) => state.AddtoCart?.checkoutCartItems
   );
-  const shipping = 15;
-  const totalPrice = modifyAmount(subtotal + shipping);
-  // handle place order
-  const handlePlaceOrder = () => {
-    creteAlert("error", "Sorry! App is in demo mode.");
-    setIsPlaceOrder(false);
-  };
+
   useEffect(() => {
-    if (isProducts) {
-      setIsPlaceOrder(true);
+    setMounted(true);
+    if (userId) {
+      getUserDetail();
     }
-  }, [isProducts]);
+  }, []);
+  if (!mounted) return null;
+
+  const getSubTotal = (item) => {
+    let subTotal = 0;
+    if (Array.isArray(item)) {
+      item.forEach((prod) => {
+        subTotal += Number(prod?.quantity) * Number(prod?.price);
+      });
+    } else {
+      subTotal += Number(item?.quantity) * Number(item?.price);
+    }
+    return subTotal;
+  };
+
+  const shipping = 15;
+  const totalPrice = modifyAmount(
+    getSubTotal(cartProducts || checkOutCartProducts) + shipping
+  );
 
   const getUserDetail = async () => {
     try {
@@ -69,9 +68,17 @@ const CheckoutPrimary = () => {
     }
   };
 
-  useEffect(() => {
-    if (userId) getUserDetail();
-  }, [userId]);
+  const handlePlaceOrder = () => {
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon: "success",
+      title: `place order successfully!`,
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
+  };
 
   return (
     <div className="ltn__checkout-area mb-105">
@@ -342,18 +349,20 @@ const CheckoutPrimary = () => {
                       </div>
                     </div>
 
-                    {!isAuthenticated  && <p>
-                      <label className="input-info-save mb-0">
-                        <input
-                          type="checkbox"
-                          name="create_account"
-                          defaultChecked={
-                            userDetail?.billing_details?.create_account === 1
-                          }
-                        />{" "}
-                        Create an account?
-                      </label>
-                    </p>}
+                    {!isAuthenticated && (
+                      <p>
+                        <label className="input-info-save mb-0">
+                          <input
+                            type="checkbox"
+                            name="create_account"
+                            defaultChecked={
+                              userDetail?.billing_details?.create_account === 1
+                            }
+                          />{" "}
+                          Create an account?
+                        </label>
+                      </p>
+                    )}
 
                     <h6>Order Notes (optional)</h6>
                     <div className="input-item input-item-textarea ltn__custom-icon">
@@ -491,31 +500,22 @@ const CheckoutPrimary = () => {
                 onClick={handlePlaceOrder}
                 className="btn theme-btn-1 btn-effect-1 text-uppercase"
                 type="submit"
-                disabled={isPlaceOrder ? false : true}
               >
                 Place order
               </button>
             </div>
           </div>
-          {/* product to buy */}
           <div className="col-lg-6">
-            {!isProducts ? (
-              <Nodata text={"No Product!"} />
-            ) : (
+            {Array.isArray(cartProducts) && cartProducts.length > 0 ? (
               <div className="shoping-cart-total mt-50">
                 <h4 className="title-2">Cart Totals</h4>
                 <table className="table">
                   <tbody>
-                    {currentProduct?.title ? (
-                      <CheckoutProduct product={currentProduct} />
-                    ) : (
-                      products?.map((product, idx) => (
-                        <CheckoutProduct key={idx} product={product} />
-                      ))
-                    )}
-
+                    {cartProducts.map((product, idx) => (
+                      <CheckoutProduct key={idx} product={product} />
+                    ))}
                     <tr>
-                      <td>Shipping and Handing</td>
+                      <td>Shipping and Handling</td>
                       <td>${modifyAmount(shipping)}</td>
                     </tr>
                     <tr>
@@ -533,6 +533,33 @@ const CheckoutPrimary = () => {
                   </tbody>
                 </table>
               </div>
+            ) : checkOutCartProducts ? (
+              <div className="shoping-cart-total mt-50">
+                <h4 className="title-2">Cart Totals</h4>
+                <table className="table">
+                  <tbody>
+                    <CheckoutProduct product={checkOutCartProducts} />
+                    <tr>
+                      <td>Shipping and Handling</td>
+                      <td>${modifyAmount(shipping)}</td>
+                    </tr>
+                    <tr>
+                      <td>Vat</td>
+                      <td>$00.00</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Order Total</strong>
+                      </td>
+                      <td>
+                        <strong>${totalPrice}</strong>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <Nodata text="No Product!" />
             )}
           </div>
         </div>
