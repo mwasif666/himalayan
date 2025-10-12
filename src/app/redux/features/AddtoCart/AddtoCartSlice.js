@@ -44,7 +44,6 @@ export const AddtoCartSlice = createSlice({
   },
   reducers: {
     addItemsToLocalStorage(state, action) {
-      clearCheckoutData(state);
       let product = action.payload.product;
       let quantity = action.payload.quantity;
       let findProduct = state.cartItems.find((item) => item.id === product.id);

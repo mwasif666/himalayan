@@ -23,16 +23,26 @@ const CheckoutPrimary = () => {
   const [isPlaceOrder, setIsPlaceOrder] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
   const [userDetail, setUserDetail] = useState(null);
+  const [isCallFromProduct, setIsCallFromProduct] = useState(false);
+  const searchParams = useSearchParams();
+  const source = searchParams?.get("source");
   const cartProducts = useSelector((state) => state.AddtoCart?.cartItems);
   const checkOutCartProducts = useSelector(
     (state) => state.AddtoCart?.checkoutCartItems
   );
+
+  const setCartDataAsPerType = () => {
+    if (source === "product") {
+      setIsCallFromProduct(true);
+    }
+  };
 
   useEffect(() => {
     setMounted(true);
     if (userId) {
       getUserDetail();
     }
+    setCartDataAsPerType();
   }, []);
   if (!mounted) return null;
 
@@ -50,7 +60,8 @@ const CheckoutPrimary = () => {
 
   const shipping = 15;
   const totalPrice = modifyAmount(
-    getSubTotal(cartProducts || checkOutCartProducts) + shipping
+    getSubTotal(isCallFromProduct ? checkOutCartProducts : cartProducts) +
+      shipping
   );
 
   const getUserDetail = async () => {
@@ -506,7 +517,36 @@ const CheckoutPrimary = () => {
             </div>
           </div>
           <div className="col-lg-6">
-            {Array.isArray(cartProducts) && cartProducts.length > 0 ? (
+            {isCallFromProduct ? (
+              checkOutCartProducts ? (
+                <div className="shoping-cart-total mt-50">
+                  <h4 className="title-2">Cart Totals</h4>
+                  <table className="table">
+                    <tbody>
+                      <CheckoutProduct product={checkOutCartProducts} />
+                      <tr>
+                        <td>Shipping and Handling</td>
+                        <td>${modifyAmount(shipping)}</td>
+                      </tr>
+                      <tr>
+                        <td>Vat</td>
+                        <td>$00.00</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <strong>Order Total</strong>
+                        </td>
+                        <td>
+                          <strong>${totalPrice}</strong>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <Nodata text="No Product!" />
+              )
+            ) : Array.isArray(cartProducts) && cartProducts.length > 0 ? (
               <div className="shoping-cart-total mt-50">
                 <h4 className="title-2">Cart Totals</h4>
                 <table className="table">
@@ -514,31 +554,6 @@ const CheckoutPrimary = () => {
                     {cartProducts.map((product, idx) => (
                       <CheckoutProduct key={idx} product={product} />
                     ))}
-                    <tr>
-                      <td>Shipping and Handling</td>
-                      <td>${modifyAmount(shipping)}</td>
-                    </tr>
-                    <tr>
-                      <td>Vat</td>
-                      <td>$00.00</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <strong>Order Total</strong>
-                      </td>
-                      <td>
-                        <strong>${totalPrice}</strong>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            ) : checkOutCartProducts ? (
-              <div className="shoping-cart-total mt-50">
-                <h4 className="title-2">Cart Totals</h4>
-                <table className="table">
-                  <tbody>
-                    <CheckoutProduct product={checkOutCartProducts} />
                     <tr>
                       <td>Shipping and Handling</td>
                       <td>${modifyAmount(shipping)}</td>
