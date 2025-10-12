@@ -82,6 +82,10 @@ font-family: 'Roboto', sans-serif;
   padding-left: 15px;
 }
 
+.collapse {
+  visibility: inherit !important;
+}
+
 .row {
   margin-left: -15px;
   margin-right: -15px;
@@ -9054,7 +9058,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
 
 .ltn__shop-options {
   margin-bottom: 40px;
-  margin-top:-400px;
+  margin-top: -400px;
 }
 .ltn__shop-options ul {
   display: -webkit-box;
@@ -15888,7 +15892,7 @@ input.cart-plus-minus-box {
   z-index: 99999999;
 }
 
-.row{
+.row {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
