@@ -5,6 +5,7 @@ import React from "react";
 import * as FaIcons from "react-icons/fa";
 import * as GiIcons from "react-icons/gi";
 import * as TbIcons from "react-icons/tb";
+import * as AiIcons from "react-icons/ai";
 import * as FaBoxOpen from "react-icons/fa";
 import * as GiSaltShaker from "react-icons/gi";
 import * as TbSalt from "react-icons/tb";
@@ -16,14 +17,15 @@ import * as GiStoneStack from "react-icons/gi";
 import * as FaChevronRight from "react-icons/fa";
 
 const CategoryItem = ({ item, isMore }) => {
-  const {id, name, path='/shop', dropdown, icon="FaBoxOpen" } = item;
+  const {id, name, path='/shop', dropdown, icon } = item;
   const totalSections = dropdown?.length;
   const allIcons = {
     ...FaIcons,
     ...GiIcons,
     ...TbIcons,
+    ...AiIcons
   };
-  const Icon = allIcons[icon] || null;
+  const Icon = allIcons[icon ? icon : 'FaBoxOpen'] || null;
 
   return (
     <li

@@ -8,7 +8,7 @@ const modifyAmount = (amount) => {
   const modifiedAmount =
     modifiableAmount?.length > 3
       ? `${modifiableAmount.slice(-100, -3)},${modifiableAmount.slice(-3)}`
-      : amount.toFixed(2);
+      : Number(amount || 0).toFixed(2);
   return modifiedAmount;
 };
 

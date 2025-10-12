@@ -45,8 +45,8 @@ const ProductCategories = ({ id }) => {
             <FaSpinner className="spin" size={40} color="#5D394D" />
           </div>
         ) : (
-          categories?.map((category) => (
-            <li key={category?.id}>
+          categories?.map((category,idx) => (
+            <li key={idx}>
               <Link
                 href={category.name === 'All' ? `/shop` : `/shop/${category?.id}`}
                 className={id == category?.id ? "active" : ""}

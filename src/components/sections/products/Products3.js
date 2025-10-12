@@ -8,10 +8,10 @@ import styles from "../../../style/Product.module.css";
 const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
   const [product, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [categoryId, setCategoryId] = useState(1);
+  const [categoryId, setCategoryId] = useState(null);
   const [categories, setCategories] = useState([]);
   const [tabLoading, setTabLoading] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const getProduct = async () => {
     let url = categoryId ?  `GetAllProducts/${categoryId}` : `GetAllProducts`;
@@ -44,7 +44,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
         url: `GetAllCategories`,
         method: "GET",
       });
-      setCategories([{ name: "All" }, ...response.data]);
+      setCategories([{ name: "All", id:'' }, ...response.data]);
     } catch (error) {
       console.error(error);
     } finally {
@@ -105,7 +105,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                       {loading ? (
                         <div
                           style={{
-                            height: "30vh",
+                            height: "50vh",
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
