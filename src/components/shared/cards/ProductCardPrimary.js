@@ -9,6 +9,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import CheckoutDetailModal from "@/components/shared/modals/CheckoutDetailModal";
+import { addItemsToLocalStorage } from "@/app/redux/features/AddtoCart/AddtoCartSlice";
+import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 
 
 const ProductCardPrimary = ({ product, isShowDisc=true}) => {
@@ -21,8 +24,21 @@ const ProductCardPrimary = ({ product, isShowDisc=true}) => {
   const netPriceModified = modifyAmount(netPrice);
   const priceModified = modifyAmount(price);
   const { addToWhishlist } = useWishlistContext();
-  
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+
+  const addToCart = (prod)=>{
+    dispatch(addItemsToLocalStorage(prod));
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon: "success",
+      title: `${product?.name} added to cart!`,
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
+  }
 
   return (
     <div
@@ -70,6 +86,10 @@ const ProductCardPrimary = ({ product, isShowDisc=true}) => {
             </li>{" "}
             <li>
               <Link
+                onClick={(e) => {
+                  e.preventDefault();
+                  addToCart({ ...product, quantity: 1 });
+                }}
                 href="#"
                 title="Add to Cart"
                 data-bs-toggle="modal"
