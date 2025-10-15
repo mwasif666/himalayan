@@ -23,8 +23,6 @@ const getInitialCheckoutCart = () => {
 };
 
 const clearCheckoutData = (state)=> {
-  console.log(state);
-  
   state.checkoutCartItems = [];
   if (typeof window !== "undefined") {
     localStorage.removeItem("checkoutCartItems");
@@ -45,8 +43,8 @@ export const AddtoCartSlice = createSlice({
   reducers: {
     addItemsToLocalStorage(state, action) {
       let product = action.payload.product;
-      let quantity = action.payload.quantity;
-      let findProduct = state.cartItems.find((item) => item.id === product.id);
+      let quantity = action.payload.quantity || 1;
+      let findProduct = state.cartItems.find((item) => item.id === product?.id);
 
       if (findProduct) {
         findProduct.quantity += quantity;

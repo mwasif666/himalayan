@@ -2,18 +2,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/providers/AuthContext";
-import { useCartContext } from "@/providers/CartContext";
 import { useSearchParams } from "next/navigation";
-import CheckoutProduct from "@/components/shared/checkout/CheckoutProduct";
-import Nodata from "@/components/shared/no-data/Nodata";
-import countTotalPrice from "@/libs/countTotalPrice";
-import getAllProducts from "@/libs/getAllProducts";
-import modifyAmount from "@/libs/modifyAmount";
-import Image from "next/image";
-import useSweetAlert from "@/hooks/useSweetAlert";
-import Link from "next/link";
 import { request } from "@/api/axiosInstance";
 import { useSelector } from "react-redux";
+import CheckoutProduct from "@/components/shared/checkout/CheckoutProduct";
+import Nodata from "@/components/shared/no-data/Nodata";
+import modifyAmount from "@/libs/modifyAmount";
+import Image from "next/image";
+import Link from "next/link";
 import Swal from "sweetalert2";
 const paymnetImage3 = "/img/icons/payment-3.png";
 
@@ -23,6 +19,24 @@ const CheckoutPrimary = () => {
   const [isPlaceOrder, setIsPlaceOrder] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
   const [userDetail, setUserDetail] = useState(null);
+  // controlled form state populated from userDetail after it loads
+  const [form, setForm] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    company_name: "",
+    company_address: "",
+    address: "",
+    apartment: "",
+    town: "",
+    city: "",
+    country: "",
+    zip_code: "",
+    create_account: false,
+    order_note: "",
+  });
+  const [errors, setErrors] = useState({});
   const [isCallFromProduct, setIsCallFromProduct] = useState(false);
   const searchParams = useSearchParams();
   const source = searchParams?.get("source");
@@ -37,13 +51,63 @@ const CheckoutPrimary = () => {
     }
   };
 
+  const getUserDetail = async () => {
+    try {
+      setDetailLoading(true);
+      const response = await request({
+        url: `GetLoggedInUserDetail?id=${userId}`,
+        method: "GET",
+      });
+      setUserDetail(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setDetailLoading(false);
+    }
+  };
+
   useEffect(() => {
     setMounted(true);
     if (userId) {
       getUserDetail();
     }
     setCartDataAsPerType();
-  }, []);
+  }, [userId]);
+  // populate form values when userDetail arrives
+  useEffect(() => {
+    if (!userDetail) return;
+    const normalizeCountry = (c) => {
+      if (!c) return "";
+      const v = String(c).toLowerCase();
+      if (v.includes("united kingdom") || v.includes("uk"))
+        return "United Kingdom";
+      if (v.includes("united states") || v.includes("us") || v.includes("usa"))
+        return "United States";
+      if (v.includes("saudi")) return "Saudi Arabia";
+      if (v.includes("china")) return "China";
+      if (v.includes("canada")) return "Canada";
+      if (v.includes("australia")) return "Australia";
+      if (v.includes("morocco")) return "Morocco";
+      return c;
+    };
+
+    setForm((prev) => ({
+      ...prev,
+      first_name: userDetail?.billing_details?.first_name || "",
+      last_name: userDetail?.billing_details?.last_name || "",
+      email: userDetail?.billing_details?.email || "",
+      phone: userDetail?.billing_details?.phone || "",
+      company_name: userDetail?.billing_details?.company_name || "",
+      company_address: userDetail?.billing_details?.company_address || "",
+      address: userDetail?.billing_details?.address || "",
+      apartment: userDetail?.billing_details?.apartment || "",
+      town: userDetail?.billing_details?.town || "",
+      city: userDetail?.billing_details?.city || "",
+      country: normalizeCountry(userDetail?.billing_details?.country) || "",
+      zip_code: userDetail?.billing_details?.zip_code || "",
+      create_account: userDetail?.billing_details?.create_account === 1,
+    }));
+  }, [userDetail]);
   if (!mounted) return null;
 
   const getSubTotal = (item) => {
@@ -64,31 +128,131 @@ const CheckoutPrimary = () => {
       shipping
   );
 
-  const getUserDetail = async () => {
-    try {
-      setDetailLoading(true);
-      const response = await request({
-        url: `GetLoggedInUserDetail?id=${userId}`,
-        method: "GET",
+  const handlePlaceOrder = () => {
+    const payloadProducts = isCallFromProduct
+      ? checkOutCartProducts
+      : cartProducts;
+    const validation = validateForm(form, payloadProducts);
+    setErrors(validation);
+    if (Object.keys(validation).length > 0) {
+      const firstError = Object.values(validation)[0];
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "error",
+        title: firstError,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
       });
-      setUserDetail(response.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setDetailLoading(false);
+      return;
     }
+
+    placeOrder();
   };
 
-  const handlePlaceOrder = () => {
-    Swal.fire({
-      toast: true,
-      position: "top-end",
-      icon: "success",
-      title: `place order successfully!`,
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-    });
+  function validateForm(values, products) {
+    const errs = {};
+    if (!values.first_name || values.first_name.trim() === "") {
+      errs.first_name = "First name is required";
+    }
+    if (!values.last_name || values.last_name.trim() === "") {
+      errs.last_name = "Last name is required";
+    }
+    if (!values.email || values.email.trim() === "") {
+      errs.email = "Email is required";
+    } else if (!/^\S+@\S+\.\S+$/.test(values.email)) {
+      errs.email = "Email is invalid";
+    }
+    if (!values.phone || values.phone.trim() === "") {
+      errs.phone = "Phone is required";
+    }
+    if (!values.address || values.address.trim() === "") {
+      errs.address = "Address is required";
+    }
+    if (!values.city || values.city.trim() === "") {
+      errs.city = "City/State is required";
+    }
+    if (!values.country || values.country.trim() === "") {
+      errs.country = "Country is required";
+    }
+    if (!values.zip_code || values.zip_code.trim() === "") {
+      errs.zip_code = "Zip code is required";
+    }
+    if (!products || (Array.isArray(products) && products.length === 0)) {
+      errs.products = "No products in cart";
+    }
+    return errs;
+  }
+
+  const placeOrder = async () => {
+    try {
+      const payloadProducts = isCallFromProduct
+        ? checkOutCartProducts
+        : cartProducts;
+      const formData = new FormData();
+      formData.append("first_name", form.first_name || "");
+      formData.append("last_name", form.last_name || "");
+      formData.append("email", form.email || "");
+      formData.append("phone", form.phone || "");
+      formData.append("company_name", form.company_name || "");
+      formData.append("company_address", form.company_address || "");
+      formData.append("address", form.address || "");
+      formData.append("apartment", form.apartment || "");
+      formData.append("town", form.town || "");
+      formData.append("city", form.city || "");
+      formData.append("country", form.country || "");
+      formData.append("zip_code", form.zip_code || "");
+      formData.append("create_account", form.create_account ? "1" : "0");
+      formData.append("order_note", form.order_note || "");
+
+      let products = [];
+      const subTotal = getSubTotal(payloadProducts);
+      formData.append("sub_total", subTotal.toString());
+
+      if (Array.isArray(payloadProducts)) {
+        payloadProducts.forEach((product) => {
+          products.push({
+            product_id: product.id,
+            quantity: product.quantity || 1,
+          });
+        });
+      } else {
+        products.push({
+          product_id: payloadProducts.id,
+          quantity: payloadProducts.quantity || 1,
+        });
+      }
+
+      formData.append("products", JSON.stringify(products[0]));
+
+      const response = await request({
+        url: `placeOrder`,
+        method: "POST",
+        data: formData,
+      });
+
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: "Order placed successfully!",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
+    } catch (error) {
+      console.error("Error placing order:", error);
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "error",
+        title: "Failed to place order!",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
+    }
   };
 
   return (
@@ -195,10 +359,17 @@ const CheckoutPrimary = () => {
                             type="text"
                             name="first_name"
                             placeholder="First name"
-                            defaultValue={
-                              userDetail?.billing_details?.first_name || ""
+                            value={form.first_name}
+                            onChange={(e) =>
+                              setForm((s) => ({
+                                ...s,
+                                first_name: e.target.value,
+                              }))
                             }
                           />
+                          {errors.first_name && (
+                            <p className="input-error">{errors.first_name}</p>
+                          )}
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -207,10 +378,17 @@ const CheckoutPrimary = () => {
                             type="text"
                             name="last_name"
                             placeholder="Last name"
-                            defaultValue={
-                              userDetail?.billing_details?.last_name || ""
+                            value={form.last_name}
+                            onChange={(e) =>
+                              setForm((s) => ({
+                                ...s,
+                                last_name: e.target.value,
+                              }))
                             }
                           />
+                          {errors.last_name && (
+                            <p className="input-error">{errors.last_name}</p>
+                          )}
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -219,10 +397,14 @@ const CheckoutPrimary = () => {
                             type="email"
                             name="email"
                             placeholder="Email address"
-                            defaultValue={
-                              userDetail?.billing_details?.email || ""
+                            value={form.email}
+                            onChange={(e) =>
+                              setForm((s) => ({ ...s, email: e.target.value }))
                             }
                           />
+                          {errors.email && (
+                            <p className="input-error">{errors.email}</p>
+                          )}
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -231,10 +413,14 @@ const CheckoutPrimary = () => {
                             type="text"
                             name="phone"
                             placeholder="Phone number"
-                            defaultValue={
-                              userDetail?.billing_details?.phone || ""
+                            value={form.phone}
+                            onChange={(e) =>
+                              setForm((s) => ({ ...s, phone: e.target.value }))
                             }
                           />
+                          {errors.phone && (
+                            <p className="input-error">{errors.phone}</p>
+                          )}
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -243,8 +429,12 @@ const CheckoutPrimary = () => {
                             type="text"
                             name="company_name"
                             placeholder="Company name (optional)"
-                            defaultValue={
-                              userDetail?.billing_details?.company_name || ""
+                            value={form.company_name}
+                            onChange={(e) =>
+                              setForm((s) => ({
+                                ...s,
+                                company_name: e.target.value,
+                              }))
                             }
                           />
                         </div>
@@ -255,8 +445,12 @@ const CheckoutPrimary = () => {
                             type="text"
                             name="company_address"
                             placeholder="Company address (optional)"
-                            defaultValue={
-                              userDetail?.billing_details?.company_address || ""
+                            value={form.company_address}
+                            onChange={(e) =>
+                              setForm((s) => ({
+                                ...s,
+                                company_address: e.target.value,
+                              }))
                             }
                           />
                         </div>
@@ -268,9 +462,12 @@ const CheckoutPrimary = () => {
                         <h6>Country</h6>
                         <div className="input-item">
                           <select
-                            className="nice-select"
-                            defaultValue={
-                              userDetail?.billing_details?.country || ""
+                            value={form.country}
+                            onChange={(e) =>
+                              setForm((s) => ({
+                                ...s,
+                                country: e.target.value,
+                              }))
                             }
                           >
                             <option value="">Select Country</option>
@@ -279,12 +476,10 @@ const CheckoutPrimary = () => {
                             <option value="China">China</option>
                             <option value="Morocco">Morocco</option>
                             <option value="Saudi Arabia">Saudi Arabia</option>
-                            <option value="United Kingdom (UK)">
-                              United Kingdom (UK)
+                            <option value="United Kingdom">
+                              United Kingdom
                             </option>
-                            <option value="United States (US)">
-                              United States (US)
-                            </option>
+                            <option value="United States">United States</option>
                           </select>
                         </div>
                       </div>
@@ -298,10 +493,17 @@ const CheckoutPrimary = () => {
                                 type="text"
                                 name="address"
                                 placeholder="House number and street name"
-                                defaultValue={
-                                  userDetail?.billing_details?.address || ""
+                                value={form.address}
+                                onChange={(e) =>
+                                  setForm((s) => ({
+                                    ...s,
+                                    address: e.target.value,
+                                  }))
                                 }
                               />
+                              {errors.address && (
+                                <p className="input-error">{errors.address}</p>
+                              )}
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -310,8 +512,12 @@ const CheckoutPrimary = () => {
                                 type="text"
                                 name="apartment"
                                 placeholder="Apartment, suite, unit etc. (optional)"
-                                defaultValue={
-                                  userDetail?.billing_details?.apartment || ""
+                                value={form.apartment}
+                                onChange={(e) =>
+                                  setForm((s) => ({
+                                    ...s,
+                                    apartment: e.target.value,
+                                  }))
                                 }
                               />
                             </div>
@@ -326,8 +532,9 @@ const CheckoutPrimary = () => {
                             type="text"
                             name="town"
                             placeholder="Town / City"
-                            defaultValue={
-                              userDetail?.billing_details?.town || ""
+                            value={form.town}
+                            onChange={(e) =>
+                              setForm((s) => ({ ...s, town: e.target.value }))
                             }
                           />
                         </div>
@@ -339,10 +546,14 @@ const CheckoutPrimary = () => {
                             type="text"
                             name="city"
                             placeholder="State"
-                            defaultValue={
-                              userDetail?.billing_details?.city || ""
+                            value={form.city}
+                            onChange={(e) =>
+                              setForm((s) => ({ ...s, city: e.target.value }))
                             }
                           />
+                          {errors.city && (
+                            <p className="input-error">{errors.city}</p>
+                          )}
                         </div>
                       </div>
                       <div className="col-lg-4 col-md-6">
@@ -352,10 +563,17 @@ const CheckoutPrimary = () => {
                             type="text"
                             name="zip_code"
                             placeholder="Zip"
-                            defaultValue={
-                              userDetail?.billing_details?.zip_code || ""
+                            value={form.zip_code}
+                            onChange={(e) =>
+                              setForm((s) => ({
+                                ...s,
+                                zip_code: e.target.value,
+                              }))
                             }
                           />
+                          {errors.zip_code && (
+                            <p className="input-error">{errors.zip_code}</p>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -366,8 +584,12 @@ const CheckoutPrimary = () => {
                           <input
                             type="checkbox"
                             name="create_account"
-                            defaultChecked={
-                              userDetail?.billing_details?.create_account === 1
+                            checked={!!form.create_account}
+                            onChange={(e) =>
+                              setForm((s) => ({
+                                ...s,
+                                create_account: e.target.checked,
+                              }))
                             }
                           />{" "}
                           Create an account?
@@ -380,6 +602,10 @@ const CheckoutPrimary = () => {
                       <textarea
                         name="ltn__message"
                         placeholder="Notes about your order, e.g. special notes for delivery."
+                        value={form.order_note}
+                        onChange={(e) =>
+                          setForm((s) => ({ ...s, order_note: e.target.value }))
+                        }
                       ></textarea>
                     </div>
                   </form>
@@ -507,6 +733,9 @@ const CheckoutPrimary = () => {
                   purposes described in our privacy policy.
                 </p>
               </div>
+              {errors.products && (
+                <p className="input-error mb-2">{errors.products}</p>
+              )}
               <button
                 onClick={handlePlaceOrder}
                 className="btn theme-btn-1 btn-effect-1 text-uppercase"

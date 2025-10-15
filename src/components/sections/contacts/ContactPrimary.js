@@ -80,7 +80,6 @@ const ContactPrimary = () => {
           message: "",
           agree: false,
         });
-        setShowOtherInput(false);
     } catch (error) {
       setStatus("Failed to send inquiry.");
     }
@@ -189,23 +188,10 @@ const ContactPrimary = () => {
                   />
                 </div>
 
-                <p>
-                  <label className="input-info-save mb-0">
-                    <input
-                      type="checkbox"
-                      name="agree"
-                      checked={formData.agree}
-                      onChange={handleChange}
-                    />{" "}
-                    Save my information for next time.
-                  </label>
-                </p>
-
                 <div className="btn-wrapper mt-0">
                   <button
                     className="btn theme-btn-1 btn-effect-1 text-uppercase"
                     type="submit"
-                    disabled={!formData.agree}
                   >
                     Request Bulk Quote
                   </button>

@@ -27,8 +27,8 @@ const ProductCardPrimary = ({ product, isShowDisc=true}) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
-  const addToCart = (prod)=>{
-    dispatch(addItemsToLocalStorage(prod));
+  const addToCart = (product)=>{
+    dispatch(addItemsToLocalStorage({product}));
     Swal.fire({
       toast: true,
       position: "top-end",
