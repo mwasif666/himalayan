@@ -20,15 +20,10 @@ const HeaderTop = () => {
           <div className="col-md-7">
             <div className="ltn__top-bar-menu">
               <ul>
-                {" "}
                 <li>
-                  <Link href="/locations">
-                    <i className="icon-placeholder"></i> 15/A, Nest Tower, NYC
-                  </Link>
-                </li>{" "}
-                <li>
-                  <Link href="mailto:info@webmail.com?Subject=Flower%20greetings%20to%20you">
-                    <i className="icon-mail"></i> info@webmail.com
+                  <Link href="mailto:himalayanessenceltd@outlook.com?Subject=Flower%20greetings%20to%20you">
+                    <i className="icon-mail"></i>{" "}
+                    himalayanessenceltd@outlook.com
                   </Link>
                 </li>{" "}
               </ul>
@@ -51,26 +46,21 @@ const HeaderTop = () => {
                           </Link>
                         </li>{" "}
                         <li>
-                          <Link href="https://x.com" title="Twitter">
+                          <Link
+                            href="https://x.com/himalayaness"
+                            title="Twitter"
+                          >
                             <i className="fa-brands fa-x-twitter"></i>
                           </Link>
                         </li>{" "}
                         <li>
                           <Link
-                            href="https://www.instagram.com"
+                            href="https://www.instagram.com/himalayanessenceltd/"
                             title="Instagram"
                           >
                             <i className="fab fa-instagram"></i>
                           </Link>
                         </li>{" "}
-                        <li>
-                          <Link
-                            href="https://www.dribbble.com"
-                            title="Dribbble"
-                          >
-                            <i className="fab fa-dribbble"></i>
-                          </Link>
-                        </li>
                       </ul>
                     </div>
                   </li>
