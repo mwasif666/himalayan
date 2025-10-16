@@ -19,6 +19,27 @@ const CheckoutPrimary = () => {
   const [isPlaceOrder, setIsPlaceOrder] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
   const [userDetail, setUserDetail] = useState(null);
+  const [showCountryList, setShowCountryList] = useState(false);
+  const countries = [
+    "Australia",
+    "Canada",
+    "China",
+    "Morocco",
+    "Saudi Arabia",
+    "United Kingdom",
+    "United States",
+    "Pakistan",
+    "India",
+    "United Arab Emirates",
+    "Germany",
+    "France",
+    "Italy",
+    "Japan",
+    "Spain",
+    "South Africa",
+    "Brazil",
+  ];
+
   // controlled form state populated from userDetail after it loads
   const [form, setForm] = useState({
     first_name: "",
@@ -461,26 +482,81 @@ const CheckoutPrimary = () => {
                       <div className="col-lg-4 col-md-6">
                         <h6>Country</h6>
                         <div className="input-item">
-                          <select
-                            value={form.country}
-                            onChange={(e) =>
-                              setForm((s) => ({
-                                ...s,
-                                country: e.target.value,
-                              }))
-                            }
+                          <div
+                            className="custom-select-wrapper"
+                            style={{ position: "relative" }}
                           >
-                            <option value="">Select Country</option>
-                            <option value="Australia">Australia</option>
-                            <option value="Canada">Canada</option>
-                            <option value="China">China</option>
-                            <option value="Morocco">Morocco</option>
-                            <option value="Saudi Arabia">Saudi Arabia</option>
-                            <option value="United Kingdom">
-                              United Kingdom
-                            </option>
-                            <option value="United States">United States</option>
-                          </select>
+                            <input
+                              type="text"
+                              placeholder="Select or type country"
+                              value={form.country}
+                              onChange={(e) =>
+                                setForm((s) => ({
+                                  ...s,
+                                  country: e.target.value,
+                                }))
+                              }
+                              onFocus={() => setShowCountryList(true)}
+                              onBlur={() =>
+                                setTimeout(() => setShowCountryList(false), 150)
+                              }
+                              className="country-input"
+                              style={{
+                                width: "100%",
+                                padding: "10px",
+                                border: "1px solid #ddd",
+                                borderRadius: "4px",
+                              }}
+                            />
+
+                            {showCountryList && (
+                              <ul
+                                className="country-dropdown"
+                                style={{
+                                  position: "absolute",
+                                  top: "100%",
+                                  left: 0,
+                                  right: 0,
+                                  maxHeight: "180px",
+                                  overflowY: "auto",
+                                  border: "1px solid #ccc",
+                                  borderTop: "none",
+                                  background: "#fff",
+                                  zIndex: 10,
+                                  listStyle: "none",
+                                  padding: 0,
+                                  margin: 0,
+                                }}
+                              >
+                                {countries
+                                  .filter((country) =>
+                                    country
+                                      .toLowerCase()
+                                      .includes(form.country.toLowerCase())
+                                  )
+                                  .map((country) => (
+                                    <li
+                                      key={country}
+                                      onClick={() => {
+                                        setForm((s) => ({ ...s, country }));
+                                        setShowCountryList(false);
+                                      }}
+                                      style={{
+                                        padding: "8px 10px",
+                                        cursor: "pointer",
+                                        borderBottom: "1px solid #eee",
+                                        background:
+                                          country === form.country
+                                            ? "#f7f7f7"
+                                            : "transparent",
+                                      }}
+                                    >
+                                      {country}
+                                    </li>
+                                  ))}
+                              </ul>
+                            )}
+                          </div>
                         </div>
                       </div>
 
