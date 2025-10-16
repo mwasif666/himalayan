@@ -13,15 +13,6 @@ const CartStatusModal = ({ product }) => {
 
   const addToCart = (product) => {
     dispatch(addCheckoutItemsToLocalStorage({ ...product, quantity: 1 }));
-    Swal.fire({
-      toast: true,
-      position: "top-end",
-      icon: "success",
-      title: `${product?.name} added to cart!`,
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-    });
   };
 
   return (

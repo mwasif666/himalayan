@@ -115,10 +115,11 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId }) => {
               isSidebar === "left" ? "order-lg-2 " : ""
             }`}
           >
-            {!totalPages ? <Nodata text={"No Product Found!"} /> : ""}
+            {/* {!totalPages ? <Nodata text={"No Product Found!"} /> : ""} */}
 
             <div
-              className={`ltn__shop-options ${!totalPages ? "no-data" : ""}`}
+              // className={`ltn__shop-options ${!totalPages ? "no-data" : ""}`}
+              className={`ltn__shop-options`}
             >
               <ul>
                 <li>
