@@ -5,7 +5,7 @@ const HeaderSearch = () => {
     <div className="col header-contact-serarch-column d-none d-lg-block">
       <div className="header-contact-search">
         {/* <!-- header-feature-item --> */}
-        <div className="header-feature-item">
+        {/* <div className="header-feature-item">
           <div className="header-feature-icon">
             <i className="icon-call"></i>
           </div>
@@ -15,7 +15,7 @@ const HeaderSearch = () => {
               <a href="tel:0123456789">+0123-456-789</a>
             </p>
           </div>
-        </div>
+        </div> */}
         {/* <!-- header-search-2 --> */}
         <div className="header-search-2">
           <form id="#123" method="get" action="#">
