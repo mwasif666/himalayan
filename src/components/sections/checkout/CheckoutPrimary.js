@@ -26,7 +26,7 @@ const CheckoutPrimary = () => {
     "China",
     "Morocco",
     "Saudi Arabia",
-    "United Kingdom",
+    "United Kingdom", 
     "United States",
     "Pakistan",
     "India",
