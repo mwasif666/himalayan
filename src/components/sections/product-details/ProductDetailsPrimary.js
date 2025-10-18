@@ -30,7 +30,6 @@ const ProductDetailsPrimary = () => {
       const detail = Array.isArray(response.data)
         ? response.data[0]
         : response.data;
-      console.log("detail",detail)
       setProductDetail(detail);
     } catch (error) {
       console.error("Error fetching product:", error);

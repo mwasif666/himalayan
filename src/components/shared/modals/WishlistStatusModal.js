@@ -35,7 +35,7 @@ const WishlistStatusModal = ({ product }) => {
                         <div className="modal-product-img">
                           <Image
                             src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${product?.documents?.[0]?.encoded_name}`}
-                            alt={product?.title}
+                            alt={product?.title || 'Image not found'}
                             width={1000}
                             height={1000}
                           />

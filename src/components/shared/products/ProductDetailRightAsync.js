@@ -12,8 +12,6 @@ import moment from "moment";
 import countCommentLength from "@/libs/countCommentLength";
 import modifyNumber from "@/libs/modifyNumber";
 const ProductDetailsRightAsync = ({ product }) => {  
-  console.log(product);
-  
   const { name, title, price, reviews, discount, disc, size, color } = product;
 
   const value = useCommonContext();
