@@ -22,7 +22,7 @@ const ShopMain = ({id, title, isSidebar, text, currentTapId }) => {
   const currentPath = usePathname();
   const [rangeValue, setRangeValue] = useState(null);
   const maxSize = 5000;
-  const intLowerLimit = 50;
+  const intLowerLimit = 5;
   const intUpperLimit = 1500;
   // get searched blogs
   const {
@@ -89,9 +89,12 @@ const ShopMain = ({id, title, isSidebar, text, currentTapId }) => {
     maxSize,
     intUpperLimit,
   ]);
+
+
   useEffect(() => {
     getRangeValue(setRangeValue, maxSize, intLowerLimit, intUpperLimit);
   }, [intLowerLimit, intUpperLimit, maxSize]);
+
 
   return (
     <main>
@@ -136,7 +139,7 @@ const ShopMain = ({id, title, isSidebar, text, currentTapId }) => {
           size,
         }}
       >
-        <ProductsPrimary isSidebar={isSidebar} currentTapId={currentTapId} id={id}/>
+        <ProductsPrimary rangeValue={rangeValue}  isSidebar={isSidebar} currentTapId={currentTapId} id={id}/>
       </CommonContext>
       {/* */}
     </main>

@@ -1,14 +1,14 @@
 "use client";
 import React, { useState } from "react";
+import { useWishlistContext } from "@/providers/WshlistContext";
+import { useDispatch } from "react-redux";
+import { addItemsToLocalStorage } from "@/app/redux/features/AddtoCart/AddtoCartSlice";
 import Image from "next/image";
 import Link from "next/link";
 import modifyNumber from "@/libs/modifyNumber";
 import styles from "../../../style/CheckoutDetail.module.css";
-import { useWishlistContext } from "@/providers/WshlistContext";
 import countDiscount from "@/libs/countDiscount";
 import modifyAmount from "@/libs/modifyAmount";
-import { useDispatch } from "react-redux";
-import { addItemsToLocalStorage } from "@/app/redux/features/AddtoCart/AddtoCartSlice";
 import Swal from "sweetalert2";
 
 const CheckoutDetail = ({ product }) => {

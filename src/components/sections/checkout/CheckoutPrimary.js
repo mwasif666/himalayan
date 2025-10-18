@@ -212,6 +212,7 @@ const CheckoutPrimary = () => {
         ? checkOutCartProducts
         : cartProducts;
       const formData = new FormData();
+      formData.append("user_id",  "");
       formData.append("first_name", form.first_name || "");
       formData.append("last_name", form.last_name || "");
       formData.append("email", form.email || "");
@@ -245,7 +246,7 @@ const CheckoutPrimary = () => {
         });
       }
 
-      formData.append("products", JSON.stringify(products[0]));
+      formData.append("products", JSON.stringify(products));
 
       const response = await request({
         url: `placeOrder`,

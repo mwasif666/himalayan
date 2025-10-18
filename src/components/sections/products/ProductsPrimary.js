@@ -1,20 +1,21 @@
 "use client";
+import React, { useEffect, useState } from "react";
 import { request } from "@/api/axiosInstance";
+import { useCommonContext } from "@/providers/CommonContext";
+import { FaSpinner } from "react-icons/fa";
 import ProductCardPrimary from "@/components/shared/cards/ProductCardPrimary";
 import ProductCardPrimary2 from "@/components/shared/cards/ProductCardPrimary2";
-import Nodata from "@/components/shared/no-data/Nodata";
 import Pagination from "@/components/shared/paginations/Pagination";
 import ShopDataShowing from "@/components/shared/products/ShopDataShowing";
 import ShopShortSelect from "@/components/shared/products/ShopShortSelect";
 import ProductSidebar from "@/components/shared/sidebars/ProductSidebar";
 import usePagination from "@/hooks/usePagination";
 import filterItems from "@/libs/filterItems";
-import { useCommonContext } from "@/providers/CommonContext";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { FaSpinner } from "react-icons/fa";
+import styles from "../../../style/ProductPrimary.module.css";
+// import Nodata from "@/components/shared/no-data/Nodata";
 
-const ProductsPrimary = ({ id, isSidebar, currentTapId }) => {
+const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
   const [arrangeInput, setArrangeInput] = useState("default");
   const [currentTab, setCurrentTab] = useState(currentTapId ? currentTapId : 0);
 
@@ -58,31 +59,36 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId }) => {
   const [loading, setLoading] = useState(false);
 
   const setSortingFilter = () => {
-    let url = "";
+    let url = "GetAllProducts";
 
+    if (rangeValue) {
+      let rangeSortedVal = rangeValue.split("-");
+      url += `?price_min=${Number(rangeSortedVal[0])}?price_max=${Number(
+        rangeSortedVal[1]
+      )}`;
+    }
     switch (arrangeInput) {
       case "default":
-        url = "GetAllProducts";
+        url = url;
         break;
       case "new":
-        url = "GetAllProducts/new_arrivals";
+        url += "/new_arrivals";
         break;
       case "popularity":
-        url = "GetAllProducts/popularity";
+        url += "/popularity";
         break;
       case "price ascending":
-        url = "GetAllProducts/low_to_high";
+        url += "/low_to_high";
         break;
       case "price descending":
-        url = "GetAllProducts/high_to_low";
+        url += "/high_to_low";
         break;
-      default:
-        url = "GetAllProducts";
     }
 
     if (id) {
       return `${url}/${id}`;
     }
+
     return url;
   };
 
@@ -102,14 +108,26 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId }) => {
     }
   };
 
-  useEffect(() => {
-    getProduct();
-  }, id ? [arrangeInput, id] : [arrangeInput]);
+  useEffect(
+    () => {
+      if (rangeValue) {
+        const delay = setTimeout(() => {
+          setSortingFilter();
+          getProduct();
+        }, 250);
+
+        return () => clearTimeout(delay);
+      }
+
+      getProduct();
+    },
+    id ? [arrangeInput, rangeValue, id] : [arrangeInput, rangeValue]
+  );
 
   return (
     <div className="ltn__product-area ltn__product-gutter mb-120">
       <div className="container">
-        <div className="row">
+        <div className={styles.primaryCardShopLayouy}>
           <div
             className={`${isSidebar === false ? "col-lg-12" : "col-lg-8"}  ${
               isSidebar === "left" ? "order-lg-2 " : ""
@@ -256,7 +274,7 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId }) => {
             ""
           ) : (
             <div className="col-lg-4">
-              <ProductSidebar id={id}/>
+              <ProductSidebar id={id} />
             </div>
           )}
         </div>

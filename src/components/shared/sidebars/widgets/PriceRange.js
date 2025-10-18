@@ -1,8 +1,5 @@
 "use client";
 
-import { useCommonContext } from "@/providers/CommonContext";
-import { useEffect, useRef } from "react";
-
 const PriceRange = () => {
   return (
     <div className="widget ltn__price-filter-widget">
