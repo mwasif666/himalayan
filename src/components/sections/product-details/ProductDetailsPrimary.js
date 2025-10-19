@@ -35,7 +35,6 @@ const ProductDetailsPrimary = () => {
       console.error("Error fetching product:", error);
     } finally {
       setLoading(false);
-      
     }
   };
 
@@ -73,16 +72,17 @@ const ProductDetailsPrimary = () => {
                 <div className={isNotSidebar ? "col-lg-6" : "col-md-6"}>
                   <div className="ltn__shop-details-img-gallery">
                     <div className="ltn__shop-details-large-img">
-                        <div  className="single-large-img">
-                          <Link href='#' data-rel="lightcase:myCollection">
-                            <Image
-                              src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${productDetail?.documents?.[0].encoded_name}`}
-                              alt={"waleed"}
-                              width={1000}
-                              height={1000}
-                            />
-                          </Link>
-                        </div>
+                      <div className="single-large-img">
+                        <Link href="#" data-rel="lightcase:myCollection">
+                          <Image
+                            src={`https://himaliyansalt.innovationpixel.com/storage/app/public/products/${productDetail?.documents?.[0].encoded_name}`}
+                            alt={"waleed"}
+                            width={400}
+                            height={400}
+                            objectFit="contain"
+                          />
+                        </Link>
+                      </div>
                     </div>
                     {/* <div className="ltn__shop-details-small-img slick-arrow-2">
                       {productDetail?.documents?.map(( image , idx) => (
@@ -96,7 +96,7 @@ const ProductDetailsPrimary = () => {
                         </div>
                       ))}
                     </div> */}
-                  </div> 
+                  </div>
                 </div>
                 <div className={isNotSidebar ? "col-lg-6" : "col-md-6"}>
                   {/*  */}
