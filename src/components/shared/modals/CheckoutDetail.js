@@ -146,29 +146,6 @@ const CheckoutDetail = ({ product }) => {
               </Link>
             </li>{" "}
           </ul>
-          <ul className={styles.share}>
-            <li>Share:</li>{" "}
-            <li>
-              <Link href="https://www.facebook.com" title="Facebook">
-                <i className="fab fa-facebook-f"></i>
-              </Link>
-            </li>{" "}
-            <li>
-              <Link href="https://x.com" title="Twitter">
-                <i className="fab fa-twitter"></i>
-              </Link>
-            </li>{" "}
-            <li>
-              <Link href="https://www.linkedin.com" title="Linkedin">
-                <i className="fab fa-linkedin"></i>
-              </Link>
-            </li>{" "}
-            <li>
-              <Link href="https://www.instagram.com" title="Instagram">
-                <i className="fab fa-instagram"></i>
-              </Link>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
