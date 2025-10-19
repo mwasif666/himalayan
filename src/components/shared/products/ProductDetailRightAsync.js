@@ -13,12 +13,14 @@ import countCommentLength from "@/libs/countCommentLength";
 import modifyNumber from "@/libs/modifyNumber";
 import { FaPlus } from "react-icons/fa";
 import { PiMinusBold } from "react-icons/pi";
+import { addItemsToLocalStorage } from "@/app/redux/features/AddtoCart/AddtoCartSlice";
+import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 
 const ProductDetailsRightAsync = ({ product }) => {
   const { name, title, price, reviews, discount, disc, size, color } = product;
 
   const value = useCommonContext();
-  const { addProductToCart } = useCartContext();
   const { addProductToWishlist } = useWishlistContext();
 
   // states
@@ -34,6 +36,7 @@ const ProductDetailsRightAsync = ({ product }) => {
   const priceModified = modifyAmount(price);
   const reviewsLength = countCommentLength(reviews);
   const purchaseDateMilliseconds = moment(purchaseDate)?.valueOf();
+  const dispatch = useDispatch();
 
   const productToSave = {
     ...product,
@@ -49,7 +52,7 @@ const ProductDetailsRightAsync = ({ product }) => {
     setPurchaseDate(calanderFormat);
   }, []);
 
-  // ✅ Handle Increment and Decrement
+
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
   };
@@ -57,6 +60,20 @@ const ProductDetailsRightAsync = ({ product }) => {
   const handleDecrement = () => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
+
+  const addToCart = (product)=>{
+      dispatch(addItemsToLocalStorage({product}));
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: `${product?.name} added to cart!`,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
+    }
+
 
   return (
     <div className="modal-product-info shop-details-info pl-0" id="details">
@@ -157,13 +174,11 @@ const ProductDetailsRightAsync = ({ product }) => {
             <Link
               onClick={(e) => {
                 e.preventDefault();
-                addProductToCart(productToSave);
+                addToCart({ ...product, quantity });
               }}
               href="#"
               className="theme-btn-1 btn btn-effect-1"
               title="Add to Cart"
-              data-bs-toggle="modal"
-              data-bs-target="#add_to_cart_modal"
             >
               <i className="fas fa-shopping-cart"></i> <span>ADD TO CART</span>
             </Link>
