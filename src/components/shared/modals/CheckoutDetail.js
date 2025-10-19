@@ -39,15 +39,15 @@ const CheckoutDetail = ({ product }) => {
   return (
     <div className="flex flex-col md:flex-row w-full">
       <div className="w-full md:w-1/2 p-4 flex justify-center items-center">
-        <div className="relative w-full bg-gray-100 overflow-hidden">
+        <div className="d-flex justify-content-center relative w-full bg-gray-100 overflow-hidden">
           <Image
             src={
               `https://himaliyansalt.innovationpixel.com/storage/app/public/products/${product?.documents?.[0]?.encoded_name}` ??
               `/img/banner/banner.png`
             }
             alt={product?.name}
-            width={1000}
-            height={1000}
+            width={250}
+            height={250}
           />
         </div>
       </div>
