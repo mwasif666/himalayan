@@ -98,11 +98,9 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                     <div key={idx} className={styles.tabInnerContainer}>
                       <h4
                         onClick={() => setIdAndIndex(item.id, idx)}
-                        style={{
-                          color: activeIndex === idx ? "#592d48" : "inherit",
-                          fontWeight: activeIndex === idx ? "700" : "500",
-                          fontFamily: " var(--ltn__heading-font)",
-                        }}
+                        className={`${styles.tabTitle} ${
+                          activeIndex === idx ? styles.active : ""
+                        }`}
                       >
                         {item.name}
                       </h4>

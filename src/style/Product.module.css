@@ -12,3 +12,32 @@
 .tabInnerContainer h4 {
   font-family: "Rethink Sans", sans-serif !important;
 }
+.tabTitle {
+  position: relative;
+  cursor: pointer;
+  font-family: var(--ltn__heading-font);
+  font-weight: 500;
+  color: inherit;
+  transition: color 0.3s ease, font-weight 0.3s ease;
+}
+
+.tabTitle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 0;
+  height: 2px;
+  background-color: #592d48;
+  transition: all 0.4s ease;
+  transform: translateX(-50%);
+}
+
+.active {
+  color: #592d48;
+  font-weight: 700;
+}
+
+.active::after {
+  width: 100%;
+}
