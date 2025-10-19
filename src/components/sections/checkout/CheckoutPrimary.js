@@ -26,7 +26,7 @@ const CheckoutPrimary = () => {
     "China",
     "Morocco",
     "Saudi Arabia",
-    "United Kingdom", 
+    "United Kingdom",
     "United States",
     "Pakistan",
     "India",
@@ -212,7 +212,7 @@ const CheckoutPrimary = () => {
         ? checkOutCartProducts
         : cartProducts;
       const formData = new FormData();
-      formData.append("user_id",  "");
+      formData.append("user_id", "");
       formData.append("first_name", form.first_name || "");
       formData.append("last_name", form.last_name || "");
       formData.append("email", form.email || "");
@@ -338,7 +338,7 @@ const CheckoutPrimary = () => {
                 </div>
               </div>
               {/* coupon */}
-              <div className="ltn__checkout-single-content ltn__coupon-code-wrap">
+              {/* <div className="ltn__checkout-single-content ltn__coupon-code-wrap">
                 <h5>
                   Have a coupon?{" "}
                   <Link
@@ -367,7 +367,7 @@ const CheckoutPrimary = () => {
                     </form>
                   </div>
                 </div>
-              </div>
+              </div> */}
               {/* buyer info */}
               <div className="ltn__checkout-single-content mt-50">
                 <h4 className="title-2">Billing Details</h4>
@@ -445,7 +445,7 @@ const CheckoutPrimary = () => {
                           )}
                         </div>
                       </div>
-                      <div className="col-md-6">
+                      <div className="col-md-4">
                         <div className="input-item input-item-website ltn__custom-icon">
                           <input
                             type="text"
@@ -461,7 +461,7 @@ const CheckoutPrimary = () => {
                           />
                         </div>
                       </div>
-                      <div className="col-md-6">
+                      <div className="col-md-4">
                         <div className="input-item input-item-website ltn__custom-icon">
                           <input
                             type="text"
@@ -477,11 +477,8 @@ const CheckoutPrimary = () => {
                           />
                         </div>
                       </div>
-                    </div>
 
-                    <div className="row">
                       <div className="col-lg-4 col-md-6">
-                        <h6>Country</h6>
                         <div className="input-item">
                           <div
                             className="custom-select-wrapper"
@@ -489,7 +486,7 @@ const CheckoutPrimary = () => {
                           >
                             <input
                               type="text"
-                              placeholder="Select or type country"
+                              placeholder="Select country"
                               value={form.country}
                               onChange={(e) =>
                                 setForm((s) => ({
