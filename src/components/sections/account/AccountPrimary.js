@@ -39,7 +39,7 @@ const AccountPrimary = () => {
 
   const handleLogout = () => {
     logout();
-    router.push("/login");
+     setTimeout(() => router.push("/login"), 50);
   };
 
   return (
@@ -67,9 +67,9 @@ const AccountPrimary = () => {
                         {/* <Link data-bs-toggle="tab" href="#liton_tab_1_3">
                           Downloads <i className="fas fa-arrow-down"></i>
                         </Link> */}
-                        <Link data-bs-toggle="tab" href="#liton_tab_1_4">
+                        {/* <Link data-bs-toggle="tab" href="#liton_tab_1_4">
                           address <i className="fas fa-map-marker-alt"></i>
-                        </Link>
+                        </Link> */}
                         <Link data-bs-toggle="tab" href="#liton_tab_1_5">
                           Account Details <i className="fas fa-user"></i>
                         </Link>
@@ -116,7 +116,7 @@ const AccountPrimary = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {userDetail?.orders?.map((item) => (
+                                {userDetail?.orders?.length === 0 ? <tr><td colSpan={5} className="text-center">No Order found!</td></tr> :userDetail?.orders?.map((item) => (
                                   <tr key={item?.id}>
                                     <td>{item?.order_no || "#"}</td>
                                     <td>{item?.ordered_on}</td>
@@ -183,7 +183,7 @@ const AccountPrimary = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="tab-pane fade" id="liton_tab_1_4">
+                      {/* <div className="tab-pane fade" id="liton_tab_1_4">
                         <div className="ltn__myaccount-tab-content-inner">
                           <p>
                             The following addresses will be used on the checkout
@@ -238,7 +238,7 @@ const AccountPrimary = () => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="tab-pane fade" id="liton_tab_1_5">
                         <div className="ltn__myaccount-tab-content-inner">
                           <p>

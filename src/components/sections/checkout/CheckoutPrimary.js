@@ -212,8 +212,8 @@ const CheckoutPrimary = () => {
         ? checkOutCartProducts
         : cartProducts;
       const formData = new FormData();
-      if(userId){
-        formData.append("user_id",  userId);
+      if (userId) {
+        formData.append("user_id", userId);
       }
       formData.append("first_name", form.first_name || "");
       formData.append("last_name", form.last_name || "");
@@ -230,25 +230,21 @@ const CheckoutPrimary = () => {
       formData.append("create_account", form.create_account ? "1" : "0");
       formData.append("order_note", form.order_note || "");
 
-      let products = [];
       const subTotal = getSubTotal(payloadProducts);
       formData.append("sub_total", subTotal.toString());
 
       if (Array.isArray(payloadProducts)) {
-        payloadProducts.forEach((product) => {
-          products.push({
-            product_id: product.id,
-            quantity: product.quantity || 1,
-          });
+        payloadProducts.forEach((product, index) => {
+          formData.append(`products[${index}][product_id]`, product.id);
+          formData.append(
+            `products[${index}][quantity]`,
+            product.quantity || 1
+          );
         });
       } else {
-        products.push({
-          product_id: payloadProducts.id,
-          quantity: payloadProducts.quantity || 1,
-        });
+        formData.append(`products[0][product_id]`, payloadProducts.id);
+        formData.append(`products[0][quantity]`, payloadProducts.quantity || 1);
       }
-
-      formData.append("products", JSON.stringify(products));
 
       const response = await request({
         url: `placeOrder`,
@@ -264,6 +260,22 @@ const CheckoutPrimary = () => {
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,
+      });
+      setForm({
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone: "",
+        company_name: "",
+        company_address: "",
+        address: "",
+        apartment: "",
+        town: "",
+        city: "",
+        country: "",
+        zip_code: "",
+        create_account: false,
+        order_note: "",
       });
     } catch (error) {
       console.error("Error placing order:", error);

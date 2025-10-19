@@ -9,21 +9,21 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-     if (typeof window !== "undefined") {
-       const savedUser = localStorage.getItem("user");
-       const savedToken = localStorage.getItem("token");
-       
-       if (savedUser) setUser(JSON.parse(savedUser));
-       if (savedToken) setToken(savedToken);
-       if (savedUser && savedToken) setIsAuthenticated(true);
+    if (typeof window !== "undefined") {
+      const savedUser = localStorage.getItem("user");
+      const savedToken = localStorage.getItem("token");
+
+      if (savedUser) setUser(JSON.parse(savedUser));
+      if (savedToken) setToken(savedToken);
+      if (savedUser && savedToken) setIsAuthenticated(true);
     }
   }, []);
 
   const storeDataInLS = (res) => {
-     if (typeof window !== "undefined") {
-       localStorage.setItem("user", JSON.stringify(res.data || res.user));
-       localStorage.setItem("token", res?.token || null);
-     }
+    if (typeof window !== "undefined") {
+      localStorage.setItem("user", JSON.stringify(res.data || res.user));
+      localStorage.setItem("token", res?.token || null);
+    }
 
     setUser(res.user || res.data);
     setToken(res.token);
@@ -53,19 +53,27 @@ export const AuthProvider = ({ children }) => {
   const userId = user ? user.id : null;
 
   const logout = () => {
-  if (typeof window !== "undefined") {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-  }
-  setUser(null);
-  setToken(null);
-  setIsAuthenticated(false);
-};
-
+    return new Promise((resolve) => {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      setUser(null);
+      setToken(null);
+      setIsAuthenticated(false);
+      resolve();
+    });
+  };
 
   return (
     <AuthContext.Provider
-      value={{ user, token, userId, isAuthenticated, loginUser, registerUser, logout }}
+      value={{
+        user,
+        token,
+        userId,
+        isAuthenticated,
+        loginUser,
+        registerUser,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>
