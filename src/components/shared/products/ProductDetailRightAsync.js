@@ -6,31 +6,35 @@ import { useCartContext } from "@/providers/CartContext";
 import { useWishlistContext } from "@/providers/WshlistContext";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCommonContext } from "@/providers/CommonContext";
 import moment from "moment";
 import countCommentLength from "@/libs/countCommentLength";
 import modifyNumber from "@/libs/modifyNumber";
-const ProductDetailsRightAsync = ({ product }) => {  
+import { FaPlus } from "react-icons/fa";
+import { PiMinusBold } from "react-icons/pi";
+
+const ProductDetailsRightAsync = ({ product }) => {
   const { name, title, price, reviews, discount, disc, size, color } = product;
 
   const value = useCommonContext();
   const { addProductToCart } = useCartContext();
   const { addProductToWishlist } = useWishlistContext();
-  // dom referance
-  const inputRef = useRef(null);
+
   // states
   const [quantity, setQuantity] = useState(1);
   const [currentColor, setCurrentColor] = useState(color);
   const [currentSize, setCurrentSize] = useState(size?.toLowerCase());
   const [purchaseDate, setPurchaseDate] = useState(null);
-  // varriables
+
+  // variables
   const { type } = value ? value : {};
   const { netPrice } = countDiscount(price, discount || disc);
   const netPriceModified = modifyAmount(netPrice);
   const priceModified = modifyAmount(price);
   const reviewsLength = countCommentLength(reviews);
   const purchaseDateMilliseconds = moment(purchaseDate)?.valueOf();
+
   const productToSave = {
     ...product,
     color: currentColor,
@@ -43,20 +47,16 @@ const ProductDetailsRightAsync = ({ product }) => {
     const currentDate = Date.now();
     const calanderFormat = moment(currentDate).format("YYYY-MM-DD");
     setPurchaseDate(calanderFormat);
-    const inputParent = inputRef.current;
-    const input = inputParent?.querySelector("input");
-
-    setTimeout(() => {
-      const increament = inputParent?.querySelector(".inc");
-      const decreament = inputParent?.querySelector(".dec");
-      increament?.addEventListener("click", () => {
-        setQuantity(parseInt(input.value));
-      });
-      decreament?.addEventListener("click", () => {
-        setQuantity(parseInt(input.value));
-      });
-    }, 500);
   }, []);
+
+  // ✅ Handle Increment and Decrement
+  const handleIncrement = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const handleDecrement = () => {
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  };
 
   return (
     <div className="modal-product-info shop-details-info pl-0" id="details">
@@ -67,72 +67,91 @@ const ProductDetailsRightAsync = ({ product }) => {
             <Link href="#">
               <i className="fas fa-star"></i>
             </Link>
-          </li>{" "}
+          </li>
           <li>
             <Link href="#">
               <i className="fas fa-star"></i>
             </Link>
-          </li>{" "}
+          </li>
           <li>
             <Link href="#">
               <i className="fas fa-star"></i>
             </Link>
-          </li>{" "}
+          </li>
           <li>
             <Link href="#">
               <i className="fas fa-star-half-alt"></i>
             </Link>
-          </li>{" "}
+          </li>
           <li>
             <Link href="#">
               <i className="far fa-star"></i>
             </Link>
-          </li>{" "}
+          </li>
           <li className="review-total">
-            <Link href="#"> ( {modifyNumber(reviewsLength)} Reviews )</Link>
+            <Link href="#">({modifyNumber(reviewsLength)} Reviews)</Link>
           </li>
         </ul>
       </div>
+
       {/* title */}
-      <h3>{name || title}</h3>
+      <h3
+        style={{
+          fontSize: "25px",
+        }}
+      >
+        {name || title}
+      </h3>
+
       {/* price */}
       <div className="product-price text-nowrap">
-        <span>${netPriceModified}</span> <del>${priceModified}</del>
+        <span
+          style={{
+            fontSize: "35px",
+          }}
+        >
+          ${netPriceModified}
+        </span>{" "}
+        <del
+          style={{
+            fontSize: "25px",
+          }}
+        >
+          ${priceModified}
+        </del>
       </div>
-      {/* description */}
-
-      {/* category, availability */}
-      {/* <div className={`modal-product-meta ltn__product-details-menu-1  `}>
-        <ul>
-          <li
-            onClick={() => {
-              !type ? controlModal() : "";
-            }}
-          >
-            <strong>Categories:</strong>{" "}
-            <span>
-              <Link href="/shop?category=fruits">Fruits</Link>{" "}
-              <Link href="/shop?category=meat">Meat</Link>{" "}
-              <Link href="/shop?category=fish">Fish</Link>{" "}
-              <Link href="/shop?category=fried">Fried</Link>
-            </span>
-          </li>
-        </ul>
-      </div> */}
-      {/* countdown */}
 
       {/* add to cart */}
       <div className="ltn__product-details-menu-2">
         <ul>
           <li>
-           <div className="cart-plus-minus">
-            <input
-              type="text"
-              value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value) || 1)}
-              className="cart-plus-minus-box"
-            />
-          </div>
+            <div className="cart-plus-minus d-flex align-items-center justify-content-center">
+              <button
+                type="button"
+                className="cart-plus-minus-box"
+                onClick={handleDecrement}
+              >
+                <PiMinusBold />
+              </button>
+              <input
+                type="text"
+                value={quantity}
+                onChange={(e) =>
+                  setQuantity(
+                    Number(e.target.value) > 0 ? Number(e.target.value) : 1
+                  )
+                }
+                className="cart-plus-minus-box text-center mx-2"
+                style={{ width: "60px" }}
+              />
+              <button
+                type="button"
+                className="cart-plus-minus-box"
+                onClick={handleIncrement}
+              >
+                <FaPlus />
+              </button>
+            </div>
           </li>
           <li>
             <Link
@@ -151,7 +170,8 @@ const ProductDetailsRightAsync = ({ product }) => {
           </li>
         </ul>
       </div>
-      {/* add to wishlist and compare */}
+
+      {/* add to wishlist */}
       <div className="ltn__product-details-menu-3">
         <ul>
           <li>
@@ -161,7 +181,6 @@ const ProductDetailsRightAsync = ({ product }) => {
                 addProductToWishlist(productToSave);
               }}
               href="#"
-              className=""
               title="Wishlist"
               data-bs-toggle="modal"
               data-bs-target="#liton_wishlist_modal"
@@ -171,37 +190,13 @@ const ProductDetailsRightAsync = ({ product }) => {
           </li>
         </ul>
       </div>
+
       <hr />
-      {/* socials */}
-      <div className="ltn__social-media">
-        <ul>
-          <li>Share:</li>{" "}
-          <li>
-            <Link href="https://www.facebook.com" title="Facebook">
-              <i className="fab fa-facebook-f"></i>
-            </Link>
-          </li>{" "}
-          <li>
-            <Link href="https://x.com" title="Twitter">
-              <i className="fab fa-twitter"></i>
-            </Link>
-          </li>{" "}
-          <li>
-            <Link href="https://www.linkedin.com" title="Linkedin">
-              <i className="fab fa-linkedin"></i>
-            </Link>
-          </li>{" "}
-          <li>
-            <Link href="https://www.instagram.com" title="Instagram">
-              <i className="fab fa-instagram"></i>
-            </Link>
-          </li>
-        </ul>
-      </div>
-      {/* checkout image */}
+
+      {/* safe checkout section */}
       {type ? (
         <>
-          <hr />
+          {/* <hr />
           <div className="ltn__safe-checkout">
             <h5>Guaranteed Safe Checkout</h5>
             <Image
@@ -210,7 +205,7 @@ const ProductDetailsRightAsync = ({ product }) => {
               height={35}
               width={350}
             />
-          </div>
+          </div> */}
         </>
       ) : (
         ""
