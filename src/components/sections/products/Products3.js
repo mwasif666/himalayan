@@ -117,13 +117,13 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                             color="#5D394D"
                           />
                         </div>
-                      ) : product.length === 0 ? (
+                      ) : product?.data?.length === 0 ? (
                         <div className="col-lg-12 text-center">
                           <p>No products found in this category.</p>
                         </div>
                       ) : (
                         <div className="row">
-                          {product?.map((product, idx) => (
+                          {product?.data?.map((product, idx) => (
                             <div
                               className="col-lg-4 col-md-6 col-sm-12"
                               key={product.id}

@@ -43,11 +43,11 @@ const SidebarTopRatedProducs = () => {
         >
           <FaSpinner className="spin" size={40} color="#5D394D" />
         </div>
-      ) : products?.length === 0 ? (
-        <div>No Top Rated Product Found</div>
+      ) : products?.data?.length === 0 ? (
+        <div><p>No Top Rated Product Found</p></div>
       ) : (
         <ul>
-          {products.map((product, idx) => (
+          {products?.data?.map((product, idx) => (
             <li key={product.id || idx}>
               <TopRatedProductCard product={product} />
             </li>

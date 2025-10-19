@@ -27,9 +27,9 @@ const ProductDetailsPrimary = () => {
         method: "GET",
       });
 
-      const detail = Array.isArray(response.data)
-        ? response.data[0]
-        : response.data;
+      const detail = Array.isArray(response?.data?.data)
+        ? response?.data?.data[0]
+        : response?.data?.data;
       setProductDetail(detail);
     } catch (error) {
       console.error("Error fetching product:", error);

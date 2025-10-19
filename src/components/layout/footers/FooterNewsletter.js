@@ -16,7 +16,7 @@ const FooterNewsletter = () => {
   
       try {
         await request({
-          url: "https://himaliyansalt.innovationpixel.com/public/api/SaveContactForm",
+          url: "https://himaliyansalt.innovationpixel.com/public/SaveContactForm",
           method: "POST",
           data: data,
         });

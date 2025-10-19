@@ -27,7 +27,7 @@ const ProductDetailsTab = ({ product }) => {
       </div>
       <div className="tab-content">
         <div className="tab-pane fade active show" id="liton_tab_details_1_1">
-          <TabDescription />
+          <TabDescription description={product?.description} />
         </div>
         {/* reviews */}
         <div className="tab-pane fade" id="liton_tab_details_1_2">
