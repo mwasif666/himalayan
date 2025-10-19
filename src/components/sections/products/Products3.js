@@ -17,7 +17,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [paginationLinks, setPaginationLinks] = useState("");
 
-  const getProduct = async (page=1) => {
+  const getProduct = async (page = 1) => {
     let url = categoryId
       ? `GetAllProducts?category_id=${categoryId}&paginate=${1}&page=${page}`
       : `GetAllProducts?paginate=${1}&page=${page}`;
@@ -127,13 +127,13 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                 {loading ? (
                   <div
                     style={{
-                      height: "50vh",
+                      height: "100%",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
                     }}
                   >
-                    <FaSpinner className="spin" size={40} color="#5D394D" />
+                    <FaSpinner className="spinner" size={40} color="#5D394D" />
                   </div>
                 ) : product?.data?.length === 0 ? (
                   <div className="col-lg-12 text-center">
