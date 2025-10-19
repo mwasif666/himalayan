@@ -9,6 +9,8 @@ import ShopShortSelect from "@/components/shared/products/ShopShortSelect";
 import ProductSidebar from "@/components/shared/sidebars/ProductSidebar";
 import Link from "next/link";
 import styles from "../../../style/ProductPrimary.module.css";
+import Pagination from "@/components/shared/paginations/Pagination";
+import CustomPagination from "@/components/custom-pagination/CustomPagination";
 // import Nodata from "@/components/shared/no-data/Nodata";
 
 const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
@@ -16,11 +18,14 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
   const [currentTab, setCurrentTab] = useState(currentTapId ? currentTapId : 0);
   const [product, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [paginationLinks, setPaginationLinks] = useState("");
 
   const tabControllers = ["fas fa-th-large", "fas fa-list"];
+
   const setSortingFilter = () => {
     let url = `GetAllProducts?paginate=${1}`;
-
     if (rangeValue) {
       let rangeSortedVal = rangeValue.split("-");
       url += `&price_min=${Number(rangeSortedVal[0])}&price_max=${Number(
@@ -52,20 +57,26 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
     return url;
   };
 
-  const getProduct = async () => {
+  const getProduct = async (page = 1) => {
+    setLoading(true);
     try {
-      setLoading(true);
       const response = await request({
-        url: setSortingFilter(),
+        url: `${setSortingFilter()}&page=${page}`,
         method: "GET",
       });
 
       setProducts(response.data);
-    } catch (error) {
-      throw error;
+      setTotalPages(response.data.last_page);
+      setCurrentPage(response.data.current_page);
+      setPaginationLinks(response.data.links);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCurrentPage = (page) => {
+    setCurrentPage(page);
+    getProduct(page);
   };
 
   useEffect(
@@ -217,18 +228,13 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
                 </div>
               </div>
             </div>
-            {/* {totalPages > 1 ? (
-              <Pagination
-                totalPages={totalPages}
-                currentPaginationItems={currentPaginationItems}
-                showMore={showMore}
-                items={paginationItems}
-                currenIndex={currentpage}
-                handleCurrentPage={handleCurrentPage}
-              />
-            ) : (
-              ""
-            )} */}
+            {totalPages > 1 && (
+                <CustomPagination
+                  paginationLinks={paginationLinks}
+                  currentPage={currentPage}
+                  handleCurrentPage={handleCurrentPage}
+                />
+            )}
           </div>
           {isSidebar === false ? (
             ""

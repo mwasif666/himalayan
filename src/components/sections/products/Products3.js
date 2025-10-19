@@ -4,6 +4,7 @@ import ProductCardPrimary from "@/components/shared/cards/ProductCardPrimary";
 import { useEffect, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import styles from "../../../style/Product.module.css";
+import CustomPagination from "@/components/custom-pagination/CustomPagination";
 
 const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
   const [product, setProducts] = useState([]);
@@ -12,9 +13,14 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
   const [categories, setCategories] = useState([]);
   const [tabLoading, setTabLoading] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [paginationLinks, setPaginationLinks] = useState("");
 
-  const getProduct = async () => {
-    let url = categoryId ?  `GetAllProducts?category_id=${categoryId}&paginate=${1}` : `GetAllProducts?paginate=${1}`;
+  const getProduct = async (page=1) => {
+    let url = categoryId
+      ? `GetAllProducts?category_id=${categoryId}&paginate=${1}&page=${page}`
+      : `GetAllProducts?paginate=${1}&page=${page}`;
     try {
       setLoading(true);
       const response = await request({
@@ -26,6 +32,9 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
       });
 
       setProducts(response.data);
+      setTotalPages(response.data.last_page);
+      setCurrentPage(response.data.current_page);
+      setPaginationLinks(response.data.links);
     } catch (error) {
       throw error;
     } finally {
@@ -59,6 +68,11 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
   const setIdAndIndex = (id, idx) => {
     setCategoryId(id);
     setActiveIndex(idx);
+  };
+
+  const handleCurrentPage = (page) => {
+    setCurrentPage(page);
+    getProduct(page);
   };
 
   return (
@@ -141,6 +155,14 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                   </div>
                 )}
               </div>
+
+              {totalPages > 1 && (
+                <CustomPagination
+                  paginationLinks={paginationLinks}
+                  currentPage={currentPage}
+                  handleCurrentPage={handleCurrentPage}
+                />
+              )}
             </div>
           </div>
         </div>

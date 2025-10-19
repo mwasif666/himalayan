@@ -74,7 +74,7 @@ const CartStatusModal = ({ product }) => {
                             onClick={() => addToCart(product)}
                             href={{
                               pathname: "/checkout",
-                              query: { source: "product", id: product.id },
+                              query: { source: "product", id: product?.id },
                             }}
                             className="theme-btn-2 btn btn-effect-2"
                           >

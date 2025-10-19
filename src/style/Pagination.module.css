@@ -1,0 +1,27 @@
+.paginationList {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.paginationList.active {
+  background: #5D394D;
+  color: white;
+}
+
+.paginationList.inactive {
+  background: white;
+  color: black;
+}
+
+.paginationList:hover {
+  opacity: 0.8;
+}
+
+
+.paginationDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
