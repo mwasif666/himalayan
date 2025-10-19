@@ -1,16 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { request } from "@/api/axiosInstance";
-import { useCommonContext } from "@/providers/CommonContext";
 import { FaSpinner } from "react-icons/fa";
 import ProductCardPrimary from "@/components/shared/cards/ProductCardPrimary";
 import ProductCardPrimary2 from "@/components/shared/cards/ProductCardPrimary2";
-import Pagination from "@/components/shared/paginations/Pagination";
 import ShopDataShowing from "@/components/shared/products/ShopDataShowing";
 import ShopShortSelect from "@/components/shared/products/ShopShortSelect";
 import ProductSidebar from "@/components/shared/sidebars/ProductSidebar";
-import usePagination from "@/hooks/usePagination";
-import filterItems from "@/libs/filterItems";
 import Link from "next/link";
 import styles from "../../../style/ProductPrimary.module.css";
 // import Nodata from "@/components/shared/no-data/Nodata";
@@ -18,52 +14,16 @@ import styles from "../../../style/ProductPrimary.module.css";
 const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
   const [arrangeInput, setArrangeInput] = useState("default");
   const [currentTab, setCurrentTab] = useState(currentTapId ? currentTapId : 0);
-
-  const { filteredProducts } = useCommonContext();
-  const limit =
-    currentTab === 1
-      ? isSidebar === false
-        ? 4
-        : 7
-      : isSidebar === false
-      ? 16
-      : 21;
-
-  const arrangedProducts = filterItems(
-    filteredProducts,
-    arrangeInput,
-    arrangeInput
-  );
-  // get pagination details
-  const {
-    currentItems,
-    totalItems,
-    currentpage,
-    setCurrentpage,
-    paginationItems,
-    currentPaginationItems,
-    showMore,
-    totalPages,
-    handleCurrentPage,
-    firstItem,
-    lastItem,
-  } = usePagination(arrangedProducts, limit, 5);
-
-  const tabControllers = ["fas fa-th-large", "fas fa-list"];
-  useEffect(() => {
-    setCurrentpage(0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTab]);
-
   const [product, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const tabControllers = ["fas fa-th-large", "fas fa-list"];
   const setSortingFilter = () => {
-    let url = "GetAllProducts";
+    let url = `GetAllProducts/page=${1}?`;
 
     if (rangeValue) {
       let rangeSortedVal = rangeValue.split("-");
-      url += `?price_min=${Number(rangeSortedVal[0])}?price_max=${Number(
+      url += `price_min=${Number(rangeSortedVal[0])}&price_max=${Number(
         rangeSortedVal[1]
       )}`;
     }
@@ -72,16 +32,16 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
         url = url;
         break;
       case "new":
-        url += "/new_arrivals";
+        url += "?new_arrivals";
         break;
       case "popularity":
-        url += "/popularity";
+        url += "?popularity";
         break;
       case "price ascending":
-        url += "/low_to_high";
+        url += "?low_to_high";
         break;
       case "price descending":
-        url += "/high_to_low";
+        url += "?high_to_low";
         break;
     }
 
@@ -257,7 +217,7 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
                 </div>
               </div>
             </div>
-            {totalPages > 1 ? (
+            {/* {totalPages > 1 ? (
               <Pagination
                 totalPages={totalPages}
                 currentPaginationItems={currentPaginationItems}
@@ -268,7 +228,7 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
               />
             ) : (
               ""
-            )}
+            )} */}
           </div>
           {isSidebar === false ? (
             ""

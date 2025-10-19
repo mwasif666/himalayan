@@ -14,7 +14,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const getProduct = async () => {
-    let url = categoryId ? `GetAllProducts/${categoryId}` : `GetAllProducts`;
+    let url = categoryId ?  `GetAllProducts?category_id=${categoryId}&paginate=${1}` : `GetAllProducts?paginate=${1}`;
     try {
       setLoading(true);
       const response = await request({

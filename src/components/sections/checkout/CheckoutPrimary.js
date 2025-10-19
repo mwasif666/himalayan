@@ -212,7 +212,9 @@ const CheckoutPrimary = () => {
         ? checkOutCartProducts
         : cartProducts;
       const formData = new FormData();
-      formData.append("user_id", "");
+      if(userId){
+        formData.append("user_id",  userId);
+      }
       formData.append("first_name", form.first_name || "");
       formData.append("last_name", form.last_name || "");
       formData.append("email", form.email || "");

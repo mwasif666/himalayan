@@ -21,7 +21,7 @@ const ShopMain = ({id, title, isSidebar, text, currentTapId }) => {
   const search = useSearchParams()?.get("search");
   const currentPath = usePathname();
   const [rangeValue, setRangeValue] = useState(null);
-  const maxSize = 5000;
+  const maxSize = 1500;
   const intLowerLimit = 5;
   const intUpperLimit = 1500;
   // get searched blogs
