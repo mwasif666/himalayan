@@ -48,6 +48,9 @@ const CheckoutDetail = ({ product }) => {
             alt={product?.name}
             width={250}
             height={250}
+            style={{
+              objectFit: "contain",
+            }}
           />
         </div>
       </div>
