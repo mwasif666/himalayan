@@ -14,7 +14,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const getProduct = async () => {
-    let url = categoryId ?  `GetAllProducts/${categoryId}` : `GetAllProducts`;
+    let url = categoryId ? `GetAllProducts/${categoryId}` : `GetAllProducts`;
     try {
       setLoading(true);
       const response = await request({
@@ -44,7 +44,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
         url: `GetAllCategories`,
         method: "GET",
       });
-      setCategories([{ name: "All", id:'' }, ...response.data]);
+      setCategories([{ name: "All", id: "" }, ...response.data]);
     } catch (error) {
       console.error(error);
     } finally {
@@ -56,10 +56,10 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
     getCategories();
   }, []);
 
-  const setIdAndIndex =(id, idx)=>{
-     setCategoryId(id);
-     setActiveIndex(idx);
-  } 
+  const setIdAndIndex = (id, idx) => {
+    setCategoryId(id);
+    setActiveIndex(idx);
+  };
 
   return (
     <section>
@@ -91,54 +91,57 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                 )}
               </div>
               <div className={styles.tabContainer}>
-                {tabLoading ? <div>...</div> : categories.map((item, idx) => (
-                  <div key={idx} className={styles.tabInnerContainer}>
-                    <h3 onClick={() => setIdAndIndex(item.id, idx)} style={{ color: activeIndex === idx ? "#592D48" : "inherit" }}>{item.name}</h3>
-                  </div>
-                ))}
+                {tabLoading ? (
+                  <div>...</div>
+                ) : (
+                  categories.map((item, idx) => (
+                    <div key={idx} className={styles.tabInnerContainer}>
+                      <h4
+                        onClick={() => setIdAndIndex(item.id, idx)}
+                        style={{
+                          color: activeIndex === idx ? "#592d48" : "inherit",
+                          fontWeight: activeIndex === idx ? "700" : "500",
+                          fontFamily: " var(--ltn__heading-font)",
+                        }}
+                      >
+                        {item.name}
+                      </h4>
+                    </div>
+                  ))
+                )}
               </div>
 
-              <div className="tab-content">
-                <div>
-                  <div>
-                    <div>
-                      {loading ? (
-                        <div
-                          style={{
-                            height: "50vh",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <FaSpinner
-                            className="spin"
-                            size={40}
-                            color="#5D394D"
-                          />
-                        </div>
-                      ) : product?.data?.length === 0 ? (
-                        <div className="col-lg-12 text-center">
-                          <p>No products found in this category.</p>
-                        </div>
-                      ) : (
-                        <div className="row">
-                          {product?.data?.map((product, idx) => (
-                            <div
-                              className="col-lg-4 col-md-6 col-sm-12"
-                              key={product.id}
-                            >
-                              <ProductCardPrimary
-                                product={product}
-                                url={product?.documents[0]?.encoded_name}
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
+              <div className="tab-content d-flex flex-wrap">
+                {loading ? (
+                  <div
+                    style={{
+                      height: "50vh",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <FaSpinner className="spin" size={40} color="#5D394D" />
                   </div>
-                </div>
+                ) : product?.data?.length === 0 ? (
+                  <div className="col-lg-12 text-center">
+                    <p>No products found in this category.</p>
+                  </div>
+                ) : (
+                  <div className="row">
+                    {product?.data?.map((product, idx) => (
+                      <div
+                        className="col-lg-3 col-md-6 col-sm-12"
+                        key={product.id}
+                      >
+                        <ProductCardPrimary
+                          product={product}
+                          url={product?.documents[0]?.encoded_name}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>

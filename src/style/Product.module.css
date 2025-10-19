@@ -1,11 +1,14 @@
-.tabContainer{
-    display: flex;
-    flex-direction: row;
-    gap: 24px;
-    justify-content: center;
-    align-items: center;
+.tabContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  margin-bottom: 30px;
 }
 
-.tabInnerContainer{
-    cursor: pointer;
+.tabInnerContainer {
+  cursor: pointer;
+}
+.tabInnerContainer h4 {
+  font-family: "Rethink Sans", sans-serif !important;
 }
