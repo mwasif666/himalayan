@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import CategoryItem from "./CategoryItem";
 import getCategoryItems from "@/libs/getCategoryItems";
 import { request } from "@/api/axiosInstance";
+import { FaSpinner } from "react-icons/fa";
 
 const HeroSidebar = ({ type }) => {
   const allItems = getCategoryItems();
@@ -48,7 +49,16 @@ const HeroSidebar = ({ type }) => {
           {/* <!-- Submenu Column - unlimited --> */}
 
           {loading ? (
-            <div>loading...</div>
+            <div
+              style={{
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <FaSpinner className="spinner" size={40} color="#5D394D" />
+            </div>
           ) : (
             categories?.map((item, idx) => (
               <CategoryItem key={idx} item={item} />
