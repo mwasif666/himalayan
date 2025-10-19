@@ -13,7 +13,7 @@ const ProductDetailsQuick = ({ product }) => {
     try {
       setLoading(true);
       const response = await request({
-        url: `GetAllProducts/${id}`,
+        url: `GetAllProducts/${id}?paginate=${1}`,
         method: "GET",
       });
 
