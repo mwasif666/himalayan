@@ -109,7 +109,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                 )}
               </div>
 
-              <div className="tab-content d-flex flex-wrap">
+              <div className="tab-content d-flex flex-wrap justify-content-center">
                 {loading ? (
                   <div
                     style={{
