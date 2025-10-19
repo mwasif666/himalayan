@@ -204,12 +204,12 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
                       >
                         <FaSpinner className="spin" size={40} color="#5D394D" />
                       </div>
-                    ) : product.length === 0 ? (
+                    ) : product?.data?.length === 0 ? (
                       <div className="col-lg-12 text-center">
                         <p>No products found in this category.</p>
                       </div>
                     ) : (
-                      product?.map((product, idx) => (
+                      product?.data?.map((product, idx) => (
                         <div
                           className={`${
                             isSidebar === false
@@ -242,12 +242,12 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
                       >
                         <FaSpinner className="spin" size={40} color="#5D394D" />
                       </div>
-                    ) : product.length === 0 ? (
+                    ) : product?.data?.length === 0 ? (
                       <div className="col-lg-12 text-center">
                         <p>No products found in this category.</p>
                       </div>
                     ) : (
-                      product?.map((product, idx) => (
+                      product?.data?.map((product, idx) => (
                         <div className="col-lg-12" key={idx}>
                           <ProductCardPrimary2 product={product} />
                         </div>
