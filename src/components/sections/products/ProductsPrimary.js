@@ -19,11 +19,11 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
 
   const tabControllers = ["fas fa-th-large", "fas fa-list"];
   const setSortingFilter = () => {
-    let url = `GetAllProducts/page=${1}?`;
+    let url = `GetAllProducts?paginate=${1}`;
 
     if (rangeValue) {
       let rangeSortedVal = rangeValue.split("-");
-      url += `price_min=${Number(rangeSortedVal[0])}&price_max=${Number(
+      url += `&price_min=${Number(rangeSortedVal[0])}&price_max=${Number(
         rangeSortedVal[1]
       )}`;
     }
@@ -32,16 +32,16 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
         url = url;
         break;
       case "new":
-        url += "?new_arrivals";
+        url += "&new_arrivals";
         break;
       case "popularity":
-        url += "?popularity";
+        url += "&popularity";
         break;
       case "price ascending":
-        url += "?low_to_high";
+        url += "&low_to_high";
         break;
       case "price descending":
-        url += "?high_to_low";
+        url += "&high_to_low";
         break;
     }
 
