@@ -15,20 +15,18 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [paginationLinks, setPaginationLinks] = useState("");
+  const [paginationLinks, setPaginationLinks] = useState([]);
 
+  // ✅ Function to get products with 6 per page
   const getProduct = async (page = 1) => {
     let url = categoryId
-      ? `GetAllProducts?category_id=${categoryId}&paginate=${1}&page=${page}`
-      : `GetAllProducts?paginate=${1}&page=${page}`;
+      ? `GetAllProducts?category_id=${categoryId}&paginate=6&page=${page}`
+      : `GetAllProducts?paginate=6&page=${page}`;
     try {
       setLoading(true);
       const response = await request({
-        url: url,
+        url,
         method: "GET",
-        params: {
-          category_id: categoryId,
-        },
       });
 
       setProducts(response.data);
@@ -36,7 +34,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
       setCurrentPage(response.data.current_page);
       setPaginationLinks(response.data.links);
     } catch (error) {
-      throw error;
+      console.error("Error fetching products:", error);
     } finally {
       setLoading(false);
     }
@@ -46,6 +44,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
     getProduct();
   }, [categoryId]);
 
+  // ✅ Fetch categories
   const getCategories = async () => {
     try {
       setTabLoading(true);
@@ -55,7 +54,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
       });
       setCategories([{ name: "All", id: "" }, ...response.data]);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching categories:", error);
     } finally {
       setTabLoading(false);
     }
@@ -68,6 +67,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
   const setIdAndIndex = (id, idx) => {
     setCategoryId(id);
     setActiveIndex(idx);
+    setCurrentPage(1);
   };
 
   const handleCurrentPage = (page) => {
@@ -85,6 +85,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
+              {/* Section Title */}
               <div
                 className={`section-title-area ${
                   type === 2
@@ -104,9 +105,11 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                   </p>
                 )}
               </div>
+
+              {/* Tabs */}
               <div className={styles.tabContainer}>
                 {tabLoading ? (
-                  <div>...</div>
+                  <div>Loading...</div>
                 ) : (
                   categories.map((item, idx) => (
                     <div key={idx} className={styles.tabInnerContainer}>
@@ -123,6 +126,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                 )}
               </div>
 
+              {/* Products */}
               <div className="tab-content d-flex flex-wrap justify-content-center">
                 {loading ? (
                   <div
@@ -143,7 +147,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                   <div className="row">
                     {product?.data?.map((product, idx) => (
                       <div
-                        className="col-lg-3 col-md-6 col-sm-12"
+                        className="col-lg-4 col-md-6 col-sm-12 mb-4"
                         key={product.id}
                       >
                         <ProductCardPrimary
@@ -156,6 +160,7 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
                 )}
               </div>
 
+              {/* Pagination */}
               {totalPages > 1 && (
                 <CustomPagination
                   paginationLinks={paginationLinks}
