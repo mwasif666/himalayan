@@ -52,7 +52,6 @@ const ProductDetailsRightAsync = ({ product }) => {
     setPurchaseDate(calanderFormat);
   }, []);
 
-
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
   };
@@ -61,23 +60,32 @@ const ProductDetailsRightAsync = ({ product }) => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
 
-  const addToCart = (product)=>{
-      dispatch(addItemsToLocalStorage({product}));
-      Swal.fire({
-        toast: true,
-        position: "top-end",
-        icon: "success",
-        title: `${product?.name} added to cart!`,
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-      });
-    }
-
+  const addToCart = (product) => {
+    dispatch(addItemsToLocalStorage({ product }));
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon: "success",
+      title: `${product?.name} added to cart!`,
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
+  };
 
   return (
     <div className="modal-product-info shop-details-info pl-0" id="details">
       {/* ratings */}
+
+      <style>{`
+  .dec.qtybutton {
+    display: none !important;
+  }
+    .plus.qtybutton {
+    display: none !important;
+  }
+`}</style>
+
       <div className="product-ratting">
         <ul>
           <li>

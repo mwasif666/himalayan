@@ -10,137 +10,134 @@ const TermsAndConditions = () => {
 
       <div className={styles.termsWrapper}>
         <div className="container">
-          <h1 className={styles.mainHeading}>Terms & Conditions</h1>
+          <h1 className={styles.mainHeading}>Terms and Conditions</h1>
           <p>
-            By placing an order for goods on{" "}
-            <strong>himalayanessenceltd</strong> you indicate your{" "}
-            <strong>agreement</strong> to our terms and conditions. Ideally, all
-            payments must be made using your own payment method and with
-            sufficient funds to make the payment. Fraudulent use of the payment
-            method will be reported to the appropriate authorities.
-            Himalayanessenceltd may immediately suspend or cancel your order or
-            registration if you breach any of these Terms.
+            <strong>Last Updated:</strong> 25/09/2025
+          </p>
+          <p>
+            Welcome to <strong>Himalayan Essence Ltd.</strong>
           </p>
 
-          <h2>Product Quality and Purity</h2>
           <p>
-            We are dedicated to producing and exporting the highest-quality
-            Himalayan salt products. Our salt is meticulously sourced from the
-            pristine salt mines of Pakistan’s Himalayan region. We adhere to
-            strict quality control measures, ensuring that our products are 100%
-            natural, free from additives or impurities, and comply with
-            international standards.
+            These Terms and Conditions (“Terms”) govern your use of our website{" "}
+            <strong>www.himalayanessenceltd.com</strong> and the purchase of our
+            products, including Himalayan salt and related items. By accessing
+            or using our website, you agree to these Terms. Please read them
+            carefully.
           </p>
 
-          <h2>Section A: Return</h2>
+          <h2>General Information</h2>
           <p>
-            You have 7 days from receipt of your order to let us know you wish
-            to return your order. You then have a further 10 days to return the
-            goods to us. Returns outside of these dates may not be accepted.
-            Opened food is considered perishable and is not covered by the
-            Consumer Rights Act / Consumer Contracts Regulation. DO NOT initiate
-            a return of any items without notifying us in advance, either by
-            email or via our contact form, otherwise payment may not be
-            refunded. Please ensure you use a tracked service when returning
-            items as we cannot provide a refund/exchange if the item is lost.
-            Please use appropriate packaging when returning the item, damaged
-            items will be disposed of and no refund/exchange will be provided.
+            This website is owned and operated by{" "}
+            <strong>Himalayan Essence Ltd</strong> located in the UK. By using
+            this site, you confirm that you are at least 18 years old or are
+            using it with the consent of a parent or guardian.
           </p>
 
-          <h2>Section B: Discounts / Subscriptions</h2>
+          <h2>Products</h2>
           <p>
-            We sometimes offer an order discount when you subscribe to our
-            newsletter. In order to receive this discount code you will need to
-            sign up and follow the link in the confirmation email to confirm
-            your subscription and receive your code. This discount code can only
-            be used once per person/company. The subscription discount cannot be
-            abused, i.e. multiple emails used for the same person/company.
-          </p>
-          <p>
-            Please note, subscribing and unsubscribing within the same day of
-            placing an order, will result in the order being cancelled and the
-            discount being revoked. If you have any questions or queries
-            regarding our Terms and Conditions please get in touch.
+            We offer natural Himalayan salt and related products. While we
+            strive for accuracy, product descriptions, pricing, and availability
+            may change without notice. We make no guarantees that all products
+            displayed on our site will always be available.
           </p>
 
-          <h2>Section C: Age of Consent</h2>
+          <h2>Pricing and Payment</h2>
           <p>
-            By using this site, you represent that you are at least the age of
-            majority in your state or province of residence, or that you are the
-            age of majority in your state or province of residence and you have
-            given us your consent to allow any of your minor dependents to use
-            this site.
+            All prices are listed in £ (pound sterling) and include/exclude
+            applicable taxes as stated. We accept payments through{" "}
+            <strong>
+              [list accepted payment methods – e.g., credit/debit card, PayPal,
+              UPI, etc.]
+            </strong>
+            . By placing an order, you confirm that you are authorized to use
+            the chosen payment method.
           </p>
 
-          <h2>Section D: Changes to Privacy Policy</h2>
+          <h2>Shipping and Delivery</h2>
           <p>
-            We reserve the right to modify this privacy policy at any time, so
-            please review it frequently. Changes and clarifications will take
-            effect immediately upon their posting on the website. If we make
-            material changes to this policy, we will notify you here that it has
-            been updated, so that you are aware of what information we collect,
-            how we use it, and under what circumstances, if any, we use and/or
-            disclose it.
-          </p>
-          <p>
-            If our store is acquired or merged with another company, your
-            information may be transferred to the new owners so that we may
-            continue to sell products to you.
+            Orders are processed within 2 business days after payment
+            confirmation. Delivery times depend on your location and shipping
+            provider. We are not responsible for delays or damages caused by
+            third-party couriers.
           </p>
 
-          <h2>Section E: Orders and Payments</h2>
+          <h2>Returns and Refunds</h2>
+          <p>
+            Here’s a detailed description of product returns, suitable for use
+            in a company policy, website section, or internal documentation.
+          </p>
+
+          <h3>Product Returns</h3>
+          <p>
+            Product returns refer to the process in which customers send back
+            purchased goods to the seller or manufacturer for various reasons.
+            Returns are an essential component of customer service and supply
+            chain management, allowing businesses to maintain trust and customer
+            satisfaction while ensuring product quality and compliance with
+            policies.
+          </p>
+
+          <h3>Return Eligibility</h3>
+          <p>Customers may return products for several reasons, including:</p>
           <ul>
             <li>
-              Placing an order on Himalayanessenceltd constitutes an offer to
-              purchase the selected products. We reserve the right to accept or
-              decline your order at our discretion.
+              <strong>Defective or damaged items:</strong> Products that arrive
+              broken, malfunctioning, or not as described.
             </li>
             <li>
-              Prices, shipping fees, and availability are subject to change
-              without notice.
+              <strong>Incorrect product shipped:</strong> The wrong size, color,
+              or model was delivered.
             </li>
             <li>
-              Payment must be made in full at the time of placing your order. We
-              accept various payment methods, which are listed on our website.
-            </li>
-            <li>
-              All payments are processed securely. However, we are not
-              responsible for any unauthorized access to or use of your payment
-              information.
+              <strong>Product not matching description:</strong> The item
+              differs from online images or specifications.
             </li>
           </ul>
+
+          <h2>Intellectual Property</h2>
           <p>
-            We take utmost care in packaging our products. In the event of
-            damage during transit, please contact us within 48 hours of receipt
-            with photographic evidence. Refunds or replacements will be
-            considered on a case-by-case basis.
+            All content on this website — including text, images, graphics, and
+            logos — is the property of Himalayan Essence Ltd and protected by
+            copyright laws. You may not reproduce, distribute, or use our
+            content without written permission.
           </p>
 
-          <h2>Section F: Delivery</h2>
+          <h2>Limitation of Liability</h2>
           <p>
-            We work hard to meet all of our delivery times, but sometimes there
-            may be delays – e.g. because of postal/carrier delays, logistics or
-            bad weather. We will keep you updated as much as we can and you
-            should be able to track your parcel’s progress.
-          </p>
-          <p>
-            All prices shown on our website are inclusive of VAT. Delivery
-            charges are clearly highlighted throughout the site.
-          </p>
-          <p>
-            We reserve the right to stop a delivery at any time, including after
-            despatch, if we suspect that the transaction might be fraudulent.
+            We are not liable for any damages arising from the use or misuse of
+            our products or website. Himalayan salt is a natural product —
+            individuals allergic to these products should avoid consumption.
+            Always consult a healthcare professional before using our products
+            if you have health concerns.
           </p>
 
-          <h2>Section G: Processing</h2>
+          <h2>Privacy</h2>
           <p>
-            Once we receive clear payment for your order, we will begin
-            processing your order. Orders are processed and shipped the same day
-            (Monday to Friday) if the order is placed by 12:00pm. This does not
-            include the listed holidays/ bank holidays. If for any reason any of
-            the items are out of stock, you will be notified by our customer
-            support by phone or email. In this situation, we always await your
-            advice regarding a refund or alternative product selection.
+            Your privacy is important to us. Please review our{" "}
+            <strong>[Privacy Policy]</strong> to understand how we collect, use,
+            and protect your personal data.
+          </p>
+
+          <h2>Changes to Terms</h2>
+          <p>
+            We may update these Terms from time to time. Any changes will be
+            posted on this page with the updated date. Continued use of our
+            website after changes means you accept the revised Terms.
+          </p>
+
+          <h2>Contact Us</h2>
+          <p>
+            For any questions or concerns regarding these Terms, please contact
+            us at:
+          </p>
+          <p>
+            📧{" "}
+            <a href="mailto:Himalayanessenceltd@outlook.com">
+              Himalayanessenceltd@outlook.com
+            </a>
+            <br />
+            📍 [business address]
           </p>
         </div>
       </div>
