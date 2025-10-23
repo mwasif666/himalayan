@@ -50,7 +50,7 @@ const ProductDetailsReviews = ({ reviews, reviewsLength }) => {
                     <div className="ltn__comment-item clearfix">
                       <div className="ltn__commenter-img">
                         <Image
-                          src={author.image}
+                          src={author?.image}
                           alt="Image"
                           width={1000}
                           height={100}
@@ -58,7 +58,7 @@ const ProductDetailsReviews = ({ reviews, reviewsLength }) => {
                       </div>
                       <div className="ltn__commenter-comment">
                         <h6>
-                          <Link href="#">{author.name}</Link>
+                          <Link href="#">{author?.name}</Link>
                         </h6>
                         <div className="product-ratting">
                           <ul>

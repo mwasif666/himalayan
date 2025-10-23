@@ -4,9 +4,10 @@ import sliceText from "@/libs/sliceText";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import ProductRating from "./ProductRating";
 
-const TopRatedProductCard = ({ product, isShowDisc }) => {
-  const { name, price, discount, id } = product;
+const TopRatedProductCard = ({ product }) => {
+  const { name, price, discount, id, reviews } = product;
   const { netPrice } = countDiscount(price, discount);
   const netPriceModified = modifyAmount(netPrice);
   const priceModified = modifyAmount(price);
@@ -19,35 +20,7 @@ const TopRatedProductCard = ({ product, isShowDisc }) => {
         </Link>
       </div>
       <div className="top-rated-product-info">
-        <div className="product-ratting">
-          <ul>
-            <li>
-              <Link href="#">
-                <i className="fas fa-star"></i>
-              </Link>
-            </li>{" "}
-            <li>
-              <Link href="#">
-                <i className="fas fa-star"></i>
-              </Link>
-            </li>{" "}
-            <li>
-              <Link href="#">
-                <i className="fas fa-star"></i>
-              </Link>
-            </li>{" "}
-            <li>
-              <Link href="#">
-                <i className="fas fa-star"></i>
-              </Link>
-            </li>{" "}
-            <li>
-              <Link href="#">
-                <i className="fas fa-star"></i>
-              </Link>
-            </li>
-          </ul>
-        </div>
+        <ProductRating reviews={reviews} isProductDetail={false}/>
         <h6>
           <Link href={`/products/${id}`}>{sliceText(name, 25)}</Link>
         </h6>

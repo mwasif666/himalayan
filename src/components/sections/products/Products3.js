@@ -17,7 +17,6 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [paginationLinks, setPaginationLinks] = useState([]);
 
-  // ✅ Function to get products with 6 per page
   const getProduct = async (page = 1) => {
     let url = categoryId
       ? `GetAllProducts?category_id=${categoryId}&paginate=6&page=${page}`
@@ -44,7 +43,6 @@ const Products3 = ({ title, desc, isSmallTitle, pt, type }) => {
     getProduct();
   }, [categoryId]);
 
-  // ✅ Fetch categories
   const getCategories = async () => {
     try {
       setTabLoading(true);

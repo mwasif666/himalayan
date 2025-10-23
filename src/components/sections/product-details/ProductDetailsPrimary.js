@@ -1,21 +1,21 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import SidebarTopRatedProducs from "@/components/shared/sidebars/widgets/SidebarTopRatedProducs";
-import SidebarBanner from "@/components/shared/sidebars/widgets/SidebarBanner";
 import { useProductContext } from "@/providers/ProductContext";
 import { useCommonContext } from "@/providers/CommonContext";
+import { request } from "@/api/axiosInstance";
+import Image from "next/image";
+import Link from "next/link";
+import SidebarTopRatedProducs from "@/components/shared/sidebars/widgets/SidebarTopRatedProducs";
+import SidebarBanner from "@/components/shared/sidebars/widgets/SidebarBanner";
 import ProductDetailsTab from "@/components/shared/products/ProductDetailsTab";
 import ProductDetailsRightAsync from "@/components/shared/products/ProductDetailRightAsync";
-import { useEffect, useState } from "react";
-import { request } from "@/api/axiosInstance";
 const ProductDetailsPrimary = () => {
   // hooks
+  const { id } = useParams();
   const { isNotSidebar, type } = useCommonContext();
   const { setCurrentProduct } = useProductContext();
   // products and filter current product
-  const { id } = useParams();
   const [productDetail, setProductDetail] = useState(null);
   const [loading, setLoading] = useState(false);
 

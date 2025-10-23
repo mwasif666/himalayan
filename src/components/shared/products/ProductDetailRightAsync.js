@@ -1,35 +1,33 @@
 "use client";
-import controlModal from "@/libs/controlModal";
-import countDiscount from "@/libs/countDiscount";
-import modifyAmount from "@/libs/modifyAmount";
-import { useCartContext } from "@/providers/CartContext";
-import { useWishlistContext } from "@/providers/WshlistContext";
-import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useCommonContext } from "@/providers/CommonContext";
-import moment from "moment";
-import countCommentLength from "@/libs/countCommentLength";
-import modifyNumber from "@/libs/modifyNumber";
+import { useWishlistContext } from "@/providers/WshlistContext";
 import { FaPlus } from "react-icons/fa";
 import { PiMinusBold } from "react-icons/pi";
 import { addItemsToLocalStorage } from "@/app/redux/features/AddtoCart/AddtoCartSlice";
 import { useDispatch } from "react-redux";
+import countDiscount from "@/libs/countDiscount";
+import modifyAmount from "@/libs/modifyAmount";
+import Link from "next/link";
+import moment from "moment";
+import countCommentLength from "@/libs/countCommentLength";
+import modifyNumber from "@/libs/modifyNumber";
 import Swal from "sweetalert2";
+import ProductRating from "../cards/ProductRating";
 
 const ProductDetailsRightAsync = ({ product }) => {
+  console.log(product);
+  
   const { name, title, price, reviews, discount, disc, size, color } = product;
 
   const value = useCommonContext();
   const { addProductToWishlist } = useWishlistContext();
 
-  // states
   const [quantity, setQuantity] = useState(1);
   const [currentColor, setCurrentColor] = useState(color);
   const [currentSize, setCurrentSize] = useState(size?.toLowerCase());
   const [purchaseDate, setPurchaseDate] = useState(null);
 
-  // variables
   const { type } = value ? value : {};
   const { netPrice } = countDiscount(price, discount || disc);
   const netPriceModified = modifyAmount(netPrice);
@@ -86,39 +84,9 @@ const ProductDetailsRightAsync = ({ product }) => {
   }
 `}</style>
 
-      <div className="product-ratting">
-        <ul>
-          <li>
-            <Link href="#">
-              <i className="fas fa-star"></i>
-            </Link>
-          </li>
-          <li>
-            <Link href="#">
-              <i className="fas fa-star"></i>
-            </Link>
-          </li>
-          <li>
-            <Link href="#">
-              <i className="fas fa-star"></i>
-            </Link>
-          </li>
-          <li>
-            <Link href="#">
-              <i className="fas fa-star-half-alt"></i>
-            </Link>
-          </li>
-          <li>
-            <Link href="#">
-              <i className="far fa-star"></i>
-            </Link>
-          </li>
-          <li className="review-total">
-            <Link href="#">({modifyNumber(reviewsLength)} Reviews)</Link>
-          </li>
-        </ul>
-      </div>
-
+      <>
+        <ProductRating reviews={reviews} isProductDetail={true}/>
+      </>
       {/* title */}
       <h3
         style={{

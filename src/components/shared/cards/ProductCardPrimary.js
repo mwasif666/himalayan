@@ -1,30 +1,29 @@
 "use client";
-import { request } from "@/api/axiosInstance";
-import countDiscount from "@/libs/countDiscount";
-import modifyAmount from "@/libs/modifyAmount";
-import { useCartContext } from "@/providers/CartContext";
-import { useProductContext } from "@/providers/ProductContext";
-import { useWishlistContext } from "@/providers/WshlistContext";
-import Image from "next/image";
-import Link from "next/link";
 import React, { useState } from "react";
-import CheckoutDetailModal from "@/components/shared/modals/CheckoutDetailModal";
+import { useWishlistContext } from "@/providers/WshlistContext";
+import { useProductContext } from "@/providers/ProductContext";
 import { addItemsToLocalStorage } from "@/app/redux/features/AddtoCart/AddtoCartSlice";
 import { useDispatch } from "react-redux";
+import countDiscount from "@/libs/countDiscount";
+import modifyAmount from "@/libs/modifyAmount";
+import Image from "next/image";
+import Link from "next/link";
+import CheckoutDetailModal from "@/components/shared/modals/CheckoutDetailModal";
 import Swal from "sweetalert2";
+import ProductRating from "./ProductRating";
 
 
-const ProductCardPrimary = ({ product, isShowDisc=true}) => {
-  const { name, price, discount, id, status, color } = product
+const ProductCardPrimary = ({ product}) => {
+  const { name, price, discount, id, reviews} = product
   ? product
   : {};
   // const {userId} = useAuth();
+  const dispatch = useDispatch();
+  const priceModified = modifyAmount(price);
   const { setCurrentProduct } = useProductContext();
   const { netPrice } = countDiscount(price, discount);
   const netPriceModified = modifyAmount(netPrice);
-  const priceModified = modifyAmount(price);
   const { addToWhishlist } = useWishlistContext();
-  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
   const addToCart = (product)=>{
@@ -55,18 +54,23 @@ const ProductCardPrimary = ({ product, isShowDisc=true}) => {
             // placeholder="blur"
           />
         </Link>
-        {status || isShowDisc ? (
+        {/* {discount > 0  (
           <div className="product-badge">
             <ul>
-              {isShowDisc ? (
+              {discount > 0  ? (
                 <li className="sale-badge">-{discount}%</li>
-              ) : status === "sale" ? (
+              ) : discount > 0 === "sale" ? (
                 <li className="new-badge">{status}</li>
               ) : (
                 <li className="sale-badge">{status}</li>
               )}
             </ul>
           </div>
+        ) : (
+          ""
+        )} */}
+         {discount > 0  ? (
+          <div className="product-badge"><ul><li className="sale-badge">-{discount}%</li></ul></div>
         ) : (
           ""
         )}
@@ -116,40 +120,13 @@ const ProductCardPrimary = ({ product, isShowDisc=true}) => {
         </div>
       </div>
       <div className="product-info">
-        <div className="product-ratting">
-          <ul>
-            <li>
-              <Link href="#">
-                <i className="fas fa-star"></i>
-              </Link>
-            </li>{" "}
-            <li>
-              <Link href="#">
-                <i className="fas fa-star"></i>
-              </Link>
-            </li>{" "}
-            <li>
-              <Link href="#">
-                <i className="fas fa-star"></i>
-              </Link>
-            </li>{" "}
-            <li>
-              <Link href="#">
-                <i className="fas fa-star-half-alt"></i>
-              </Link>
-            </li>{" "}
-            <li>
-              <Link href="#">
-                <i className="far fa-star"></i>
-              </Link>
-            </li>
-          </ul>
-        </div>
+       <ProductRating reviews={reviews} isProductDetail={false}/>
+
         <h2 className="product-title">
           <Link href={`/products/${id}`}>{name}</Link>
         </h2>
         <div className="product-price">
-          <span>${netPriceModified}</span> <del>${priceModified}</del>
+         {discount > 0 ? <><span>${netPriceModified}</span> <del>${priceModified}</del> </> :  <span>${netPriceModified}</span>}
         </div>
       </div>
 
