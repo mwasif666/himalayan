@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useProductContext } from "@/providers/ProductContext";
 import { useCommonContext } from "@/providers/CommonContext";
 import { request } from "@/api/axiosInstance";
@@ -13,6 +13,7 @@ import ProductDetailsRightAsync from "@/components/shared/products/ProductDetail
 const ProductDetailsPrimary = () => {
   // hooks
   const { id } = useParams();
+  const pathname = usePathname();
   const { isNotSidebar, type } = useCommonContext();
   const { setCurrentProduct } = useProductContext();
   // products and filter current product
@@ -20,10 +21,13 @@ const ProductDetailsPrimary = () => {
   const [loading, setLoading] = useState(false);
 
   const getProductById = async () => {
+    let url = pathname.includes("/shop")
+      ? `GetAllProducts?paginate=1&category_id=${id}` 
+      : `GetAllProducts?paginate=1&id=${id}`; 
     try {
       setLoading(true);
       const response = await request({
-        url: `GetAllProducts/${id}?paginate=${1}`,
+        url: url,
         method: "GET",
       });
 

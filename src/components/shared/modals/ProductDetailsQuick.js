@@ -1,19 +1,23 @@
 import Image from "next/image";
 import ProductDetailsRight from "../products/ProductDetailsRight";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { request } from "@/api/axiosInstance";
 
 const ProductDetailsQuick = ({ product }) => {
   const { id } = useParams();
+  const pathname = usePathname();
   const [productDetail, setProductDetail] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const getProductById = async () => {
+    let url = pathname.includes("/shop")
+      ? `GetAllProducts?paginate=1&category_id=${id}` 
+      : `GetAllProducts?paginate=1&id=${id}`; 
     try {
       setLoading(true);
       const response = await request({
-        url: `GetAllProducts/${id}?paginate=${1}`,
+        url: url,
         method: "GET",
       });
 

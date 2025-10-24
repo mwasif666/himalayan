@@ -9,11 +9,12 @@ import ShopShortSelect from "@/components/shared/products/ShopShortSelect";
 import ProductSidebar from "@/components/shared/sidebars/ProductSidebar";
 import Link from "next/link";
 import styles from "../../../style/ProductPrimary.module.css";
-import Pagination from "@/components/shared/paginations/Pagination";
 import CustomPagination from "@/components/custom-pagination/CustomPagination";
+import { usePathname } from "next/navigation";
 // import Nodata from "@/components/shared/no-data/Nodata";
 
 const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
+  const pathname = usePathname();
   const [arrangeInput, setArrangeInput] = useState("default");
   const [currentTab, setCurrentTab] = useState(currentTapId ? currentTapId : 0);
   const [product, setProducts] = useState([]);
@@ -51,9 +52,11 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
     }
 
     if (id) {
-      return `${url}/${id}`;
+      return pathname.includes("/shop")
+      ? `${url}&category_id=${id}` 
+      : `${url}&${id}`; 
+     
     }
-
     return url;
   };
 

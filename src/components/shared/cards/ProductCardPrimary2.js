@@ -10,6 +10,7 @@ import { useCartContext } from "@/providers/CartContext";
 import { useProductContext } from "@/providers/ProductContext";
 import { useWishlistContext } from "@/providers/WshlistContext";
 import { useState } from "react"; 
+import ProductRating from "./ProductRating";
 
 const ProductCardPrimary2 = ({ product, isShowDisc }) => {
   const {
@@ -19,6 +20,7 @@ const ProductCardPrimary2 = ({ product, isShowDisc }) => {
     id,
     status,
     color,
+    reviews
   } = product;
 
   const { setCurrentProduct } = useProductContext();
@@ -59,43 +61,16 @@ const ProductCardPrimary2 = ({ product, isShowDisc }) => {
         <h2 className="product-title">
           <Link href={`/products/${id}`}>{name}</Link>
         </h2>
-        <div className="product-ratting">
-          <ul>
-            <li>
-              <Link href="#">
-                <i className="fas fa-star"></i>
-              </Link>
-            </li>
-            <li>
-              <Link href="#">
-                <i className="fas fa-star"></i>
-              </Link>
-            </li>
-            <li>
-              <Link href="#">
-                <i className="fas fa-star"></i>
-              </Link>
-            </li>
-            <li>
-              <Link href="#">
-                <i className="fas fa-star-half-alt"></i>
-              </Link>
-            </li>
-            <li>
-              <Link href="#">
-                <i className="far fa-star"></i>
-              </Link>
-            </li>
-          </ul>
-        </div>
+        <ProductRating reviews={reviews} isProductDetail={false}/>
+        
+
         <div className="product-price">
-          <span>${netPriceModified}</span>
-          <del>${priceModified}</del>
+           {discount > 0 ? <><span>${netPriceModified}</span> <del>${priceModified}</del> </> :  <span>${netPriceModified}</span>}
         </div>
 
-        <div className="product-brief">
+        {/* <div className="product-brief">
           <p>{sliceText(discount, 140)}</p>
-        </div>
+        </div> */}
         <div className="product-hover-action">
           <ul>
             <li>
