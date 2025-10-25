@@ -40,7 +40,6 @@ const CheckoutPrimary = () => {
     "Brazil",
   ];
 
-  // controlled form state populated from userDetail after it loads
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -62,6 +61,7 @@ const CheckoutPrimary = () => {
   const searchParams = useSearchParams();
   const source = searchParams?.get("source");
   const cartProducts = useSelector((state) => state.AddtoCart?.cartItems);
+  const shipping = 15;
   const checkOutCartProducts = useSelector(
     (state) => state.AddtoCart?.checkoutCartItems
   );
@@ -143,7 +143,6 @@ const CheckoutPrimary = () => {
     return subTotal;
   };
 
-  const shipping = 15;
   const totalPrice = modifyAmount(
     getSubTotal(isCallFromProduct ? checkOutCartProducts : cartProducts) +
       shipping
@@ -230,8 +229,10 @@ const CheckoutPrimary = () => {
       formData.append("create_account", form.create_account ? "1" : "0");
       formData.append("order_note", form.order_note || "");
 
-      const subTotal = getSubTotal(payloadProducts);
+      const subTotal = getSubTotal(payloadProducts)+shipping;
       formData.append("sub_total", subTotal.toString());
+      formData.append("total_amount", subTotal.toString());
+      formData.append("shipping_amount", shipping.toString());
 
       if (Array.isArray(payloadProducts)) {
         payloadProducts.forEach((product, index) => {

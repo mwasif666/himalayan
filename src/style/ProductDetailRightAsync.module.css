@@ -4,3 +4,11 @@
     .plus.qtybutton {
     display: none !important;
   }
+
+  .netPrice{
+    font-size: 35px !important;
+  }
+
+.discount_price{
+  font-size: 24px !important;
+}

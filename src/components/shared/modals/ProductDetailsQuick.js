@@ -12,8 +12,8 @@ const ProductDetailsQuick = ({ product }) => {
 
   const getProductById = async () => {
     let url = pathname.includes("/shop")
-      ? `GetAllProducts?paginate=1&category_id=${id}` 
-      : `GetAllProducts?paginate=1&id=${id}`; 
+      ? `GetAllProducts?per_page=1&category_id=${id}` 
+      : `GetAllProducts?per_page=1&id=${id}`; 
     try {
       setLoading(true);
       const response = await request({

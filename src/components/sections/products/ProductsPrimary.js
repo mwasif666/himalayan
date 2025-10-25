@@ -26,7 +26,7 @@ const ProductsPrimary = ({ id, isSidebar, currentTapId, rangeValue }) => {
   const tabControllers = ["fas fa-th-large", "fas fa-list"];
 
   const setSortingFilter = () => {
-    let url = `GetAllProducts?paginate=${1}`;
+    let url = `GetAllProducts?per_page=${1}`;
     if (rangeValue) {
       let rangeSortedVal = rangeValue.split("-");
       url += `&price_min=${Number(rangeSortedVal[0])}&price_max=${Number(

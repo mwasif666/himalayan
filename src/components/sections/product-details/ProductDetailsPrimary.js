@@ -13,7 +13,6 @@ import ProductDetailsTab from "@/components/shared/products/ProductDetailsTab";
 import ProductDetailsRightAsync from "@/components/shared/products/ProductDetailRightAsync";
 import styles from "../../../style/ProductDetailPrimary.module.css";
 
-
 const ProductDetailsPrimary = () => {
   const pathname = usePathname();
   const { id } = useParams();
@@ -24,8 +23,8 @@ const ProductDetailsPrimary = () => {
 
   const getProductById = async () => {
     let url = pathname.includes("/shop")
-      ? `GetAllProducts?paginate=1&category_id=${id}`
-      : `GetAllProducts?paginate=1&id=${id}`;
+      ? `GetAllProducts?per_page=1&category_id=${id}` 
+      : `GetAllProducts?per_page=1&id=${id}`; 
     try {
       setLoading(true);
       const response = await request({

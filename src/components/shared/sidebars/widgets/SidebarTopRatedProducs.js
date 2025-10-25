@@ -12,7 +12,7 @@ const SidebarTopRatedProducs = () => {
     try {
       setLoading(true);
       const response = await request({
-        url: `GetAllProducts?top_rated_product&paginate=${6}`,
+        url: `GetAllProducts?top_rated_product&per_page=${6}`,
         method: "GET",
       });
       setProducts(response.data);
