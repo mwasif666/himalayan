@@ -11,13 +11,11 @@ import modifyAmount from "@/libs/modifyAmount";
 import Link from "next/link";
 import moment from "moment";
 import countCommentLength from "@/libs/countCommentLength";
-import modifyNumber from "@/libs/modifyNumber";
 import Swal from "sweetalert2";
 import ProductRating from "../cards/ProductRating";
+import styles from "../../../style/ProductDetailRightAsync.module.css";
 
 const ProductDetailsRightAsync = ({ product }) => {
-  console.log(product);
-  
   const { name, title, price, reviews, discount, disc, size, color } = product;
 
   const value = useCommonContext();
@@ -74,18 +72,8 @@ const ProductDetailsRightAsync = ({ product }) => {
   return (
     <div className="modal-product-info shop-details-info pl-0" id="details">
       {/* ratings */}
-
-      <style>{`
-  .dec.qtybutton {
-    display: none !important;
-  }
-    .plus.qtybutton {
-    display: none !important;
-  }
-`}</style>
-
       <>
-        <ProductRating reviews={reviews} isProductDetail={true}/>
+        <ProductRating reviews={reviews} isProductDetail={true} />
       </>
       {/* title */}
       <h3

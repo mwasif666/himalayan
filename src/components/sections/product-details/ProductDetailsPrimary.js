@@ -4,26 +4,28 @@ import { useParams, usePathname } from "next/navigation";
 import { useProductContext } from "@/providers/ProductContext";
 import { useCommonContext } from "@/providers/CommonContext";
 import { request } from "@/api/axiosInstance";
+import { FaSpinner } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import SidebarTopRatedProducs from "@/components/shared/sidebars/widgets/SidebarTopRatedProducs";
 import SidebarBanner from "@/components/shared/sidebars/widgets/SidebarBanner";
 import ProductDetailsTab from "@/components/shared/products/ProductDetailsTab";
 import ProductDetailsRightAsync from "@/components/shared/products/ProductDetailRightAsync";
+import styles from "../../../style/ProductDetailPrimary.module.css";
+
+
 const ProductDetailsPrimary = () => {
-  // hooks
-  const { id } = useParams();
   const pathname = usePathname();
+  const { id } = useParams();
   const { isNotSidebar, type } = useCommonContext();
   const { setCurrentProduct } = useProductContext();
-  // products and filter current product
   const [productDetail, setProductDetail] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const getProductById = async () => {
     let url = pathname.includes("/shop")
-      ? `GetAllProducts?paginate=1&category_id=${id}` 
-      : `GetAllProducts?paginate=1&id=${id}`; 
+      ? `GetAllProducts?paginate=1&category_id=${id}`
+      : `GetAllProducts?paginate=1&id=${id}`;
     try {
       setLoading(true);
       const response = await request({
@@ -49,28 +51,30 @@ const ProductDetailsPrimary = () => {
   if (loading) {
     return (
       <div
-        className="d-flex justify-content-center align-items-center"
-        style={{ height: "200px" }}
+        style={{
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
-        <p>Loading...</p>
+        <FaSpinner className="spinner" size={40} color="#5D394D" />
       </div>
     );
   }
 
   return (
     <div
-      className={`ltn__shop-details-area  ${
-        type === 1 || type === 2 ? "pb-85" : "pb-120"
-      }`}
+      className={`ltn__shop-details-area  ${type === 1 || type === 2 ? "pb-85" : "pb-120"
+        }`}
       onMouseEnter={() => setCurrentProduct(productDetail)}
     >
       <div className="container">
-        <div className="row">
+        <div className={styles.boxStyle}>
           <div className={` ${isNotSidebar ? "" : "col-lg-8"} col-md-12`}>
             <div
-              className={`ltn__shop-details-inner ${
-                type === 1 || type === 2 ? "mb-60" : ""
-              }`}
+              className={`ltn__shop-details-inner ${type === 1 || type === 2 ? "mb-60" : ""
+                }`}
             >
               <div className="row">
                 <div className={isNotSidebar ? "col-lg-6" : "col-md-6"}>

@@ -25,8 +25,7 @@ const TopRatedProductCard = ({ product }) => {
           <Link href={`/products/${id}`}>{sliceText(name, 25)}</Link>
         </h6>
         <div className="product-price">
-          <span>${netPriceModified}</span>
-          <del>${priceModified}</del>
+           {discount > 0 ? <><span>${netPriceModified}</span> <del>${priceModified}</del> </> :  <span>${netPriceModified}</span>}
         </div>
       </div>
     </div>
