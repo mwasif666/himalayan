@@ -1,5 +1,4 @@
 "use client";
-import About4 from "@/components/sections/about/About4";
 import Blogs2 from "@/components/sections/blogs/Blogs2";
 import Features4 from "@/components/sections/features/Features4";
 import HeroPrimary from "@/components/sections/hero-banners/HeroPrimary";
@@ -25,7 +24,7 @@ const ServicesMain = ({ title }) => {
   );
   return (
     <main>
-      <HeroPrimary
+      {/* <HeroPrimary
         title={
           category
             ? `Category: ${makeText(category)}`
@@ -48,7 +47,7 @@ const ServicesMain = ({ title }) => {
         </>
       ) : (
         ""
-      )}
+      )} */}
     </main>
   );
 };

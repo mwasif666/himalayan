@@ -48,7 +48,7 @@ const CategoryItem = ({ item, isMore }) => {
             <span> {name}</span>
           </div>
           <div>
-            {dropdown && <FaChevronRight className="text-sm opacity-70" />}
+            {dropdown && <FaIcons.FaChevronRight className="text-sm opacity-70" />}
           </div>
         </span>
       </Link>
