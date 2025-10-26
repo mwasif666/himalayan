@@ -410,35 +410,35 @@ const main = () => {
       /* --------------------------------------------------------
               15-2. Slider Active 2
           --------------------------------------------------------- */
-      $(".ltn__slide-active-2")
-        .slick({
-          autoplay: false,
-          autoplaySpeed: 2000,
-          arrows: false,
-          dots: true,
-          fade: true,
-          cssEase: "linear",
-          infinite: true,
-          speed: 300,
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          prevArrow:
-            '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
-          nextArrow:
-            '<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
-          responsive: [
-            {
-              breakpoint: 1200,
-              settings: {
-                arrows: false,
-                dots: true,
-              },
-            },
-          ],
-        })
-        .on("afterChange", function () {
-          new WOW().init();
-        });
+      // $(".ltn__slide-active-2")
+      //   .slick({
+      //     autoplay: false,
+      //     autoplaySpeed: 2000,
+      //     arrows: false,
+      //     dots: true,
+      //     fade: true,
+      //     cssEase: "linear",
+      //     infinite: true,
+      //     speed: 300,
+      //     slidesToShow: 1,
+      //     slidesToScroll: 1,
+      //     prevArrow:
+      //       '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
+      //     nextArrow:
+      //       '<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
+      //     responsive: [
+      //       {
+      //         breakpoint: 1200,
+      //         settings: {
+      //           arrows: false,
+      //           dots: true,
+      //         },
+      //       },
+      //     ],
+      //   })
+      //   .on("afterChange", function () {
+      //     new WOW().init();
+      //   });
 
       /* --------------------------------------------------------
               16. Product Slider One
@@ -673,145 +673,145 @@ const main = () => {
       /* --------------------------------------------------------
               18. Blog Slider One
           --------------------------------------------------------- */
-      $(".ltn__blog-slider-one-active").slick({
-        arrows: true,
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        prevArrow:
-          '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
-        nextArrow:
-          '<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
-        responsive: [
-          {
-            breakpoint: 1200,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 1,
-              arrows: false,
-              dots: true,
-            },
-          },
-          {
-            breakpoint: 992,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 1,
-              arrows: false,
-              dots: true,
-            },
-          },
-          {
-            breakpoint: 768,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1,
-              arrows: false,
-              dots: true,
-            },
-          },
-          {
-            breakpoint: 580,
-            settings: {
-              arrows: false,
-              dots: true,
-              slidesToShow: 1,
-              slidesToScroll: 1,
-            },
-          },
-        ],
-      });
+      // $(".ltn__blog-slider-one-active").slick({
+      //   arrows: true,
+      //   dots: false,
+      //   infinite: true,
+      //   speed: 300,
+      //   slidesToShow: 3,
+      //   slidesToScroll: 1,
+      //   prevArrow:
+      //     '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
+      //   nextArrow:
+      //     '<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
+      //   responsive: [
+      //     {
+      //       breakpoint: 1200,
+      //       settings: {
+      //         slidesToShow: 2,
+      //         slidesToScroll: 1,
+      //         arrows: false,
+      //         dots: true,
+      //       },
+      //     },
+      //     {
+      //       breakpoint: 992,
+      //       settings: {
+      //         slidesToShow: 2,
+      //         slidesToScroll: 1,
+      //         arrows: false,
+      //         dots: true,
+      //       },
+      //     },
+      //     {
+      //       breakpoint: 768,
+      //       settings: {
+      //         slidesToShow: 1,
+      //         slidesToScroll: 1,
+      //         arrows: false,
+      //         dots: true,
+      //       },
+      //     },
+      //     {
+      //       breakpoint: 580,
+      //       settings: {
+      //         arrows: false,
+      //         dots: true,
+      //         slidesToShow: 1,
+      //         slidesToScroll: 1,
+      //       },
+      //     },
+      //   ],
+      // });
 
       /* --------------------------------------------------------
               19. Testimonial Slider - 1
           --------------------------------------------------------- */
-      $(".ltn__testimonial-slider-active").slick({
-        arrows: true,
-        dots: true,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        prevArrow:
-          '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
-        nextArrow:
-          '<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
-        responsive: [
-          {
-            breakpoint: 992,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1,
-            },
-          },
-          {
-            breakpoint: 768,
-            settings: {
-              arrows: false,
-              slidesToShow: 1,
-              slidesToScroll: 1,
-            },
-          },
-          {
-            breakpoint: 580,
-            settings: {
-              arrows: false,
-              slidesToShow: 1,
-              slidesToScroll: 1,
-            },
-          },
-        ],
-      });
+      // $(".ltn__testimonial-slider-active").slick({
+      //   arrows: true,
+      //   dots: true,
+      //   infinite: true,
+      //   speed: 300,
+      //   slidesToShow: 1,
+      //   slidesToScroll: 1,
+      //   prevArrow:
+      //     '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
+      //   nextArrow:
+      //     '<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
+      //   responsive: [
+      //     {
+      //       breakpoint: 992,
+      //       settings: {
+      //         slidesToShow: 1,
+      //         slidesToScroll: 1,
+      //       },
+      //     },
+      //     {
+      //       breakpoint: 768,
+      //       settings: {
+      //         arrows: false,
+      //         slidesToShow: 1,
+      //         slidesToScroll: 1,
+      //       },
+      //     },
+      //     {
+      //       breakpoint: 580,
+      //       settings: {
+      //         arrows: false,
+      //         slidesToShow: 1,
+      //         slidesToScroll: 1,
+      //       },
+      //     },
+      //   ],
+      // });
 
       /* --------------------------------------------------------
               20. Testimonial Slider - 2
           --------------------------------------------------------- */
-      $(".ltn__testimonial-slider-2-active").slick({
-        arrows: true,
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        prevArrow:
-          '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
-        nextArrow:
-          '<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
-        responsive: [
-          {
-            breakpoint: 1200,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 1,
-            },
-          },
-          {
-            breakpoint: 992,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 1,
-            },
-          },
-          {
-            breakpoint: 768,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 1,
-            },
-          },
-          {
-            breakpoint: 580,
-            settings: {
-              arrows: false,
-              dots: true,
-              slidesToShow: 1,
-              slidesToScroll: 1,
-            },
-          },
-        ],
-      });
+      // $(".ltn__testimonial-slider-2-active").slick({
+      //   arrows: true,
+      //   dots: false,
+      //   infinite: true,
+      //   speed: 300,
+      //   slidesToShow: 3,
+      //   slidesToScroll: 1,
+      //   prevArrow:
+      //     '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
+      //   nextArrow:
+      //     '<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
+      //   responsive: [
+      //     {
+      //       breakpoint: 1200,
+      //       settings: {
+      //         slidesToShow: 2,
+      //         slidesToScroll: 1,
+      //       },
+      //     },
+      //     {
+      //       breakpoint: 992,
+      //       settings: {
+      //         slidesToShow: 2,
+      //         slidesToScroll: 1,
+      //       },
+      //     },
+      //     {
+      //       breakpoint: 768,
+      //       settings: {
+      //         slidesToShow: 2,
+      //         slidesToScroll: 1,
+      //       },
+      //     },
+      //     {
+      //       breakpoint: 580,
+      //       settings: {
+      //         arrows: false,
+      //         dots: true,
+      //         slidesToShow: 1,
+      //         slidesToScroll: 1,
+      //       },
+      //     },
+      //   ],
+      // });
 
       /* --------------------------------------------------------
               21. Testimonial Slider - 3
@@ -1229,9 +1229,9 @@ const main = () => {
       /* --------------------------------------------------------
               33. Quantity plus minus
           -------------------------------------------------------- */
-      $(".cart-plus-minus").each(function() {
+      $(".cart-plus-minus").each(function () {
         // Only add buttons if they don't already exist
-        if ($(this).find('.qtybutton').length === 0) {
+        if ($(this).find(".qtybutton").length === 0) {
           $(this).prepend('<div class="dec qtybutton">-</div>');
           $(this).append('<div class="inc qtybutton">+</div>');
         }
@@ -1251,7 +1251,7 @@ const main = () => {
         }
         $input.val(newVal);
         // Trigger React's onChange event to update state
-        $input.trigger('change');
+        $input.trigger("change");
       });
 
       /* --------------------------------------------------------
