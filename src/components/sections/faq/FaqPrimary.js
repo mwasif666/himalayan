@@ -32,25 +32,6 @@ const FaqPrimary = () => {
                         data-bs-parent="#accordion_2"
                       >
                         <div className="card-body">
-                          {isVideo ? (
-                            <div className="ltn__video-img alignleft">
-                              <Image
-                                src={img}
-                                alt="video popup bg image"
-                                width={220}
-                                height={140}
-                              />
-                              <Link
-                                className="ltn__video-icon-2 ltn__video-icon-2-small "
-                                href={videoUrl}
-                                data-rel="lightcase:myCollection"
-                              >
-                                <i className="fa fa-play"></i>
-                              </Link>
-                            </div>
-                          ) : (
-                            ""
-                          )}
                           <p>{ans}</p>
                         </div>
                       </div>
@@ -66,7 +47,7 @@ const FaqPrimary = () => {
                   </Link>
                 </div>
                 <h3>
-                  <i className="fas fa-phone"></i> +0123-456-789
+                  <i className="fas fa-email"></i> himalayanessenceltd@outlook.com
                 </h3>
               </div>
             </div>
