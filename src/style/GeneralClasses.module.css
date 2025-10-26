@@ -2,3 +2,9 @@
     color: red !important;
     font-size: small !important;
 }
+
+.rowCls{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}

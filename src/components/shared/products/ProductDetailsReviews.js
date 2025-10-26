@@ -120,7 +120,7 @@ const ProductDetailsReviews = ({ product, reviews }) => {
       <ProductRating reviews={reviews} isProductDetail={false} />
       <hr />
 
-      <div className="ltn__comment-reply-area ltn__form-box mb-30">
+      {userId ? <div className="ltn__comment-reply-area ltn__form-box mb-30">
         <form onSubmit={submitReview}>
           <h4 className="title-2">Add a Review</h4>
 
@@ -212,7 +212,7 @@ const ProductDetailsReviews = ({ product, reviews }) => {
             </button>
           </div>
         </form>
-      </div>
+      </div> : <p>Please <Link href="/login"><strong>login</strong></Link> to submit a review.</p>}
     </div>
   );
 };

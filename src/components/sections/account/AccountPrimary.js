@@ -4,6 +4,7 @@ import { request } from "@/api/axiosInstance";
 import { useAuth } from "@/providers/AuthContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import styles from "@/style/GeneralClasses.module.css";
 
 const AccountPrimary = () => {
   const router = useRouter();
@@ -176,12 +177,12 @@ const AccountPrimary = () => {
   return (
     <div className="liton__wishlist-area pb-70">
       <div className="container">
-        <div className="row">
+        <div className={styles.rowCls}>
           <div className="col-lg-12">
             {/* PRODUCT TAB AREA START */}
             <div className="ltn__product-tab-area">
               <div className="container">
-                <div className="row">
+                <div className={styles.rowCls}>
                   <div className="col-lg-4">
                     <div className="ltn__tab-menu-list mb-50">
                       <div className="nav">
