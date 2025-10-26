@@ -1,6 +1,5 @@
 import HeroPrimary from "@/components/sections/hero-banners/HeroPrimary";
-import LocationsPrimary from "@/components/sections/locations/LocationsPrimary";
-import Map from "@/components/shared/map/Map";
+import Map2 from "@/components/shared/map/Map2";
 
 const LocationsMain = () => {
   return (
@@ -10,8 +9,8 @@ const LocationsMain = () => {
         text="Locations"
         mb={"mb-0"}
       />
-      <Map />
-      <LocationsPrimary />
+      <Map2 />
+      {/* <LocationsPrimary /> */}
     </main>
   );
 };

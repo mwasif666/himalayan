@@ -1,7 +1,9 @@
+import { useAuth } from "@/providers/AuthContext";
 import Link from "next/link";
 import React from "react";
 
 const FooterServices2 = () => {
+  const {userId} = useAuth();
   return (
     <div className="col-xl-2 col-md-6 col-sm-6 col-12">
       <div className="footer-widget footer-menu-widget clearfix">
@@ -11,15 +13,17 @@ const FooterServices2 = () => {
             {/* <li>
               <Link href="/order-tracking">Order tracking</Link>
             </li> */}
+           {!userId ? <li>
+              <Link href="/login">Login</Link>
+            </li> : <>
             <li>
               <Link href="/wishlist">Wish List</Link>
             </li>
             <li>
-              <Link href="/login">Login</Link>
-            </li>
-            <li>
               <Link href="/account">My account</Link>
             </li>
+            
+            </>}
             <li>
               <Link href="/about">Terms & Conditions</Link>
             </li>
